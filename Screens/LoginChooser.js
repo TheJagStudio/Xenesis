@@ -10,7 +10,7 @@ function LoginChooser({ navigation }) {
 	const { colorScheme, toggleColorScheme } = useColorScheme();
 	return (
 		<StyledView className="h-full justify-center bg-white dark:bg-[#28272C] transition-[background] duration-300">
-			<StyledTouchableOpacity onPress={toggleColorScheme} className="absolute top-6 right-6 z-50">
+			<StyledTouchableOpacity onPress={toggleColorScheme} className="absolute top-10 right-6 z-50">
 				<StyledText selectable={false} className="dark:text-white text-3xl">
 					{`${colorScheme === "dark" ? "🌙" : "🌞"}`}
 				</StyledText>

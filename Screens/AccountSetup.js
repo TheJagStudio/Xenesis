@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Keyboard, Text, View, Image, TouchableOpacity, TextInput, SafeAreaView, KeyboardAvoidingView, Platform } from "react-native";
+import { Keyboard, Text, View, Image, TouchableOpacity, TextInput, SafeAreaView, KeyboardAvoidingView, Platform, Alert } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { styled, useColorScheme } from "nativewind";
 import Svg, { Path } from "react-native-svg";
-import Swiper from "react-native-swiper";
 const StyledTouchableOpacity = styled(TouchableOpacity);
 const StyledText = styled(Text);
 const StyledView = styled(View);
@@ -12,23 +12,64 @@ function AccountSetup({ navigation }) {
 	const [avatarId, setAvatarId] = useState("0001");
 	const [imageAnim, setImageAnim] = useState(false);
 	const [imageCover, setImageCover] = useState(false);
+	const saveData = async (key, value) => {
+		try {
+			await AsyncStorage.setItem(key, value);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const getData = async (key, valueSetter) => {
+		try {
+			const value = await AsyncStorage.getItem(key);
+			valueSetter(value);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	getData("email", setEmail);
+	getData("password", setPassword);
+	const [name, setName] = useState("");
+	const [phone, setPhone] = useState("");
+	const [college, setCollege] = useState("");
+	const [buttonStatus, setButtonStatus] = useState("inactive");
+	//navigation.navigate("ChooseLocation")
+	const submit = async () => {
+		if (name != "" && phone != "" && phone.length == 10 && college != "") {
+			saveData("name", name);
+			saveData("phone", phone);
+			saveData("college", college);
+			saveData("profilePic", avatarId);
+			navigation.navigate("ChooseLocation");
+		} else {
+			if (phone.length == 10) {
+				return Alert.alert("Please enter all details.");
+			} else {
+				return Alert.alert("Phone Number must be 10 digits");
+			}
+		}
+	};
 	return (
 		<SafeAreaView className="bg-white dark:bg-[#28272C] h-full" style={{ paddingTop: Platform.OS === "android" ? 40 : 0 }}>
-			<StyledTouchableOpacity onPress={toggleColorScheme} className="absolute top-6 right-6 z-50">
+			<StyledTouchableOpacity onPress={toggleColorScheme} className="absolute top-10 right-6 z-50">
 				<StyledText selectable={false} className="dark:text-white text-3xl">
 					{`${colorScheme === "dark" ? "🌙" : "🌞"}`}
 				</StyledText>
 			</StyledTouchableOpacity>
-			<StyledView className="p-3">
+			<StyledView className="p-3 bg-white dark:bg-[#28272C]  z-40 shadow-lg" style={{ shadowColor: Platform.OS === "android" ? "#000000" : "#00000010" }}>
 				<StyledTouchableOpacity onPress={() => navigation.navigate("LoginEmail")} className="w-[30px] h-[30px] items-center">
 					<Svg xmlns="http://www.w3.org/2000/svg" width={25} height={25} fill={`${colorScheme === "dark" ? "#FFFFFF" : "#28272C"}`} viewBox="0 0 16 16">
 						<Path fillRule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
 					</Svg>
 				</StyledTouchableOpacity>
+				<StyledView className="bg-white dark:bg-[#28272C] absolute top-0 h-96 -translate-y-96 w-screen origin-top"></StyledView>
 			</StyledView>
 			<KeyboardAvoidingView behavior="position">
 				<StyledTouchableOpacity
-					className="mx-auto mb-5 h-32 w-32 bg-gray-300 dark:bg-gray-700 rounded-full overflow-hidden"
+					className="mx-auto mb-5 mt-5 h-32 w-32 bg-gray-300 dark:bg-gray-700 rounded-full overflow-hidden"
 					onPress={() => {
 						let tempId = (parseInt(avatarId) + 1) % 100;
 						if (tempId == 0) {
@@ -58,31 +99,75 @@ function AccountSetup({ navigation }) {
 						<Svg xmlns="http://www.w3.org/2000/svg" width={25} height={25} fill={`${colorScheme === "dark" ? "#FFFFFF" : "#000000"}`} className="mr-3" viewBox="0 0 16 16">
 							<Path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
 						</Svg>
-						<TextInput className="text-black dark:text-white w-[85%]" onSubmitEditing={Keyboard.dismiss} placeholder="Full Name" placeholderTextColor={`${colorScheme === "dark" ? "#FFFFFF" : "#000000"}`}></TextInput>
+						<TextInput
+							value={name}
+							onChangeText={(name) => {
+								setName(name);
+								if (name != "" && college != "" && phone != "" && phone.length == 10) {
+									setButtonStatus("active");
+								} else {
+									setButtonStatus("inactive");
+								}
+							}}
+							className="text-black dark:text-white w-[85%]"
+							onSubmitEditing={Keyboard.dismiss}
+							placeholder="Full Name"
+							placeholderTextColor={`${colorScheme === "dark" ? "#FFFFFF" : "#000000"}`}
+						></TextInput>
 					</StyledView>
 					<StyledView className="flex flex-row group bg-slate-300 dark:bg-gray-700 w-full h-10 rounded-full opacity-50 focus:opacity-80 shadow-lg p-2 pl-3 mb-3">
 						<Svg xmlns="http://www.w3.org/2000/svg" width={25} height={25} fill={`${colorScheme === "dark" ? "#FFFFFF" : "#000000"}`} className="mr-3 scale-75" viewBox="0 0 16 16">
 							<Path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
 						</Svg>
-						<TextInput className="text-black dark:text-white w-[85%]" onSubmitEditing={Keyboard.dismiss} placeholder="Enter Your Birthday" placeholderTextColor={`${colorScheme === "dark" ? "#FFFFFF" : "#000000"}`}></TextInput>
+						<TextInput
+							value={college}
+							onChangeText={(college) => {
+								setCollege(college);
+								if (name != "" && college != "" && phone != "" && phone.length == 10) {
+									setButtonStatus("active");
+								} else {
+									setButtonStatus("inactive");
+								}
+							}}
+							className="text-black dark:text-white w-[85%]"
+							onSubmitEditing={Keyboard.dismiss}
+							placeholder="Enter College Name"
+							placeholderTextColor={`${colorScheme === "dark" ? "#FFFFFF" : "#000000"}`}
+						></TextInput>
 					</StyledView>
 					<StyledView className="flex flex-row group bg-slate-300 dark:bg-gray-700 w-full h-10 rounded-full opacity-50 focus:opacity-80 shadow-lg p-2 pl-3 mb-3">
 						<Svg xmlns="http://www.w3.org/2000/svg" width={25} height={25} fill={`${colorScheme === "dark" ? "#FFFFFF" : "#000000"}`} className="mr-3 scale-75" viewBox="0 0 16 16">
 							<Path d="M11 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h6zM5 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H5z" />
 							<Path d="M8 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
 						</Svg>
-						<TextInput className="text-black dark:text-white w-[85%]" onSubmitEditing={Keyboard.dismiss} placeholder="Enter Your Phone" placeholderTextColor={`${colorScheme === "dark" ? "#FFFFFF" : "#000000"}`}></TextInput>
+						<TextInput
+							keyboardType="numeric"
+							value={phone}
+							onChangeText={(phone) => {
+								setPhone(phone);
+								if (name != "" && college != "" && phone != "" && phone.length == 10) {
+									setButtonStatus("active");
+								} else {
+									setButtonStatus("inactive");
+								}
+							}}
+							maxLength={10}
+							className="text-black dark:text-white w-[85%]"
+							onSubmitEditing={Keyboard.dismiss}
+							placeholder="Enter Your Phone"
+							placeholderTextColor={`${colorScheme === "dark" ? "#FFFFFF" : "#000000"}`}
+						></TextInput>
 					</StyledView>
 					<StyledView className="flex flex-row group bg-slate-300 dark:bg-gray-700 w-full h-10 rounded-full opacity-50 focus:opacity-80 shadow-lg p-2 pl-3 mb-3">
 						<Svg xmlns="http://www.w3.org/2000/svg" width={25} height={25} fill={`${colorScheme === "dark" ? "#FFFFFF" : "#000000"}`} className="mr-3 scale-75" viewBox="0 0 16 16">
 							<Path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z" />
 						</Svg>
-						<TextInput className="text-black dark:text-white w-[85%]" onSubmitEditing={Keyboard.dismiss} value={"thejagstudio@gmail.com"} placeholder="Enter Your E-Mail" placeholderTextColor={`${colorScheme === "dark" ? "#FFFFFF" : "#000000"}`}></TextInput>
+						<TextInput className="text-black dark:text-white w-[85%]" editable={false} onSubmitEditing={Keyboard.dismiss} value={email} placeholder="Enter Your E-Mail" placeholderTextColor={`${colorScheme === "dark" ? "#FFFFFF" : "#000000"}`}></TextInput>
 					</StyledView>
 				</StyledView>
 			</KeyboardAvoidingView>
-			<StyledView className="w-[80%] mx-[10%] mt-0 absolute bottom-10">
-				<StyledTouchableOpacity className="rounded-full w-[80%] mx-[10%] bg-[#FEA500] shadow-xl mb-3" onPress={() => navigation.navigate("ChooseLocation")}>
+			<StyledView className={"w-[80%] mx-[10%] mt-0 " + `${Platform.OS === "android" ? "" : "absolute bottom-10"}`}>
+				<StyledTouchableOpacity className={"rounded-full w-[80%] mx-[10%] " + `${buttonStatus === "active" ? "bg-[#FEA500]" : "bg-slate-400/50"}` + " shadow-xl mb-3"} onPress={submit}>
 					<StyledText className="text-center py-3 text-xl font-bold text-white ">Next</StyledText>
 				</StyledTouchableOpacity>
 			</StyledView>

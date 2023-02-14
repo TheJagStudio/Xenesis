@@ -11,17 +11,18 @@ function PasswordRecovery({ navigation }) {
 	const { colorScheme, toggleColorScheme } = useColorScheme();
 	return (
 		<SafeAreaView className="bg-white dark:bg-[#28272C] h-full" style={{ paddingTop: Platform.OS === "android" ? 40 : 0 }}>
-			<StyledTouchableOpacity onPress={toggleColorScheme} className="absolute top-6 right-6 z-50">
+			<StyledTouchableOpacity onPress={toggleColorScheme} className="absolute top-10 right-6 z-50">
 				<StyledText selectable={false} className="dark:text-white text-3xl">
 					{`${colorScheme === "dark" ? "🌙" : "🌞"}`}
 				</StyledText>
 			</StyledTouchableOpacity>
-			<StyledView className="p-3">
+			<StyledView className="p-3 bg-white dark:bg-[#28272C]  z-40 shadow-lg" style={{ shadowColor: Platform.OS === "android" ? "#000000" : "#00000010" }}>
 				<StyledTouchableOpacity onPress={() => navigation.navigate("LoginEmail")} className="w-[30px] h-[30px] items-center">
 					<Svg xmlns="http://www.w3.org/2000/svg" width={25} height={25} fill={`${colorScheme === "dark" ? "#FFFFFF" : "#28272C"}`} viewBox="0 0 16 16">
 						<Path fillRule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
 					</Svg>
 				</StyledTouchableOpacity>
+				<StyledView className="bg-white dark:bg-[#28272C] absolute top-0 h-96 -translate-y-96 w-screen origin-top"></StyledView>
 			</StyledView>
 			<KeyboardAvoidingView behavior="position">
 				<StyledView className="p-5 mx-auto mb-5">
@@ -108,14 +109,14 @@ function PasswordRecovery({ navigation }) {
 						<TextInput className="text-black dark:text-white w-[85%]" onSubmitEditing={Keyboard.dismiss} placeholder="Email" placeholderTextColor={`${colorScheme === "dark" ? "#FFFFFF" : "#000000"}`}></TextInput>
 					</StyledView>
 					<StyledView className={`${Platform.OS === "android" ? "" : "hidden"}` + " w-[80%] mx-[10%] "}>
-						<StyledTouchableOpacity className="rounded-full w-[80%] mx-[10%] bg-[#FEA500] shadow-xl mb-3" onPress={() => navigation.navigate("VerificationMethod")}>
+						<StyledTouchableOpacity className="rounded-full w-[80%] mx-[10%] bg-[#FEA500] shadow-xl mb-3" onPress={() => navigation.navigate("VerificationCode")}>
 							<StyledText className="text-center py-3 text-xl font-bold text-white ">Next</StyledText>
 						</StyledTouchableOpacity>
 					</StyledView>
 				</StyledView>
 			</KeyboardAvoidingView>
 			<StyledView className={`${Platform.OS === "android" ? "hidden" : ""}` + " w-[80%] mx-[10%] absolute bottom-10"}>
-				<StyledTouchableOpacity className="rounded-full w-[80%] mx-[10%] bg-[#FEA500] shadow-xl mb-3" onPress={() => navigation.navigate("VerificationMethod")}>
+				<StyledTouchableOpacity className="rounded-full w-[80%] mx-[10%] bg-[#FEA500] shadow-xl mb-3" onPress={() => navigation.navigate("VerificationCode")}>
 					<StyledText className="text-center py-3 text-xl font-bold text-white ">Next</StyledText>
 				</StyledTouchableOpacity>
 			</StyledView>

@@ -1,26 +1,99 @@
-import React from "react";
-import { Keyboard, Text, View, TouchableOpacity, TextInput, SafeAreaView, KeyboardAvoidingView, Platform } from "react-native";
+import React, { useState } from "react";
+import { Keyboard, Text, View, TouchableOpacity, TextInput, SafeAreaView, KeyboardAvoidingView, Platform, Alert } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { styled, useColorScheme } from "nativewind";
 import Svg, { Circle, Rect, Mask, G, Path, Defs, LinearGradient, Stop } from "react-native-svg";
+import axios from "axios";
+
 const StyledTouchableOpacity = styled(TouchableOpacity);
 const StyledText = styled(Text);
 const StyledView = styled(View);
 
 function LoginEmail({ navigation }) {
 	const { colorScheme, toggleColorScheme } = useColorScheme();
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	const [buttonStatus, setButtonStatus] = useState("inactive");
+	const [server, setServer] = useState("");
+	const saveData = async (key, value) => {
+		try {
+			await AsyncStorage.setItem(key, value);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const getData = async (key, valueSetter) => {
+		try {
+			const value = await AsyncStorage.getItem(key);
+			valueSetter(value);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+	getData("server", setServer);
+	const trial = async () => {
+		axios.get(server + "/api/").then((response) => {
+			let data = response.data;
+			console.log(data);
+		});
+	};
+	const submit = async () => {
+		if (email != "" && password != "" && validate(email)) {
+			saveData("email", email);
+			saveData("password", password);
+			var data = JSON.stringify({
+				email: email,
+				password: password,
+			});
+			var config = {
+				method: "post",
+				maxBodyLength: Infinity,
+				url: server + "/api/app/login",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				data: data,
+			};
+			axios(config)
+				.then(function (response) {
+					let data = response.data;
+					console.log(data);
+					//navigation.navigate("AccountSetup");
+				})
+				.catch(function (error) {
+					console.log(error);
+				});
+		} else {
+			if (validate(email)) {
+				return Alert.alert("Email or Password is not correct");
+			} else {
+				return Alert.alert("Please enter a valid email.");
+			}
+		}
+	};
+	const validate = (text) => {
+		let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+		if (reg.test(text) === false) {
+			return false;
+		} else {
+			return true;
+		}
+	};
 	return (
 		<SafeAreaView className="bg-white dark:bg-[#28272C] h-full" style={{ paddingTop: Platform.OS === "android" ? 40 : 0 }}>
-			<StyledTouchableOpacity onPress={toggleColorScheme} className="absolute top-6 right-6 z-50">
+			<StyledTouchableOpacity onPress={toggleColorScheme} className="absolute top-10 right-6 z-50">
 				<StyledText selectable={false} className="dark:text-white text-3xl">
 					{`${colorScheme === "dark" ? "🌙" : "🌞"}`}
 				</StyledText>
 			</StyledTouchableOpacity>
-			<StyledView className="p-3">
+			<StyledView className="p-3 bg-white dark:bg-[#28272C]  z-40 shadow-lg" style={{ shadowColor: Platform.OS === "android" ? "#000000" : "#00000010" }}>
 				<StyledTouchableOpacity onPress={() => navigation.navigate("LoginChooser")} className="w-[30px] h-[30px] items-center">
 					<Svg xmlns="http://www.w3.org/2000/svg" width={25} height={25} fill={`${colorScheme === "dark" ? "#FFFFFF" : "#28272C"}`} viewBox="0 0 16 16">
 						<Path fillRule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
 					</Svg>
 				</StyledTouchableOpacity>
+				<StyledView className="bg-white dark:bg-[#28272C] absolute top-0 h-96 -translate-y-96 w-screen origin-top"></StyledView>
 			</StyledView>
 			<KeyboardAvoidingView behavior="position">
 				<StyledView className="p-5 mx-auto mb-5">
@@ -73,20 +146,52 @@ function LoginEmail({ navigation }) {
 						<Svg xmlns="http://www.w3.org/2000/svg" width={25} height={25} fill={`${colorScheme === "dark" ? "#FFFFFF" : "#000000"}`} className="mr-3 scale-75" viewBox="0 0 16 16">
 							<Path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z" />
 						</Svg>
-						<TextInput className="text-black dark:text-white w-[85%]" onSubmitEditing={Keyboard.dismiss} placeholder="Email" placeholderTextColor={`${colorScheme === "dark" ? "#FFFFFF" : "#000000"}`}></TextInput>
+						<TextInput
+							value={email}
+							onChangeText={(email) => {
+								setEmail(email);
+								if (email != "" && password != "") {
+									setButtonStatus("active");
+								} else {
+									setButtonStatus("inactive");
+								}
+							}}
+							className="text-black dark:text-white w-[85%]"
+							onSubmitEditing={Keyboard.dismiss}
+							placeholder="Email"
+							placeholderTextColor={`${colorScheme === "dark" ? "#FFFFFF" : "#000000"}`}
+						></TextInput>
 					</StyledView>
 					<StyledView className="flex flex-row group bg-slate-300 dark:bg-gray-700 w-full h-10 rounded-full opacity-50 focus:opacity-80 shadow-lg p-2 pl-3 mb-3">
 						<Svg xmlns="http://www.w3.org/2000/svg" width={25} height={25} fill={`${colorScheme === "dark" ? "#FFFFFF" : "#000000"}`} className="mr-3 scale-x-125 scale-y-90" viewBox="0 0 16 16">
 							<Path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z" />
 						</Svg>
-						<TextInput className="text-black dark:text-white w-[85%]" onSubmitEditing={Keyboard.dismiss} placeholder="Password" placeholderTextColor={`${colorScheme === "dark" ? "#FFFFFF" : "#000000"}`}></TextInput>
+						<TextInput
+							value={password}
+							onChangeText={(password) => {
+								setPassword(password);
+								if (email != "" && password != "") {
+									setButtonStatus("active");
+								} else {
+									setButtonStatus("inactive");
+								}
+							}}
+							secureTextEntry={true}
+							className="text-black dark:text-white w-[85%] font-lg"
+							onSubmitEditing={Keyboard.dismiss}
+							placeholder="Password"
+							placeholderTextColor={`${colorScheme === "dark" ? "#FFFFFF" : "#000000"}`}
+						></TextInput>
 					</StyledView>
 				</StyledView>
 				<StyledTouchableOpacity onPress={() => navigation.navigate("PasswordRecovery")} className="w-full items-center mt-3">
-					<StyledText className="w-fit text-gray-500 text-md">Forgot Password</StyledText>
+					<StyledText className="w-fit text-gray-500 text-md">Forgot Password?</StyledText>
 				</StyledTouchableOpacity>
 				<StyledView className="w-[80%] mx-[10%] mt-10">
-					<StyledTouchableOpacity className="rounded-full w-[80%] mx-[10%] bg-[#FEA500] shadow-xl mb-3" onPress={() => navigation.navigate("AccountSetup")}>
+					<StyledTouchableOpacity className={"rounded-full w-[80%] mx-[10%] " + `${buttonStatus === "active" ? "bg-[#FEA500]" : "bg-slate-400/50"}` + " shadow-xl mb-3"} onPress={submit}>
+						<StyledText className="text-center py-3 text-xl font-bold text-white ">Login</StyledText>
+					</StyledTouchableOpacity>
+					<StyledTouchableOpacity className={"rounded-full w-[80%] mx-[10%] " + `${buttonStatus === "active" ? "bg-[#FEA500]" : "bg-slate-400/50"}` + " shadow-xl mb-3"} onPress={trial}>
 						<StyledText className="text-center py-3 text-xl font-bold text-white ">Login</StyledText>
 					</StyledTouchableOpacity>
 					<StyledView className="flex flex-row w-full items-center justify-center">
