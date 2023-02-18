@@ -11,19 +11,19 @@ function VerificationMethod({ navigation }) {
 	const { colorScheme, toggleColorScheme } = useColorScheme();
 	const [method, setMethod] = useState(true);
 	return (
-		<SafeAreaView className="bg-white dark:bg-[#28272C] h-full" style={{ paddingTop: Platform.OS === "android" ? 40 : 0 }}>
+		<SafeAreaView className="bg-white dark:bg-[#221144] h-full" style={{ paddingTop: 40 }}>
 			<StyledTouchableOpacity onPress={toggleColorScheme} className="absolute top-10 right-6 z-50">
 				<StyledText selectable={false} className="dark:text-white text-3xl">
 					{`${colorScheme === "dark" ? "🌙" : "🌞"}`}
 				</StyledText>
 			</StyledTouchableOpacity>
-			<StyledView className="p-3 bg-white dark:bg-[#28272C]  z-40 shadow-lg" style={{ shadowColor: Platform.OS === "android" ? "#000000" : "#00000010" }}>
+			<StyledView className="p-3 bg-white dark:bg-[#221144]  z-40 shadow-lg" style={{ shadowColor: Platform.OS === "android" ? "#000000" : "#00000010" }}>
 				<StyledTouchableOpacity onPress={() => navigation.navigate("PasswordRecovery")} className="w-[30px] h-[30px] items-center">
-					<Svg xmlns="http://www.w3.org/2000/svg" width={25} height={25} fill={`${colorScheme === "dark" ? "#FFFFFF" : "#28272C"}`} viewBox="0 0 16 16">
+					<Svg xmlns="http://www.w3.org/2000/svg" width={25} height={25} fill={`${colorScheme === "dark" ? "#FFFFFF" : "#221144"}`} viewBox="0 0 16 16">
 						<Path fillRule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
 					</Svg>
 				</StyledTouchableOpacity>
-				<StyledView className="bg-white dark:bg-[#28272C] absolute top-0 h-96 -translate-y-96 w-screen origin-top"></StyledView>
+				<StyledView className="bg-white dark:bg-[#221144] absolute top-0 h-96 -translate-y-96 w-screen origin-top"></StyledView>
 			</StyledView>
 			<KeyboardAvoidingView behavior="position">
 				<StyledView className="p-5 mx-auto mb-5">
@@ -98,9 +98,9 @@ function VerificationMethod({ navigation }) {
 					</Svg>
 				</StyledView>
 				<StyledView className="p-5">
-					<StyledText className="text-[#28272C] dark:text-white text-4xl font-bold">Verification</StyledText>
-					<StyledText className="text-[#28272C] dark:text-white text-4xl font-bold">Method</StyledText>
-					<StyledText className="text-[#28272C] dark:text-white text-sm opacity-50">We'll send you a verification code to reset your password.</StyledText>
+					<StyledText className="text-[#221144] dark:text-white text-4xl font-bold">Verification</StyledText>
+					<StyledText className="text-[#221144] dark:text-white text-4xl font-bold">Method</StyledText>
+					<StyledText className="text-[#221144] dark:text-white text-sm opacity-50">We'll send you a verification code to reset your password.</StyledText>
 				</StyledView>
 				<StyledView className="w-[90%] mx-auto mt-3">
 					<StyledView className="flex flex-row justify-between items-center bg-slate-300 dark:bg-gray-700 w-full h-10 rounded-full opacity-80 focus:opacity-80 shadow-lg p-2 pl-3 mb-3">
@@ -109,15 +109,15 @@ function VerificationMethod({ navigation }) {
 								<Path d="M11 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h6zM5 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H5z" />
 								<Path d="M8 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
 							</Svg>
-							<Text className="text-[#28272C] dark:text-white">82* *** **50</Text>
+							<Text className="text-[#221144] dark:text-white">82* *** **50</Text>
 						</StyledView>
 						<StyledTouchableOpacity
 							onPress={() => {
 								setMethod(true);
 							}}
-							className="border-[3px] border-[#28272C] dark:border-white w-5 h-5 overflow-hidden rounded-full mr-2"
+							className="border-[3px] border-[#221144] dark:border-white w-5 h-5 overflow-hidden rounded-full mr-2"
 						>
-							<StyledView className={`${method === true ? "block" : "hidden"}` + " w-2.5 h-2.5 rounded-full bg-[#28272C] dark:bg-white mt-0.5 ml-0.5"}></StyledView>
+							<StyledView className={`${method === true ? "block" : "hidden"}` + " w-2.5 h-2.5 rounded-full bg-[#221144] dark:bg-white mt-0.5 ml-0.5"}></StyledView>
 						</StyledTouchableOpacity>
 					</StyledView>
 					<StyledView className="flex flex-row justify-between items-center bg-slate-300 dark:bg-gray-700 w-full h-10 rounded-full opacity-80 focus:opacity-80 shadow-lg p-2 pl-3 mb-3">
@@ -125,21 +125,21 @@ function VerificationMethod({ navigation }) {
 							<Svg xmlns="http://www.w3.org/2000/svg" width={25} height={25} fill={`${colorScheme === "dark" ? "#FFFFFF" : "#000000"}`} className="mr-3 scale-75" viewBox="0 0 16 16">
 								<Path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z" />
 							</Svg>
-							<Text className="text-[#28272C] dark:text-white">the*********@gmail.com</Text>
+							<Text className="text-[#221144] dark:text-white">the*********@gmail.com</Text>
 						</StyledView>
 						<StyledTouchableOpacity
 							onPress={() => {
 								setMethod(false);
 							}}
-							className="border-[3px] border-[#28272C] dark:border-white w-5 h-5 overflow-hidden rounded-full mr-2"
+							className="border-[3px] border-[#221144] dark:border-white w-5 h-5 overflow-hidden rounded-full mr-2"
 						>
-							<StyledView className={`${method === false ? "block" : "hidden"}` + " w-2.5 h-2.5 rounded-full bg-[#28272C] dark:bg-white mt-0.5 ml-0.5"}></StyledView>
+							<StyledView className={`${method === false ? "block" : "hidden"}` + " w-2.5 h-2.5 rounded-full bg-[#221144] dark:bg-white mt-0.5 ml-0.5"}></StyledView>
 						</StyledTouchableOpacity>
 					</StyledView>
 				</StyledView>
 			</KeyboardAvoidingView>
 			<StyledView className="w-[80%] mx-[10%] absolute bottom-10">
-				<StyledTouchableOpacity className="rounded-full w-[80%] mx-[10%] bg-[#FEA500] shadow-xl mb-3" onPress={() => navigation.navigate("VerificationCode")}>
+				<StyledTouchableOpacity className="rounded-full w-[80%] mx-[10%] bg-[#211E60] shadow-xl mb-3" onPress={() => navigation.navigate("VerificationCode")}>
 					<StyledText className="text-center py-3 text-xl font-bold text-white ">Next</StyledText>
 				</StyledTouchableOpacity>
 			</StyledView>

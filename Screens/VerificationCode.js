@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Keyboard, Text, View, TouchableOpacity, TextInput, SafeAreaView, KeyboardAvoidingView, Platform, Alert } from "react-native";
+import { LinearGradient as LG } from "expo-linear-gradient";
 import { styled, useColorScheme } from "nativewind";
 import Svg, { Circle, Rect, Mask, G, Path, Defs, LinearGradient, Stop } from "react-native-svg";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -9,6 +10,7 @@ const StyledTouchableOpacity = styled(TouchableOpacity);
 const StyledText = styled(Text);
 const StyledView = styled(View);
 const StyledTextInput = styled(TextInput);
+const StyledLinearGradient = styled(LG);
 
 function VerificationCode({ navigation }) {
 	const { colorScheme, toggleColorScheme } = useColorScheme();
@@ -82,7 +84,7 @@ function VerificationCode({ navigation }) {
 			.then(function (response) {
 				let data = response.data;
 				if (data.hasOwnProperty("msg")) {
-					navigation.navigate("ResetPassword");
+					navigation.navigate("LoginEmail");
 				} else {
 					return Alert.alert("OTP is incorrect.");
 				}
@@ -92,19 +94,19 @@ function VerificationCode({ navigation }) {
 			});
 	};
 	return (
-		<SafeAreaView className="bg-white dark:bg-[#28272C] h-full" style={{ paddingTop: Platform.OS === "android" ? 40 : 0 }}>
+		<StyledLinearGradient colors={colorScheme === "dark" ? ["#351f62", "#221144", "#221144"] : ["#FFFFFF", "#FFFFFF", "#FFFFFF", "#e3c9ff"]} className="bg-white dark:bg-[#221144] h-full" style={{ paddingTop: 40 }}>
 			<StyledTouchableOpacity onPress={toggleColorScheme} className="absolute top-10 right-6 z-50">
 				<StyledText selectable={false} className="dark:text-white text-3xl">
 					{`${colorScheme === "dark" ? "🌙" : "🌞"}`}
 				</StyledText>
 			</StyledTouchableOpacity>
-			<StyledView className="p-3 bg-white dark:bg-[#28272C]  z-40 shadow-lg" style={{ shadowColor: Platform.OS === "android" ? "#000000" : "#00000010" }}>
+			<StyledView className="p-3 bg-white dark:bg-[#221144]  z-40 shadow-lg" style={{ shadowColor: Platform.OS === "android" ? "#000000" : "#00000010" }}>
 				<StyledTouchableOpacity onPress={() => navigation.navigate("PasswordRecovery")} className="w-[30px] h-[30px] items-center">
-					<Svg xmlns="http://www.w3.org/2000/svg" width={25} height={25} fill={`${colorScheme === "dark" ? "#FFFFFF" : "#28272C"}`} viewBox="0 0 16 16">
+					<Svg xmlns="http://www.w3.org/2000/svg" width={25} height={25} fill={`${colorScheme === "dark" ? "#FFFFFF" : "#221144"}`} viewBox="0 0 16 16">
 						<Path fillRule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
 					</Svg>
 				</StyledTouchableOpacity>
-				<StyledView className="bg-white dark:bg-[#28272C] absolute top-0 h-96 -translate-y-96 w-screen origin-top"></StyledView>
+				<StyledView className="bg-white dark:bg-[#221144] absolute top-0 h-96 -translate-y-96 w-screen origin-top"></StyledView>
 			</StyledView>
 			<KeyboardAvoidingView behavior="position">
 				<StyledView className="p-5 mx-auto mb-5">
@@ -179,21 +181,21 @@ function VerificationCode({ navigation }) {
 					</Svg>
 				</StyledView>
 				<StyledView className="p-5">
-					<StyledText className="text-[#28272C] dark:text-white text-4xl font-bold">Verification</StyledText>
-					<StyledText className="text-[#28272C] dark:text-white text-4xl font-bold">Code</StyledText>
-					<StyledText className="text-[#28272C] dark:text-white text-sm opacity-50">{"We have sent the verification code to " + email}</StyledText>
+					<StyledText className="text-[#221144] dark:text-white text-4xl font-bold">Verification</StyledText>
+					<StyledText className="text-[#221144] dark:text-white text-4xl font-bold">Code</StyledText>
+					<StyledText className="text-[#221144] dark:text-white text-sm opacity-50">{"We have sent the verification code to " + email}</StyledText>
 				</StyledView>
 				<StyledView className="w-full mt-3 flex flex-row gap-2 mb-3 px-4">
-					<StyledView className="w-[23%] items-center pt-2 h-12 rounded-lg bg-gray-200 dark:bg-gray-700">
+					<StyledView className="w-[23%] items-center pt-2 h-12 rounded-lg bg-[#e3c9ff] dark:bg-[#442c72]">
 						<StyledText className="text-2xl font-bold dark:text-white">{code[0]}</StyledText>
 					</StyledView>
-					<StyledView className="w-[23%] items-center pt-2 h-12 rounded-lg bg-gray-200 dark:bg-gray-700">
+					<StyledView className="w-[23%] items-center pt-2 h-12 rounded-lg bg-[#e3c9ff] dark:bg-[#442c72]">
 						<StyledText className="text-2xl font-bold dark:text-white">{code[1]}</StyledText>
 					</StyledView>
-					<StyledView className="w-[23%] items-center pt-2 h-12 rounded-lg bg-gray-200 dark:bg-gray-700">
+					<StyledView className="w-[23%] items-center pt-2 h-12 rounded-lg bg-[#e3c9ff] dark:bg-[#442c72]">
 						<StyledText className="text-2xl font-bold dark:text-white">{code[2]}</StyledText>
 					</StyledView>
-					<StyledView className="w-[23%] items-center pt-2 h-12 rounded-lg bg-gray-200 dark:bg-gray-700">
+					<StyledView className="w-[23%] items-center pt-2 h-12 rounded-lg bg-[#e3c9ff] dark:bg-[#442c72]">
 						<StyledText className="text-2xl font-bold dark:text-white">{code[3]}</StyledText>
 					</StyledView>
 				</StyledView>
@@ -202,15 +204,15 @@ function VerificationCode({ navigation }) {
 				<StyledTextInput keyboardType="numeric" maxLength={4} onChangeText={(newText) => setCode(newText)} value={code} className="w-20 h-12 ml-4 bg-slate-500 absolute left-[184px] bottom-24 rounded-lg opacity-0"></StyledTextInput>
 				<StyledTextInput keyboardType="numeric" maxLength={4} onChangeText={(newText) => setCode(newText)} value={code} className="w-20 h-12 ml-4 bg-slate-500 absolute left-[276px] bottom-24 rounded-lg opacity-0"></StyledTextInput>
 				<StyledView className="w-[90%] mx-[5%] flex flex-row gap-4 ml-0 mt-0">
-					<StyledTouchableOpacity className="rounded-full w-[48%] bg-gray-300 dark:bg-gray-700 shadow-xl mb-3" onPress={resend}>
+					<StyledTouchableOpacity className="rounded-full w-[48%] bg-[#e3c9ff] dark:bg-[#442c72] shadow-xl mb-3" onPress={resend}>
 						<StyledText className="text-center py-3 text-xl font-bold text-gray-800 dark:text-white">Resend</StyledText>
 					</StyledTouchableOpacity>
-					<StyledTouchableOpacity className="rounded-full w-[48%] bg-[#FEA500] shadow-xl mb-3" onPress={submit}>
+					<StyledTouchableOpacity className="rounded-full w-[48%] bg-[#211E60] shadow-xl mb-3" onPress={submit}>
 						<StyledText className="text-center py-3 text-xl font-bold text-white ">Next</StyledText>
 					</StyledTouchableOpacity>
 				</StyledView>
 			</KeyboardAvoidingView>
-		</SafeAreaView>
+		</StyledLinearGradient>
 	);
 }
 

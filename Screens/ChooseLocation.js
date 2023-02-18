@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Keyboard, Text, View, TouchableOpacity, TextInput, SafeAreaView, KeyboardAvoidingView } from "react-native";
+import { Keyboard, Text, View, TouchableOpacity, TextInput, SafeAreaView, KeyboardAvoidingView, Alert } from "react-native";
+import { LinearGradient as LG } from "expo-linear-gradient";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { styled, useColorScheme } from "nativewind";
 import Svg, { Path } from "react-native-svg";
@@ -10,6 +11,7 @@ import * as Location from "expo-location";
 const StyledTouchableOpacity = styled(TouchableOpacity);
 const StyledText = styled(Text);
 const StyledView = styled(View);
+const StyledLinearGradient = styled(LG);
 
 function ChooseLocation({ navigation }) {
 	const { colorScheme, toggleColorScheme } = useColorScheme();
@@ -30,6 +32,8 @@ function ChooseLocation({ navigation }) {
 		timestamp: 1675267904454,
 	});
 	const [errorMsg, setErrorMsg] = useState(null);
+	const [server, setServer] = useState("");
+	const [email, setEmail] = useState("");
 	const saveData = async (key, value) => {
 		try {
 			await AsyncStorage.setItem(key, value);
@@ -46,6 +50,8 @@ function ChooseLocation({ navigation }) {
 			console.error(error);
 		}
 	};
+	getData("email", setEmail);
+	getData("server", setServer);
 	useEffect(() => {
 		(async () => {
 			let { status } = await Location.requestForegroundPermissionsAsync();
@@ -60,8 +66,33 @@ function ChooseLocation({ navigation }) {
 	}, []);
 
 	const submit = async () => {
-		saveData("location", location["coords"]["latitude"].toString() + "," + location["coords"]["longitude"].toString());
-		navigation.navigate("Home");
+		let locations = location["coords"]["latitude"].toString() + "," + location["coords"]["longitude"].toString();
+		var data = JSON.stringify({
+			email: email,
+			location: locations,
+		});
+		var config = {
+			method: "post",
+			maxBodyLength: Infinity,
+			url: server + "/api/app/locationSetter",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			data: data,
+		};
+		axios(config)
+			.then(function (response) {
+				let data = response.data;
+				if (data.hasOwnProperty("msg")) {
+					saveData("location", data["location"]);
+					navigation.navigate("Home");
+				} else {
+					Alert.alert(data["error"]);
+				}
+			})
+			.catch(function (error) {
+				return Alert.alert(error);
+			});
 	};
 
 	const locUpdater = (newText) => {
@@ -91,28 +122,28 @@ function ChooseLocation({ navigation }) {
 	};
 	const url = "https://api.mapbox.com/geocoding/v5/mapbox.places/" + query + ".json?limit=5&language=en-US&access_token=pk.eyJ1IjoiZGV2cGF0ZWwzMjciLCJhIjoiY2xkdmxpcW5tMGgzOTNwcG5qMWFvbzZrMCJ9.P3EXduadE-bAqd0nkBNGkQ";
 	return (
-		<SafeAreaView className="bg-white dark:bg-[#28272C] h-full" style={{ paddingTop: Platform.OS === "android" ? 40 : 0 }}>
+		<StyledLinearGradient colors={colorScheme === "dark" ? ["#351f62", "#221144", "#221144"] : ["#FFFFFF", "#FFFFFF", "#FFFFFF", "#e3c9ff"]} className="bg-white dark:bg-[#221144] h-full" style={{ paddingTop: 40 }}>
 			<StyledTouchableOpacity onPress={toggleColorScheme} className="absolute top-10 right-6 z-50">
 				<StyledText selectable={false} className="dark:text-white text-3xl">
 					{`${colorScheme === "dark" ? "🌙" : "🌞"}`}
 				</StyledText>
 			</StyledTouchableOpacity>
-			<StyledView className="p-3 bg-white dark:bg-[#28272C]  z-40 shadow-lg" style={{ shadowColor: Platform.OS === "android" ? "#000000" : "#00000010" }}>
+			<StyledView className="p-3 bg-white dark:bg-[#221144]  z-40 shadow-lg" style={{ shadowColor: Platform.OS === "android" ? "#000000" : "#00000010" }}>
 				<StyledTouchableOpacity onPress={() => navigation.navigate("AccountSetup")} className="w-[30px] h-[30px] items-center">
-					<Svg xmlns="http://www.w3.org/2000/svg" width={25} height={25} fill={`${colorScheme === "dark" ? "#FFFFFF" : "#28272C"}`} viewBox="0 0 16 16">
+					<Svg xmlns="http://www.w3.org/2000/svg" width={25} height={25} fill={`${colorScheme === "dark" ? "#FFFFFF" : "#221144"}`} viewBox="0 0 16 16">
 						<Path fillRule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
 					</Svg>
 				</StyledTouchableOpacity>
-				<StyledView className="bg-white dark:bg-[#28272C] absolute top-0 h-96 -translate-y-96 w-screen origin-top"></StyledView>
+				<StyledView className="bg-white dark:bg-[#221144] absolute top-0 h-96 -translate-y-96 w-screen origin-top"></StyledView>
 			</StyledView>
 			<KeyboardAvoidingView behavior="position">
 				<StyledView className="p-5">
-					<StyledText className="text-[#28272C] dark:text-white text-4xl font-bold">Choose</StyledText>
-					<StyledText className="text-[#28272C] dark:text-white text-4xl font-bold">Your Location</StyledText>
+					<StyledText className="text-[#221144] dark:text-white text-4xl font-bold">Choose</StyledText>
+					<StyledText className="text-[#221144] dark:text-white text-4xl font-bold">Your Location</StyledText>
 					<StyledText className="text-gray-500 dark:text-gray-300 text-md mt-3">Uncover the hottest event in your location. Choose your loaction below to get started.</StyledText>
 				</StyledView>
 				<StyledView className="w-[90%] mx-auto mt-3">
-					<StyledView className="flex flex-row group bg-slate-300 dark:bg-gray-700 w-full h-10 rounded-full opacity-50 focus:opacity-80 shadow-lg p-2 pl-3 mb-3">
+					<StyledView className="flex flex-row group bg-[#e3c9ff] dark:bg-[#442c72] w-full h-10 rounded-full opacity-50 focus:opacity-80 shadow-lg p-2 pl-3 mb-3">
 						<Svg xmlns="http://www.w3.org/2000/svg" width={25} height={25} fill={`${colorScheme === "dark" ? "#FFFFFF" : "#000000"}`} className="mr-3 scale-75" viewBox="0 0 16 16">
 							<Path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A31.493 31.493 0 0 1 8 14.58a31.481 31.481 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94zM8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10z" />
 							<Path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
@@ -136,7 +167,7 @@ function ChooseLocation({ navigation }) {
 							</Svg>
 						</StyledTouchableOpacity>
 					</StyledView>
-					<StyledView className={`${showSearchList === true ? "block" : "hidden"}` + " bg-slate-300/50 dark:bg-slate-700/50 shadow-lg rounded-lg "}>
+					<StyledView className={`${showSearchList === true ? "block" : "hidden"}` + " bg-[#e3c9ff] dark:bg-[#442c72] shadow-lg rounded-lg "}>
 						{searchList.map((locArr, index) => {
 							return (
 								<StyledTouchableOpacity
@@ -161,7 +192,7 @@ function ChooseLocation({ navigation }) {
 									}}
 									className={"py-2 " + `${searchList.length - 1 == index ? "border-b-0" : "border-b-2"}` + " border-white w-full px-4"}
 								>
-									<StyledText className="text-gray-500 dark:text-white text-md font-bold">{locArr.name}</StyledText>
+									<StyledText className="text-[#442c72] dark:text-white text-md font-bold">{locArr.name}</StyledText>
 								</StyledTouchableOpacity>
 							);
 						})}
@@ -193,11 +224,11 @@ function ChooseLocation({ navigation }) {
 				</StyledView>
 			</KeyboardAvoidingView>
 			<StyledView className={"w-[80%] mx-[10%] mt-10 " + `${Platform.OS === "android" ? "" : "absolute bottom-10"}`}>
-				<StyledTouchableOpacity className="rounded-full w-[80%] mx-[10%] bg-[#FEA500] shadow-xl mb-3" onPress={submit}>
+				<StyledTouchableOpacity className="rounded-full w-[80%] mx-[10%] bg-[#211E60] shadow-xl mb-3" onPress={submit}>
 					<StyledText className="text-center py-3 text-xl font-bold text-white ">Next</StyledText>
 				</StyledTouchableOpacity>
 			</StyledView>
-		</SafeAreaView>
+		</StyledLinearGradient>
 	);
 }
 

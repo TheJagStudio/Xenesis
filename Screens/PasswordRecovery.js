@@ -1,28 +1,79 @@
-import React from "react";
+import React, { useState } from "react";
 import { Keyboard, Text, View, TouchableOpacity, TextInput, SafeAreaView, KeyboardAvoidingView, Platform } from "react-native";
+import { LinearGradient as LG } from "expo-linear-gradient";
 import { styled, useColorScheme } from "nativewind";
 import Svg, { Circle, Rect, Mask, G, Path, Defs, LinearGradient, Stop } from "react-native-svg";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 const StyledTouchableOpacity = styled(TouchableOpacity);
 const StyledText = styled(Text);
 const StyledView = styled(View);
+const StyledLinearGradient = styled(LG);
 
 function PasswordRecovery({ navigation }) {
 	const { colorScheme, toggleColorScheme } = useColorScheme();
+	const [server, setServer] = useState("");
+	const [email, setEmail] = useState("");
+	const [buttonStatus, setButtonStatus] = useState("inactive");
+
+	const saveData = async (key, value) => {
+		try {
+			await AsyncStorage.setItem(key, value);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const getData = async (key, valueSetter) => {
+		try {
+			const value = await AsyncStorage.getItem(key);
+			valueSetter(value);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+	getData("server", setServer);
+	const submit = async () => {
+		var data = JSON.stringify({
+			email: email,
+			passwordRecovery: true,
+		});
+
+		var config = {
+			method: "post",
+			maxBodyLength: Infinity,
+			url: server + "/api/app/resendotp",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			data: data,
+		};
+
+		axios(config)
+			.then(function (response) {
+				let data = response.data;
+				saveData("email", email);
+				navigation.navigate("VerificationCodePasswordRecovery");
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+	};
 	return (
-		<SafeAreaView className="bg-white dark:bg-[#28272C] h-full" style={{ paddingTop: Platform.OS === "android" ? 40 : 0 }}>
+		<StyledLinearGradient colors={colorScheme === "dark" ? ["#351f62", "#221144", "#221144"] : ["#FFFFFF", "#FFFFFF", "#FFFFFF", "#e3c9ff"]} className="bg-white dark:bg-[#221144] h-full" style={{ paddingTop: 40 }}>
 			<StyledTouchableOpacity onPress={toggleColorScheme} className="absolute top-10 right-6 z-50">
 				<StyledText selectable={false} className="dark:text-white text-3xl">
 					{`${colorScheme === "dark" ? "🌙" : "🌞"}`}
 				</StyledText>
 			</StyledTouchableOpacity>
-			<StyledView className="p-3 bg-white dark:bg-[#28272C]  z-40 shadow-lg" style={{ shadowColor: Platform.OS === "android" ? "#000000" : "#00000010" }}>
+			<StyledView className="p-3 bg-white dark:bg-[#221144]  z-40 shadow-lg" style={{ shadowColor: Platform.OS === "android" ? "#000000" : "#00000010" }}>
 				<StyledTouchableOpacity onPress={() => navigation.navigate("LoginEmail")} className="w-[30px] h-[30px] items-center">
-					<Svg xmlns="http://www.w3.org/2000/svg" width={25} height={25} fill={`${colorScheme === "dark" ? "#FFFFFF" : "#28272C"}`} viewBox="0 0 16 16">
+					<Svg xmlns="http://www.w3.org/2000/svg" width={25} height={25} fill={`${colorScheme === "dark" ? "#FFFFFF" : "#221144"}`} viewBox="0 0 16 16">
 						<Path fillRule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
 					</Svg>
 				</StyledTouchableOpacity>
-				<StyledView className="bg-white dark:bg-[#28272C] absolute top-0 h-96 -translate-y-96 w-screen origin-top"></StyledView>
+				<StyledView className="bg-white dark:bg-[#221144] absolute top-0 h-96 -translate-y-96 w-screen origin-top"></StyledView>
 			</StyledView>
 			<KeyboardAvoidingView behavior="position">
 				<StyledView className="p-5 mx-auto mb-5">
@@ -97,30 +148,52 @@ function PasswordRecovery({ navigation }) {
 					</Svg>
 				</StyledView>
 				<StyledView className="p-5">
-					<StyledText className="text-[#28272C] dark:text-white text-4xl font-bold">Password</StyledText>
-					<StyledText className="text-[#28272C] dark:text-white text-4xl font-bold">Recovery</StyledText>
-					<StyledText className="text-[#28272C] dark:text-white text-sm opacity-50">Enter your email address to recover your password</StyledText>
+					<StyledText className="text-[#221144] dark:text-white text-4xl font-bold">Password</StyledText>
+					<StyledText className="text-[#221144] dark:text-white text-4xl font-bold">Recovery</StyledText>
+					<StyledText className="text-[#221144] dark:text-white text-sm opacity-50">Enter your email address to recover your password</StyledText>
 				</StyledView>
 				<StyledView className="w-[90%] mx-auto mt-3">
-					<StyledView className="flex flex-row group bg-slate-300 dark:bg-gray-700 w-full h-10 rounded-full opacity-50 focus:opacity-80 shadow-lg p-2 pl-3 mb-3">
+					<StyledView className="flex flex-row group bg-[#e3c9ff] dark:bg-[#442c72] w-full h-10 rounded-full opacity-50 focus:opacity-80 shadow-lg p-2 pl-3 mb-3">
 						<Svg xmlns="http://www.w3.org/2000/svg" width={25} height={25} fill={`${colorScheme === "dark" ? "#FFFFFF" : "#000000"}`} className="mr-3 scale-75" viewBox="0 0 16 16">
 							<Path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z" />
 						</Svg>
-						<TextInput className="text-black dark:text-white w-[85%]" onSubmitEditing={Keyboard.dismiss} placeholder="Email" placeholderTextColor={`${colorScheme === "dark" ? "#FFFFFF" : "#000000"}`}></TextInput>
+						<TextInput
+							onChangeText={(email) => {
+								setEmail(email);
+								if (email != "") {
+									setButtonStatus("active");
+								} else {
+									setButtonStatus("inactive");
+								}
+							}}
+							onChange={(email) => {
+								setEmail(email);
+								if (email != "") {
+									setButtonStatus("active");
+								} else {
+									setButtonStatus("inactive");
+								}
+							}}
+							className="text-black dark:text-white w-[85%]"
+							onSubmitEditing={Keyboard.dismiss}
+							value={email}
+							placeholder="Email"
+							placeholderTextColor={`${colorScheme === "dark" ? "#FFFFFF" : "#000000"}`}
+						></TextInput>
 					</StyledView>
 					<StyledView className={`${Platform.OS === "android" ? "" : "hidden"}` + " w-[80%] mx-[10%] "}>
-						<StyledTouchableOpacity className="rounded-full w-[80%] mx-[10%] bg-[#FEA500] shadow-xl mb-3" onPress={() => navigation.navigate("VerificationCode")}>
+						<StyledTouchableOpacity className={"rounded-full w-[80%] mx-[10%] " + `${buttonStatus === "active" ? "bg-[#211E60]" : "bg-[#442c72]"}` + " shadow-xl mb-3"} onPress={submit}>
 							<StyledText className="text-center py-3 text-xl font-bold text-white ">Next</StyledText>
 						</StyledTouchableOpacity>
 					</StyledView>
 				</StyledView>
 			</KeyboardAvoidingView>
 			<StyledView className={`${Platform.OS === "android" ? "hidden" : ""}` + " w-[80%] mx-[10%] absolute bottom-10"}>
-				<StyledTouchableOpacity className="rounded-full w-[80%] mx-[10%] bg-[#FEA500] shadow-xl mb-3" onPress={() => navigation.navigate("VerificationCode")}>
+				<StyledTouchableOpacity className={"rounded-full w-[80%] mx-[10%] " + `${buttonStatus === "active" ? "bg-[#211E60]" : "bg-[#442c72]"}` + " shadow-xl mb-3"} onPress={submit}>
 					<StyledText className="text-center py-3 text-xl font-bold text-white ">Next</StyledText>
 				</StyledTouchableOpacity>
 			</StyledView>
-		</SafeAreaView>
+		</StyledLinearGradient>
 	);
 }
 

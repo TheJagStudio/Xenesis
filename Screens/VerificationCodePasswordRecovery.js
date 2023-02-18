@@ -1,26 +1,105 @@
 import React, { useState } from "react";
-import { Keyboard, Text, View, TouchableOpacity, TextInput, SafeAreaView, KeyboardAvoidingView, Platform } from "react-native";
-import { LinearGradient as LG } from "expo-linear-gradient";
+import { Keyboard, Text, View, TouchableOpacity, TextInput, SafeAreaView, KeyboardAvoidingView, Platform, Alert } from "react-native";
 import { styled, useColorScheme } from "nativewind";
 import Svg, { Circle, Rect, Mask, G, Path, Defs, LinearGradient, Stop } from "react-native-svg";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 const StyledTouchableOpacity = styled(TouchableOpacity);
 const StyledText = styled(Text);
 const StyledView = styled(View);
 const StyledTextInput = styled(TextInput);
-const StyledLinearGradient = styled(LG);
 
-function Congratulation({ navigation }) {
+function VerificationCodePasswordRecovery({ navigation }) {
 	const { colorScheme, toggleColorScheme } = useColorScheme();
+	const [code, setCode] = useState("");
+	const [server, setServer] = useState("");
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+
+	const saveData = async (key, value) => {
+		try {
+			await AsyncStorage.setItem(key, value);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const getData = async (key, valueSetter) => {
+		try {
+			const value = await AsyncStorage.getItem(key);
+			valueSetter(value);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+	getData("email", setEmail);
+	getData("password", setPassword);
+	getData("server", setServer);
+
+	const resend = async () => {
+		setCode("");
+		var data = JSON.stringify({
+			email: email,
+		});
+
+		var config = {
+			method: "post",
+			maxBodyLength: Infinity,
+			url: server + "/api/app/resendotp",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			data: data,
+		};
+
+		axios(config)
+			.then(function (response) {
+				let data = response.data;
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+	};
+
+	const submit = async () => {
+		var data = JSON.stringify({
+			email: email,
+			otp: code,
+		});
+
+		var config = {
+			method: "post",
+			maxBodyLength: Infinity,
+			url: server + "/api/app/otpvalidation",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			data: data,
+		};
+
+		axios(config)
+			.then(function (response) {
+				let data = response.data;
+				if (data.hasOwnProperty("msg")) {
+					navigation.navigate("ResetPassword");
+				} else {
+					return Alert.alert("OTP is incorrect.");
+				}
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+	};
 	return (
-		<StyledLinearGradient colors={colorScheme === "dark" ? ["#351f62", "#221144", "#221144"] : ["#FFFFFF", "#FFFFFF", "#FFFFFF", "#e3c9ff"]} className="bg-white dark:bg-[#221144] h-full" style={{ paddingTop: 40 }}>
+		<SafeAreaView className="bg-white dark:bg-[#221144] h-full" style={{ paddingTop: 40 }}>
 			<StyledTouchableOpacity onPress={toggleColorScheme} className="absolute top-10 right-6 z-50">
 				<StyledText selectable={false} className="dark:text-white text-3xl">
 					{`${colorScheme === "dark" ? "🌙" : "🌞"}`}
 				</StyledText>
 			</StyledTouchableOpacity>
 			<StyledView className="p-3 bg-white dark:bg-[#221144]  z-40 shadow-lg" style={{ shadowColor: Platform.OS === "android" ? "#000000" : "#00000010" }}>
-				<StyledTouchableOpacity onPress={() => navigation.navigate("ResetPassword")} className="w-[30px] h-[30px] items-center">
+				<StyledTouchableOpacity onPress={() => navigation.navigate("PasswordRecovery")} className="w-[30px] h-[30px] items-center">
 					<Svg xmlns="http://www.w3.org/2000/svg" width={25} height={25} fill={`${colorScheme === "dark" ? "#FFFFFF" : "#221144"}`} viewBox="0 0 16 16">
 						<Path fillRule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
 					</Svg>
@@ -99,18 +178,40 @@ function Congratulation({ navigation }) {
 						</Defs>
 					</Svg>
 				</StyledView>
-				<StyledView className="p-5 w-full items-center">
-					<StyledText className="text-[#221144] dark:text-white text-4xl font-bold">Congratulations!</StyledText>
-					<StyledText className="text-[#221144] dark:text-white text-sm opacity-50">Your password has been changed successfully.</StyledText>
+				<StyledView className="p-5">
+					<StyledText className="text-[#221144] dark:text-white text-4xl font-bold">Verification</StyledText>
+					<StyledText className="text-[#221144] dark:text-white text-4xl font-bold">Code</StyledText>
+					<StyledText className="text-[#221144] dark:text-white text-sm opacity-50">{"We have sent the verification code to " + email}</StyledText>
+				</StyledView>
+				<StyledView className="w-full mt-3 flex flex-row gap-2 mb-3 px-4">
+					<StyledView className="w-[23%] items-center pt-2 h-12 rounded-lg bg-[#e3c9ff] dark:bg-[#442c72]">
+						<StyledText className="text-2xl font-bold dark:text-white">{code[0]}</StyledText>
+					</StyledView>
+					<StyledView className="w-[23%] items-center pt-2 h-12 rounded-lg bg-[#e3c9ff] dark:bg-[#442c72]">
+						<StyledText className="text-2xl font-bold dark:text-white">{code[1]}</StyledText>
+					</StyledView>
+					<StyledView className="w-[23%] items-center pt-2 h-12 rounded-lg bg-[#e3c9ff] dark:bg-[#442c72]">
+						<StyledText className="text-2xl font-bold dark:text-white">{code[2]}</StyledText>
+					</StyledView>
+					<StyledView className="w-[23%] items-center pt-2 h-12 rounded-lg bg-[#e3c9ff] dark:bg-[#442c72]">
+						<StyledText className="text-2xl font-bold dark:text-white">{code[3]}</StyledText>
+					</StyledView>
+				</StyledView>
+				<StyledTextInput keyboardType="numeric" maxLength={4} onChangeText={(newText) => setCode(newText)} value={code} className="w-20 h-12 ml-4 bg-slate-500 absolute bottom-24 rounded-lg opacity-0"></StyledTextInput>
+				<StyledTextInput keyboardType="numeric" maxLength={4} onChangeText={(newText) => setCode(newText)} value={code} className="w-20 h-12 ml-4 bg-slate-500 absolute left-[92px] bottom-24 rounded-lg opacity-0"></StyledTextInput>
+				<StyledTextInput keyboardType="numeric" maxLength={4} onChangeText={(newText) => setCode(newText)} value={code} className="w-20 h-12 ml-4 bg-slate-500 absolute left-[184px] bottom-24 rounded-lg opacity-0"></StyledTextInput>
+				<StyledTextInput keyboardType="numeric" maxLength={4} onChangeText={(newText) => setCode(newText)} value={code} className="w-20 h-12 ml-4 bg-slate-500 absolute left-[276px] bottom-24 rounded-lg opacity-0"></StyledTextInput>
+				<StyledView className="w-[90%] mx-[5%] flex flex-row gap-4 ml-0 mt-0">
+					<StyledTouchableOpacity className="rounded-full w-[48%] bg-[#e3c9ff] dark:bg-[#442c72] shadow-xl mb-3" onPress={resend}>
+						<StyledText className="text-center py-3 text-xl font-bold text-gray-800 dark:text-white">Resend</StyledText>
+					</StyledTouchableOpacity>
+					<StyledTouchableOpacity className="rounded-full w-[48%] bg-[#211E60] shadow-xl mb-3" onPress={submit}>
+						<StyledText className="text-center py-3 text-xl font-bold text-white ">Next</StyledText>
+					</StyledTouchableOpacity>
 				</StyledView>
 			</KeyboardAvoidingView>
-			<StyledView className="w-[80%] mx-[10%] mt-3 absolute bottom-10">
-				<StyledTouchableOpacity className="rounded-full w-[80%] mx-[10%] bg-[#211E60] shadow-xl mb-3" onPress={() => navigation.navigate("LoginChooser")}>
-					<StyledText className="text-center py-3 text-xl font-bold text-white ">Login</StyledText>
-				</StyledTouchableOpacity>
-			</StyledView>
-		</StyledLinearGradient>
+		</SafeAreaView>
 	);
 }
 
-export default Congratulation;
+export default VerificationCodePasswordRecovery;

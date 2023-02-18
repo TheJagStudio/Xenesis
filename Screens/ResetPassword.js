@@ -1,30 +1,94 @@
 import React, { useState } from "react";
-import { Keyboard, Text, View, TouchableOpacity, TextInput, SafeAreaView, KeyboardAvoidingView, Platform } from "react-native";
+import { Keyboard, Text, View, TouchableOpacity, TextInput, SafeAreaView, KeyboardAvoidingView, Platform, Alert } from "react-native";
+import { LinearGradient as LG } from "expo-linear-gradient";
 import { styled, useColorScheme } from "nativewind";
 import Svg, { Circle, Rect, Mask, G, Path, Defs, LinearGradient, Stop } from "react-native-svg";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 const StyledTouchableOpacity = styled(TouchableOpacity);
 const StyledText = styled(Text);
 const StyledView = styled(View);
 const StyledTextInput = styled(TextInput);
+const StyledLinearGradient = styled(LG);
 
 function ResetPassword({ navigation }) {
 	const { colorScheme, toggleColorScheme } = useColorScheme();
-	const [code, setCode] = useState("");
+	const [server, setServer] = useState("");
+	const [email, setEmail] = useState("");
+	const [buttonStatus, setButtonStatus] = useState("inactive");
+	const [password1, setPassword1] = useState("");
+	const [password2, setPassword2] = useState("");
+
+	const saveData = async (key, value) => {
+		try {
+			await AsyncStorage.setItem(key, value);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const getData = async (key, valueSetter) => {
+		try {
+			const value = await AsyncStorage.getItem(key);
+			valueSetter(value);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	getData("email", setEmail);
+	getData("server", setServer);
+
+	const submit = async () => {
+		if (password1 == password2) {
+			var data = JSON.stringify({
+				email: email,
+				password1: password1,
+				password2: password2,
+			});
+
+			var config = {
+				method: "post",
+				maxBodyLength: Infinity,
+				url: server + "/api/app/forgotpassword",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				data: data,
+			};
+
+			axios(config)
+				.then(function (response) {
+					let data = response.data;
+					if (data.hasOwnProperty("msg")) {
+						navigation.navigate("Congratulation");
+					} else {
+						return Alert.alert(data["error"]);
+					}
+				})
+				.catch(function (error) {
+					console.log(error);
+					return Alert.alert(error["error"]);
+				});
+		} else {
+			return Alert.alert("Passwords doesn't match.");
+		}
+	};
 	return (
-		<SafeAreaView className="bg-white dark:bg-[#28272C] h-full" style={{ paddingTop: Platform.OS === "android" ? 40 : 0 }}>
+		<StyledLinearGradient colors={colorScheme === "dark" ? ["#351f62", "#221144", "#221144"] : ["#FFFFFF", "#FFFFFF", "#FFFFFF", "#e3c9ff"]} className="bg-white dark:bg-[#221144] h-full" style={{ paddingTop: 40 }}>
 			<StyledTouchableOpacity onPress={toggleColorScheme} className="absolute top-10 right-6 z-50">
 				<StyledText selectable={false} className="dark:text-white text-3xl">
 					{`${colorScheme === "dark" ? "🌙" : "🌞"}`}
 				</StyledText>
 			</StyledTouchableOpacity>
-			<StyledView className="p-3 bg-white dark:bg-[#28272C]  z-40 shadow-lg" style={{ shadowColor: Platform.OS === "android" ? "#000000" : "#00000010" }}>
-				<StyledTouchableOpacity onPress={() => navigation.navigate("VerificationCode")} className="w-[30px] h-[30px] items-center">
-					<Svg xmlns="http://www.w3.org/2000/svg" width={25} height={25} fill={`${colorScheme === "dark" ? "#FFFFFF" : "#28272C"}`} viewBox="0 0 16 16">
+			<StyledView className="p-3 bg-white dark:bg-[#221144]  z-40 shadow-lg" style={{ shadowColor: Platform.OS === "android" ? "#000000" : "#00000010" }}>
+				<StyledTouchableOpacity onPress={() => navigation.navigate("VerificationCodePasswordRecovery")} className="w-[30px] h-[30px] items-center">
+					<Svg xmlns="http://www.w3.org/2000/svg" width={25} height={25} fill={`${colorScheme === "dark" ? "#FFFFFF" : "#221144"}`} viewBox="0 0 16 16">
 						<Path fillRule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
 					</Svg>
 				</StyledTouchableOpacity>
-				<StyledView className="bg-white dark:bg-[#28272C] absolute top-0 h-96 -translate-y-96 w-screen origin-top"></StyledView>
+				<StyledView className="bg-white dark:bg-[#221144] absolute top-0 h-96 -translate-y-96 w-screen origin-top"></StyledView>
 			</StyledView>
 			<KeyboardAvoidingView behavior="position">
 				<StyledView className="p-5 mx-auto mb-5">
@@ -99,31 +163,75 @@ function ResetPassword({ navigation }) {
 					</Svg>
 				</StyledView>
 				<StyledView className="p-5">
-					<StyledText className="text-[#28272C] dark:text-white text-4xl font-bold">Set New</StyledText>
-					<StyledText className="text-[#28272C] dark:text-white text-4xl font-bold">Password</StyledText>
-					<StyledText className="text-[#28272C] dark:text-white text-sm opacity-50">Your new password must be different from previously used passwords.</StyledText>
+					<StyledText className="text-[#221144] dark:text-white text-4xl font-bold">Set New</StyledText>
+					<StyledText className="text-[#221144] dark:text-white text-4xl font-bold">Password</StyledText>
+					<StyledText className="text-[#221144] dark:text-white text-sm opacity-50">Your new password must be different from previously used passwords.</StyledText>
 				</StyledView>
 				<StyledView className="w-[90%] mx-auto mt-3">
-					<StyledView className="flex flex-row group bg-slate-300 dark:bg-gray-700 w-full h-10 rounded-full opacity-50 focus:opacity-80 shadow-lg p-2 pl-3 mb-3">
+					<StyledView className="flex flex-row group bg-[#e3c9ff] dark:bg-[#442c72] w-full h-10 rounded-full opacity-50 focus:opacity-80 shadow-lg p-2 pl-3 mb-3">
 						<Svg xmlns="http://www.w3.org/2000/svg" width={25} height={25} fill={`${colorScheme === "dark" ? "#FFFFFF" : "#000000"}`} className="mr-3 scale-x-125 scale-y-90" viewBox="0 0 16 16">
 							<Path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z" />
 						</Svg>
-						<TextInput className="text-black dark:text-white w-[85%]" onSubmitEditing={Keyboard.dismiss} placeholder="New Password" placeholderTextColor={`${colorScheme === "dark" ? "#FFFFFF" : "#000000"}`}></TextInput>
+						<TextInput
+							onChangeText={(password1) => {
+								setPassword1(password1);
+								if (password1 != "" && password2 != "") {
+									setButtonStatus("active");
+								} else {
+									setButtonStatus("inactive");
+								}
+							}}
+							onChange={(password1) => {
+								setPassword1(password1);
+								if (password1 != "" && password2 != "") {
+									setButtonStatus("active");
+								} else {
+									setButtonStatus("inactive");
+								}
+							}}
+							className="text-black dark:text-white w-[85%]"
+							secureTextEntry={true}
+							onSubmitEditing={Keyboard.dismiss}
+							placeholder="New Password"
+							placeholderTextColor={`${colorScheme === "dark" ? "#FFFFFF" : "#000000"}`}
+						></TextInput>
 					</StyledView>
-					<StyledView className="flex flex-row group bg-slate-300 dark:bg-gray-700 w-full h-10 rounded-full opacity-50 focus:opacity-80 shadow-lg p-2 pl-3 mb-3">
+					<StyledView className="flex flex-row group bg-[#e3c9ff] dark:bg-[#442c72] w-full h-10 rounded-full opacity-50 focus:opacity-80 shadow-lg p-2 pl-3 mb-3">
 						<Svg xmlns="http://www.w3.org/2000/svg" width={25} height={25} fill={`${colorScheme === "dark" ? "#FFFFFF" : "#000000"}`} className="mr-3 scale-x-125 scale-y-90" viewBox="0 0 16 16">
 							<Path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z" />
 						</Svg>
-						<TextInput className="text-black dark:text-white w-[85%]" onSubmitEditing={Keyboard.dismiss} placeholder="Re-type New Password" placeholderTextColor={`${colorScheme === "dark" ? "#FFFFFF" : "#000000"}`}></TextInput>
+						<TextInput
+							onChangeText={(password2) => {
+								setPassword2(password2);
+								if (password1 != "" && password2 != "") {
+									setButtonStatus("active");
+								} else {
+									setButtonStatus("inactive");
+								}
+							}}
+							onChange={(password2) => {
+								setPassword2(password2);
+								if (password1 != "" && password2 != "") {
+									setButtonStatus("active");
+								} else {
+									setButtonStatus("inactive");
+								}
+							}}
+							className="text-black dark:text-white w-[85%]"
+							secureTextEntry={true}
+							onSubmitEditing={Keyboard.dismiss}
+							placeholder="Re-type New Password"
+							placeholderTextColor={`${colorScheme === "dark" ? "#FFFFFF" : "#000000"}`}
+						></TextInput>
 					</StyledView>
 				</StyledView>
 				<StyledView className="w-[80%] mx-[10%] mt-3">
-					<StyledTouchableOpacity className="rounded-full w-[80%] mx-[10%] bg-[#FEA500] shadow-xl mb-3" onPress={() => navigation.navigate("Congratulation")}>
+					<StyledTouchableOpacity className={"rounded-full w-[80%] mx-[10%] " + `${buttonStatus === "active" ? "bg-[#211E60]" : "bg-[#442c72]"}` + " shadow-xl mb-3"} onPress={submit}>
 						<StyledText className="text-center py-3 text-xl font-bold text-white ">Change Password</StyledText>
 					</StyledTouchableOpacity>
 				</StyledView>
 			</KeyboardAvoidingView>
-		</SafeAreaView>
+		</StyledLinearGradient>
 	);
 }
 
