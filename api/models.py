@@ -1,0 +1,106 @@
+from django.db import models
+from django.contrib.auth.models import User
+
+
+class Profile(models.Model):
+    def default_data():
+        return {"data": []}
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="User")
+    profilePic = models.CharField(max_length=100, default="0001")
+    location = models.CharField(max_length=100, blank=True)
+    phone = models.CharField(max_length=10, blank=True)
+    otp = models.CharField(max_length=6, blank=True)
+    isVolunteer = models.BooleanField(default=False)
+    isOrganiser = models.BooleanField(default=False)
+    isAccountSetup = models.BooleanField(default=False)
+    isVerified = models.BooleanField(default=False)
+    college = models.CharField(max_length=500, blank=True)
+
+    def __str__(self):
+        return str(self.user.username)
+
+
+class Department(models.Model):
+    name = models.CharField(max_length=500, unique=True)
+    abbriviation = models.CharField(max_length=10, default="")
+    coordinator1 = models.ForeignKey(
+        Profile, on_delete=models.CASCADE, related_name='department_coordinator1')
+    coordinator2 = models.ForeignKey(
+        Profile, on_delete=models.CASCADE, blank=True, related_name='department_coordinator2')
+    posterImage = models.CharField(max_length=1000)
+
+    def __str__(self):
+        return str(self.name)
+
+
+class Event(models.Model):
+    name = models.CharField(max_length=500, unique=True)
+    department = models.ForeignKey(Department, on_delete=models.CASCADE)
+    teamName = models.CharField(max_length=100)
+    teamLeader = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="event_teamLeader")
+    price = models.CharField(max_length=10)
+    teamPrice = models.CharField(max_length=10, default="")
+    winnerPrice1 = models.CharField(max_length=10, null=True, blank=True)
+    winnerPrice2 = models.CharField(max_length=10, null=True, blank=True)
+    location = models.CharField(max_length=100)
+    date = models.DateField()
+    description = models.CharField(max_length=10000)
+    rules = models.CharField(max_length=10000, null=True, blank=True)
+    round1Title = models.CharField(max_length=200, null=True, blank=True)
+    round1 = models.CharField(max_length=10000, null=True, blank=True)
+    round2Title = models.CharField(max_length=200, null=True, blank=True)
+    round2 = models.CharField(max_length=10000, null=True, blank=True)
+    round3Title = models.CharField(max_length=200, null=True, blank=True)
+    round3 = models.CharField(max_length=10000, null=True, blank=True)
+    round4Title = models.CharField(max_length=200, null=True, blank=True)
+    round4 = models.CharField(max_length=10000, null=True, blank=True)
+    round5Title = models.CharField(max_length=200, null=True, blank=True)
+    round5 = models.CharField(max_length=10000, null=True, blank=True)
+    tagline = models.CharField(max_length=2000)
+    posterImage = models.CharField(max_length=1000)
+    winner1 = models.ForeignKey(Profile, on_delete=models.CASCADE, blank=True, null=True, related_name="event_winner1")
+    winner2 = models.ForeignKey(Profile, on_delete=models.CASCADE, blank=True, null=True, related_name="event_winner2")
+    winner3 = models.ForeignKey(Profile, on_delete=models.CASCADE, blank=True, null=True, related_name="event_winner3")
+    organisers = models.JSONField()
+    volunteer = models.JSONField()
+    organiser1 = models.ForeignKey(Profile, on_delete=models.CASCADE, blank=True,null=True, related_name='organiser1_event')
+    organiser2 = models.ForeignKey(Profile, on_delete=models.CASCADE, blank=True,null=True, related_name='organiser2_event')
+    organiser3 = models.ForeignKey(Profile, on_delete=models.CASCADE, blank=True,null=True, related_name='organiser3_event')
+    organiser4 = models.ForeignKey(Profile, on_delete=models.CASCADE, blank=True,null=True, related_name='organiser4_event')
+    organiser5 = models.ForeignKey(Profile, on_delete=models.CASCADE, blank=True,null=True, related_name='organiser5_event')
+    isTeamEvent = models.BooleanField()
+    teamParticapantCount = models.PositiveIntegerField()
+    isClosed = models.BooleanField()
+    status = models.CharField(max_length=100)
+
+    def __str__(self):
+        return str(self.name)
+
+
+class Ticket(models.Model):
+    owner = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    owner1 = models.ForeignKey(Profile,on_delete=models.CASCADE,null=True,blank=True,related_name="owner1_ticket")
+    owner2 = models.ForeignKey(Profile,on_delete=models.CASCADE,null=True,blank=True,related_name="owner2_ticket")
+    owner3 = models.ForeignKey(Profile,on_delete=models.CASCADE,null=True,blank=True,related_name="owner3_ticket")
+    owner4 = models.ForeignKey(Profile,on_delete=models.CASCADE,null=True,blank=True,related_name="owner4_ticket")
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    comments = models.CharField(max_length=200,null=True,blank=True)
+    date = models.DateField(auto_now_add=True)
+    qrCodeData = models.CharField(max_length=64)
+    userCount = models.PositiveIntegerField(default=1)
+    paymentMethod = models.CharField(max_length=100,null=True,blank=True)
+    isScanned = models.BooleanField(default=False)
+    isPaid = models.BooleanField(default=False)
+    def __str__(self):
+        return str(self.owner) and str(self.event)
+
+
+class Notifications(models.Model):
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="notification_user")
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    dateTime = models.DateTimeField()
+    isRead = models.BooleanField()
+
+class Gallery(models.Model):
+    path = models.CharField(max_length=1000)
