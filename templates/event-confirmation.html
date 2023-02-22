@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xenesis - Event Confirmation</title>
+    <link rel="stylesheet" href="/static/tailwind.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <style>
+        * {
+            scroll-behavior: smooth;
+        }
+        .clip-copyrights {
+            clip-path: polygon(0 0, 85% 0%, 100% 100%, 0% 100%);
+        }
+        .clip-button {
+            background: linear-gradient(to right, #7815ea, #c595ff) !important;
+            clip-path: polygon(0% 0%, 90% 0, 100% 30%, 100% 100%, 0 100%);
+        }
+        .eventName {
+               text-shadow: -1px 1px 0 #000,
+                    1px 1px 0 #000,
+                    1px -1px 0 #000,
+                    -1px -1px 0 #000;
+        }
+        .customScrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .radial-gradient-container {
+            background: radial-gradient(at top left, #211e60 1%, #240a34 50%);
+        }
+        @media screen and (max-width: 424px) {
+            h1.hero-h1 {
+                font-size: 2.4rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="flex items-center overflow-visible justify-between text-white fixed w-full top-0 pt-[calc(2vh)] pb-10 px-[calc(3vh)] z-50 transition-all duration-300" id="navbar">
+        <a href="/">
+            <img src="/static/logoCus.png" class="h-16 w-auto" />
+        </a>
+        <ul class="flex items-center">
+            <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/">Home</a></li>
+            <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/events">Events</a></li>
+            <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/aboutus">About Us</a></li>
+            <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/faqs">FAQs</a></li>
+            {% if isUser == False %}
+            <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/login">Login</a></li>
+            <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/register">Register</a></li>
+            {%else%}
+            {% if isVolunteer == True%}
+            <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/ticketVerifer">Verifer</a></li>
+            {%endif%}
+            <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/myTicket">My Tickets</a></li>
+<li class="mx-[calc(2vh)] py-2 w-14"></li>
+            {%endif%}
+        </ul>
+    </nav>
+    {% if isUser == True %}
+    <div class="fixed right-10 top-6 z-[999] flex items-center justify-center gap-4 px-[calc(2vh)]">
+        <img src="/static/avatars/{{profilePic}}.png" alt="" class="w-[50px] h-[50px] rounded-full object-cover cursor-pointer bg-slate-300" onclick="toggleProfileDropdown()" />
+
+        <div class="absolute bg-slate-600 top-16 right-0 w-fit min-w-[200px] rounded-md z-[999] h-0 overflow-hidden transition-all duration-300" id="profile-dropdown-mobile">
+            <p class="w-full px-4 text-white"><i class="bi bi-person mr-2.5"></i>{{userName}}</p>
+            <hr class="w-full my-2" />
+            <a href="/logout" class="">
+                <p class="w-full px-4 text-white"><i class="bi bi-box-arrow-right mr-2.5"></i>Logout</p>
+            </a>
+        </div>
+    </div>
+    {%endif%}
+
+    <!-- Registration Details -->
+    <section class="w-full h-full bg-gradient-to-b from-[#211e60] to-[#240a34] sm:pb-6 pb-20 relative">
+
+        <!-- Hero Section -->
+        <div class="w-full flex items-center justify-center relative sm:px-16 px-10">
+            <h1 class="lg:text-[5vw] pt-24 sm:text-[3.2rem] text-[3rem] md:leading-loose leading-snug z-30 font-extrabold text-blue-500 text-center hero-h1">X-Motion Game Mania</h1>
+        </div>
+        
+        <!-- Participants -->
+        <div class="mt-16 w-full flex flex-col items-center justify-center">
+            <h1 class="font-bold text-3xl mb-5 text-blue-400">Participants</h1>
+            <div class="flex flex-col w-full xl:px-32 lg:px-20 md:px-12 sm:px-10 px-8">
+                <div class="overflow-x-auto sm:-mx-6 lg:-mx-8 rounded-lg">
+                    <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8 rounded-lg">
+                        <div class="overflow-hidden border border-slate-500 rounded-lg">
+                            <table class="min-w-full text-white">
+                                <thead class="bg-transparent border-b border-b-slate-500">
+                                    <tr>
+                                        <th scope="col" class="text-lg px-6 py-4 text-left">#</th>
+                                        <th scope="col" class="text-lg px-6 py-4 text-left">Name</th>
+                                        <th scope="col" class="text-lg px-6 py-4 text-left">Email</th>
+                                        <th scope="col" class="text-lg px-6 py-4 text-left">Mobile</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="transition duration-300 ease-in-out hover:bg-slate-600">
+                                        <td class="px-6 py-3 whitespace-nowrap text-lg">1</td>
+                                        <td class="text-base px-6 py-3 whitespace-nowrap">Parth Padhiar</td>
+                                        <td class="text-base px-6 py-3 whitespace-nowrap">parthpadhiar2002@gmail.com</td>
+                                        <td class="text-base px-6 py-3 whitespace-nowrap">9099333060</td>
+                                    </tr>
+                                    <tr class="transition duration-300 ease-in-out hover:bg-slate-600">
+                                        <td class="px-6 py-3 whitespace-nowrap text-lg">2</td>
+                                        <td class="text-base px-6 py-3 whitespace-nowrap">Jagrat Patel</td>
+                                        <td class="text-base px-6 py-3 whitespace-nowrap">thejagstudio@gmail.com</td>
+                                        <td class="text-base px-6 py-3 whitespace-nowrap">9099333060</td>
+                                    </tr>
+                                    <tr class="transition duration-300 ease-in-out hover:bg-slate-600">
+                                        <td class="px-6 py-3 whitespace-nowrap text-lg">3</td>
+                                        <td class="text-base px-6 py-3 whitespace-nowrap">Jaivin Barot</td>
+                                        <td class="text-base px-6 py-3 whitespace-nowrap">barotjaivin@gmail.com</td>
+                                        <td class="text-base px-6 py-3 whitespace-nowrap">9099333060</td>
+                                    </tr>
+                                    <tr class="transition duration-300 ease-in-out hover:bg-slate-600">
+                                        <td class="px-6 py-3 whitespace-nowrap text-lg">4</td>
+                                        <td class="text-base px-6 py-3 whitespace-nowrap">Shubham Bhogayata</td>
+                                        <td class="text-base px-6 py-3 whitespace-nowrap">shubhambhogayata@gmail.com</td>
+                                        <td class="text-base px-6 py-3 whitespace-nowrap">9099333060</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back | Pay Buttons -->
+        <div class="flex items-center justify-center gap-5 z-40 w-full py-5 backdrop-blur">
+            <a href="#" class="lg:px-16 lg:py-4 sm:px-10 sm:py-3 px-6 py-1.5 text-white rounded-md bg-red-500 font-semibold text-xl group"><i class="transition-all duration-200 bi bi-backspace group-hover:mr-1"></i> Back</a>
+            <a href="/" class="lg:px-16 lg:py-4 sm:px-10 sm:py-3 px-6 py-1.5 text-white rounded-md bg-green-500 font-semibold text-xl group"><i class="transition-all duration-200 bi bi-paypal group-hover:mr-1"></i> Pay</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#240a34] pt-20">
+        <div class="md:flex sm:grid sm:grid-cols-2 flex flex-col md:flex-row lg:justify-around justify-center md:gap-10 gap-3 xl:px-32 lg:px-20 md:px-12 px-8 mb-8">
+            <!-- Social | Logo -->
+            <div class="flex flex-col md:items-center items-start gap-3">
+                <img src="/static/logoCus.png" alt="Xenesis" class="lg:w-[140px] w-[110px]" />
+                <p class="lg:max-w-[200px] md:max-w-[140px] md:text-center text-gray-300">Epic Events organized for ultimate students!</p>
+            </div>
+            <!-- Useful Links -->
+            <div class="pt-4">
+                <h3 class="font-bold text-white lg:text-xl sm:text-[1.05rem] mb-4 pb-2 relative after:content-&quot;&quot; after:absolute lg:after:left-0 after:left-0 after:bottom-0 md:after:w-[50%] after:w-[100px] after:h-[3px] after:bg-[#9704fe]">Useful Links</h3>
+                <div class="flex flex-col text-left text-gray-400 gap-1 lg:text-base text-sm">
+                    <a href="/" class="hover:translate-x-2 hover:text-[#bc85ff] transition-all duration-300">Home</a>
+                    <a href="/event" class="hover:translate-x-2 hover:text-[#bc85ff] transition-all duration-300">Events</a>
+                    <a href="/aboutus" class="hover:translate-x-2 hover:text-[#bc85ff] transition-all duration-300">About Us</a>
+                    <a href="/faqs" class="hover:translate-x-2 hover:text-[#bc85ff] transition-all duration-300">FAQs</a>
+                </div>
+            </div>
+            <!-- Join Us -->
+            <div class="pt-4">
+                <h3 class="font-bold text-white lg:text-xl sm:text-[1.05rem] mb-4 pb-2 relative after:content-&quot;&quot; after:absolute after:left-0 after:bottom-0 md:after:w-[50%] after:w-[100px] after:h-[3px] after:bg-[#9704fe]">Contact Us</h3>
+                <div class="flex flex-col text-left gap-2 text-gray-400 lg:text-base text-sm">
+                    <div class="flex flex-col group cursor-pointer">
+                        <p class="text-[#9740fe]">Join Us:</p>
+                        <a href="mailto:xenesis@ldrp.ac.in" class="text-gray-300 text-sm group-hover:translate-x-2 transition-all duration-300">xenesis@ldrp.ac.in</a>
+                    </div>
+                    <div class="flex flex-col group cursor-pointer">
+                        <p class="text-[#9740fe]">Phone:</p>
+                        <p class="text-gray-300 text-sm group-hover:translate-x-2 transition-all duration-300">+91 999 999 9999</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Social Links -->
+            <div class="md:pt-4 sm:pt-3 pt-4">
+                <h3 class="font-bold text-white lg:text-xl sm:text-[1.05rem] mb-5 pb-2 relative after:content-&quot;&quot; after:absolute after:left-0 after:bottom-0 md:after:w-[50%] after:w-[100px] after:h-[3px] after:bg-[#9704fe]">Social Links</h3>
+                <p class="lg:max-w-[250px] md:max-w-[200px] text-gray-300">Get in touch! Find us on any platform.</p>
+                <div class="flex items-center justify-start lg:gap-5 gap-4 md:mt-4 mt-2">
+                    <a href="https://www.instagram.com/xenesisldrp/" class="text-gray-400 lg:text-xl md:text-lg text-base hover:-translate-y-1.5 hover:text-[#9740fe] transition-all duration-300"><i class="bi bi-facebook"></i></a>
+                    <a href="https://twitter.com/xenesisldrp" class="text-gray-400 lg:text-xl md:text-lg text-base hover:-translate-y-1.5 hover:text-[#9740fe] transition-all duration-300"><i class="bi bi-twitter"></i></a>
+                    <a href="https://www.facebook.com/xenesisldrp/" class="text-gray-400 lg:text-xl md:text-lg text-base hover:-translate-y-1.5 hover:text-[#9740fe] transition-all duration-300"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="text-gray-400 lg:text-xl md:text-lg text-base hover:-translate-y-1.5 hover:text-[#9740fe] transition-all duration-300"><i class="bi bi-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <!-- Copyrights -->
+        <div class="bg-[#211e60] bg-opacity-20 md:w-fit w-full md:px-24 px-8 md:pr-36 mb-0 clip-copyrights text-gray-300 font-semibold py-8 md:text-xl text-md">&copy; 2023 Xenesis All Rights Registered</div>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', function () {
+            const header = document.getElementById("navbar");
+            header.classList.toggle('backdrop-blur-md', window.scrollY > 0);
+        });
+
+        // Menu Dropdown Code
+        let mobileMenu = document.querySelector('#mobile-menu');
+        function toggleMobileMenu() {
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        // Profile Dropdown Code
+        let profileDropdownMobile = document.querySelector('#profile-dropdown-mobile');
+        let profileDropdown = document.querySelector('#profile-dropdown');
+        function toggleProfileDropdown() {
+            // Dropdown for Mobile
+            profileDropdownMobile.classList.toggle('h-none')
+            profileDropdownMobile.classList.toggle('h-auto')
+            profileDropdownMobile.classList.toggle('border')
+            profileDropdownMobile.classList.toggle('py-3')
+            // Dropdown for Laptop - Tablet
+            profileDropdown.classList.toggle('h-none')
+            profileDropdown.classList.toggle('h-auto')
+            profileDropdown.classList.toggle('border')
+            profileDropdown.classList.toggle('py-3')
+        }
+    </script>
+
+    <!-- Tailwind Js -->
+    <script src="/static/tailwind.js"></script>
+    <script src="/static/js/header.js"></script>
+</body>
+
+</html>

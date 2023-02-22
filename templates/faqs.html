@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, minimum-scale=1.0">
+    <title>Xenesis - FAQs</title>
+    <script src="/static/tailwind.js"></script>
+    <link rel="stylesheet" href="/static/tailwind.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" href="/static/logoCus.png">
+</head>
+
+<body>
+    <!-- Laptop | Tablet Screen -->
+	<div class="md:block hidden">
+        <nav class="flex items-center overflow-visible justify-between text-white fixed w-full top-0 pt-[calc(2vh)] pb-10 px-[calc(3vh)] z-50 transition-all duration-300" id="navbar">
+            <a href="/">
+                <img src="/static/logoCus.png" class="h-16 w-auto" />
+            </a>
+            <ul class="md:flex items-center hidden">
+                <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/">Home</a></li>
+                <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/events">Events</a></li>
+                <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/aboutus">About Us</a></li>
+                <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/faqs">FAQs</a></li>
+                {% if isUser == False %}
+                    <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/login">Login</a></li>
+                    <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/register">Register</a></li>
+                {%else%}
+                {% if isVolunteer == True%}
+                <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/ticketVerifer">Verifer</a></li>
+                {%endif%}
+                <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/myTicket">My Tickets</a></li>
+<li class="mx-[calc(2vh)] py-2 w-14"></li>
+                {%endif%}
+            </ul>
+        </nav>
+        {% if isUser == True %}
+        <div class="fixed right-10 top-6 z-[999] overflow-visible flex items-center justify-center gap-4 px-[calc(2vh)]">
+            <img src="/static/avatars/{{profilePic}}.png" alt="" class=" w-[50px] h-[50px] rounded-full object-cover cursor-pointer bg-slate-300" onclick="toggleProfileDropdown()">
+
+            <div class="absolute bg-slate-600 top-16 right-0 w-full min-w-[200px] rounded-md z-[999] h-0 overflow-hidden transition-all duration-300" id="profile-dropdown">
+                <p class="w-full px-4 text-white"><i class="bi bi-person mr-2.5"></i>{{userName}}</p>
+                <hr class="w-full my-2" />
+                <a href="/logout" class="">
+                    <p class="w-full px-4 text-white"><i class="bi bi-box-arrow-right mr-2.5"></i>Logout</p>
+                </a>
+            </div>
+        </div>
+        {%endif%}
+
+        <section class="bg-gray-50 pb-16 pt-32 tails-selected-element outline-none radial-gradient-container w-full h-full bg-gradient-to-b from-[#221e60] to-[#240a34] z-10">
+            <div class="px-8 mx-auto sm:px-10 lg:px-12 max-w-7xl">
+                <div class="max-w-2xl mx-auto text-center">
+                    <h2 class="text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">Frequently asked questions</h2>
+                    <p class="mt-4 text-base font-normal leading-7 text-white lg:text-lg lg:mt-6 lg:leading-8">Ask everything you need to know about our products and services.</p>
+                </div>
+                <div class="max-w-5xl mx-auto mt-12 overflow-hidden border border-gray-200 divide-y divide-gray-200 sm:mt-16 rounded-xl">
+                    <div data-aos="fade-right" class="faq">
+                        <h3>
+                            <button onclick="faqUpdater(this)" class="flex items-center justify-between !outline-none w-full px-6 py-5 sm:text-lg text-base font-semibold text-left text-white sm:p-6" aria-expanded="false">
+                                <span> Q. How can i register for event? </span>
+                                <span aria-hidden="true" class="ml-4" style="display: none">
+                                    <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" class=""></path>
+                                    </svg>
+                                </span>
+                                <span aria-hidden="true" class="ml-4">
+                                    <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                    </svg>
+                                </span>
+                            </button>
+                        </h3>
+                        <div class="overflow-hidden transition-all duration-300 scale-y-0 origin-top h-0">
+                            <div class="px-6 pb-6">
+                                <p class="text-base text-white">A. You can through our website or wait for our capaining team to come to your campus.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div data-aos="fade-right" class="faq">
+                        <h3>
+                            <button onclick="faqUpdater(this)" class="flex items-center justify-between !outline-none w-full px-6 py-5 sm:text-lg font-semibold text-left text-white sm:p-6" aria-expanded="false">
+                                <span> Q. How can i get the details of events that i participated? </span>
+                                <span aria-hidden="true" class="ml-4" style="display: none">
+                                    <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                                    </svg>
+                                </span>
+                                <span aria-hidden="true" class="ml-4">
+                                    <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" class=""></path>
+                                    </svg>
+                                </span>
+                            </button>
+                        </h3>
+                        <div class="overflow-hidden transition-all duration-300 scale-y-0 origin-top h-0">
+                            <div class="px-6 pb-6">
+                                <p class="text-base text-white">A. You will get a ticket for all the details of your events.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div data-aos="fade-right" class="faq">
+                        <h3>
+                            <button onclick="faqUpdater(this)" class="flex items-center justify-between !outline-none w-full px-6 py-5 sm:text-lg font-semibold text-left text-white sm:p-6" aria-expanded="false">
+                                <span> Q. How can i access tickets for the events? </span>
+                                <span aria-hidden="true" class="ml-4" style="display: none">
+                                    <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                                    </svg>
+                                </span>
+                                <span aria-hidden="true" class="ml-4">
+                                    <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" class=""></path>
+                                    </svg>
+                                </span>
+                            </button>
+                        </h3>
+                        <div class="overflow-hidden transition-all duration-300 scale-y-0 origin-top h-0">
+                            <div class="px-6 pb-6">
+                                <p class="text-base text-white">A. You can login to the website or mobile application and access your tickets.</p>
+                            </div>
+                        </div>
+                    </div>                  
+                    <div data-aos="fade-right" class="faq">
+                        <h3>
+                            <button onclick="faqUpdater(this)" class="flex items-center justify-between !outline-none w-full px-6 py-5 sm:text-lg font-semibold text-left text-white sm:p-6" aria-expanded="false">
+                                <span> Q. How can i know what events are there? </span>
+                                <span aria-hidden="true" class="ml-4" style="display: none">
+                                    <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                                    </svg>
+                                </span>
+                                <span aria-hidden="true" class="ml-4">
+                                    <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                    </svg>
+                                </span>
+                            </button>
+                        </h3>
+                        <div class="overflow-hidden transition-all duration-300 scale-y-0 origin-top h-0">
+                            <div class="px-6 pb-6">
+                                <p class="text-base text-white">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div data-aos="fade-right" class="faq">
+                        <h3>
+                            <button onclick="faqUpdater(this)" class="flex items-center justify-between !outline-none w-full px-6 py-5 sm:text-lg font-semibold text-left text-white sm:p-6" aria-expanded="false">
+                                <span> Q. Will I get money back if I am not satisfied? </span>
+                                <span aria-hidden="true" class="ml-4" style="display: none">
+                                    <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                                    </svg>
+                                </span>
+                                <span aria-hidden="true" class="ml-4">
+                                    <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                    </svg>
+                                </span>
+                            </button>
+                        </h3>
+                        <div class="overflow-hidden transition-all duration-300 scale-y-0 origin-top h-0">
+                            <div class="px-6 pb-6">
+                                <p class="text-base text-white">A. You can visit our website or moblie application and go to the events page and get the required information.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Mobile Screen -->
+	<div class="block md:hidden">
+		<!-- Navbar -->
+		<nav class="flex items-center justify-between text-white fixed w-full top-0 py-[calc(3vh)] px-[calc(3vh)] z-50 transition-all duration-300" id="mobile-navbar">
+			<a href="/">
+				<img src="/static/logoCus.png" class="h-14 w-auto" />
+			</a>
+
+			<div class="relative flex items-center justify-center gap-4 lg:hidden">
+				<!-- Profile Image -->
+				<img src="/static/avatars/{{profilePic}}.png" alt="" class="w-[45px] h-[45px] rounded-full object-cover bg-slate-300" onclick="toggleProfileDropdown()" />
+				<!-- Profile -->
+				<div class="fixed right-10 top-6 z-[999] overflow-visible flex items-center justify-center gap-4 px-[calc(2vh)]">
+			
+					<div class="absolute bg-slate-600 top-16 right-0 w-full min-w-[200px] rounded-md z-[999] h-0 overflow-hidden transition-all duration-300" id="profile-dropdown-mobile">
+						<p class="w-full px-4 text-white"><i class="bi bi-person mr-2.5"></i>{{userName}}</p>
+						<hr class="w-full my-2" />
+						<a href="/logout" class="">
+							<p class="w-full px-4 text-white"><i class="bi bi-box-arrow-right mr-2.5"></i>Logout</p>
+						</a>
+					</div>
+				</div>
+				<!-- Menu Toggle Button -->
+				<button class="text-2xl block lg:hidden !outline-none" onclick="toggleMobileMenu()"><i class="bi bi-list"></i></button>
+			</div>
+
+			<!-- Mobile Menu -->
+			<div class="absolute top-0 left-full flex flex-col gap-5 items-center justify-center w-screen h-screen z-[999] bg-slate-900 bg-opacity-95  transition-all duration-300" id="mobile-menu">
+				<button class="absolute top-5 right-5 !outline-none" onclick="toggleMobileMenu()"><i class="bi bi-x-lg"></i></button>
+				<a href="/" class="text-2xl">Home</a>
+				<a href="/events" class="text-2xl">Events</a>
+				<a href="#" class="text-2xl">Event Confirm</a>
+				<a href="/aboutus" class="text-2xl">About Us</a>
+				<a href="/login" class="text-2xl">Login</a>
+				<a href="/register" class="text-2xl">Register</a>
+			</div>
+		</nav>
+	
+        <section class="bg-gray-50 pb-16 pt-28 sm:pt-32 tails-selected-element outline-none radial-gradient-container w-full h-full bg-gradient-to-b from-[#221e60] to-[#240a34] z-10">
+            <div class="px-8 mx-auto sm:px-10 lg:px-12 max-w-7xl">
+                <div class="max-w-2xl mx-auto text-center">
+                    <h2 class="text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">Frequently asked questions</h2>
+                    <p class="mt-4 text-base font-normal leading-7 text-white lg:text-lg lg:mt-6 lg:leading-8">Ask everything you need to know about our products and services.</p>
+                </div>
+                <div class="max-w-5xl mx-auto mt-12 overflow-hidden border border-gray-200 divide-y divide-gray-200 sm:mt-16 rounded-xl">
+                    <div data-aos="fade-right" class="faq">
+                        <h3>
+                            <button onclick="faqUpdater(this)" class="flex items-center justify-between !outline-none w-full px-6 py-5 sm:text-lg text-base font-semibold text-left text-white sm:p-6" aria-expanded="false">
+                                <span> Q. How can i register for event? </span>
+                                <span aria-hidden="true" class="ml-4" style="display: none">
+                                    <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" class=""></path>
+                                    </svg>
+                                </span>
+                                <span aria-hidden="true" class="ml-4">
+                                    <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                    </svg>
+                                </span>
+                            </button>
+                        </h3>
+                        <div class="overflow-hidden transition-all duration-300 scale-y-0 origin-top h-0">
+                            <div class="px-6 pb-6">
+                                <p class="text-base text-white">A. You can through our website or wait for our capaining team to come to your campus.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div data-aos="fade-right" class="faq">
+                        <h3>
+                            <button onclick="faqUpdater(this)" class="flex items-center justify-between !outline-none w-full px-6 py-5 sm:text-lg font-semibold text-left text-white sm:p-6" aria-expanded="false">
+                                <span> Q. How can i get the details of events that i participated? </span>
+                                <span aria-hidden="true" class="ml-4" style="display: none">
+                                    <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                                    </svg>
+                                </span>
+                                <span aria-hidden="true" class="ml-4">
+                                    <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" class=""></path>
+                                    </svg>
+                                </span>
+                            </button>
+                        </h3>
+                        <div class="overflow-hidden transition-all duration-300 scale-y-0 origin-top h-0">
+                            <div class="px-6 pb-6">
+                                <p class="text-base text-white">A. You will get a ticket for all the details of your events.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div data-aos="fade-right" class="faq">
+                        <h3>
+                            <button onclick="faqUpdater(this)" class="flex items-center justify-between !outline-none w-full px-6 py-5 sm:text-lg font-semibold text-left text-white sm:p-6" aria-expanded="false">
+                                <span> Q. How can i access tickets for the events? </span>
+                                <span aria-hidden="true" class="ml-4" style="display: none">
+                                    <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                                    </svg>
+                                </span>
+                                <span aria-hidden="true" class="ml-4">
+                                    <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" class=""></path>
+                                    </svg>
+                                </span>
+                            </button>
+                        </h3>
+                        <div class="overflow-hidden transition-all duration-300 scale-y-0 origin-top h-0">
+                            <div class="px-6 pb-6">
+                                <p class="text-base text-white">A. You can login to the website or mobile application and access your tickets.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div data-aos="fade-right" class="faq">
+                        <h3>
+                            <button onclick="faqUpdater(this)" class="flex items-center justify-between !outline-none w-full px-6 py-5 sm:text-lg font-semibold text-left text-white sm:p-6" aria-expanded="false">
+                                <span> Q. How can i know what events are there? </span>
+                                <span aria-hidden="true" class="ml-4" style="display: none">
+                                    <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                                    </svg>
+                                </span>
+                                <span aria-hidden="true" class="ml-4">
+                                    <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                    </svg>
+                                </span>
+                            </button>
+                        </h3>
+                        <div class="overflow-hidden transition-all duration-300 scale-y-0 origin-top h-0">
+                            <div class="px-6 pb-6">
+                                <p class="text-base text-white">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div data-aos="fade-right" class="faq">
+                        <h3>
+                            <button onclick="faqUpdater(this)" class="flex items-center justify-between !outline-none w-full px-6 py-5 sm:text-lg font-semibold text-left text-white sm:p-6" aria-expanded="false">
+                                <span> Q. Will I get money back if I am not satisfied? </span>
+                                <span aria-hidden="true" class="ml-4" style="display: none">
+                                    <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                                    </svg>
+                                </span>
+                                <span aria-hidden="true" class="ml-4">
+                                    <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                    </svg>
+                                </span>
+                            </button>
+                        </h3>
+                        <div class="overflow-hidden transition-all duration-300 scale-y-0 origin-top h-0">
+                            <div class="px-6 pb-6">
+                                <p class="text-base text-white">A. You can visit our website or moblie application and go to the events page and get the required information.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+	</div>
+
+
+    <!-- Footer -->
+	<footer class="bg-[#240a34] pt-20">
+		<div class="md:flex sm:grid sm:grid-cols-2 flex flex-col md:flex-row lg:justify-around justify-center md:gap-10 gap-3 xl:px-32 lg:px-20 md:px-12 px-8 mb-8">
+			<!-- Social | Logo -->
+			<div class="flex flex-col md:items-center items-start gap-3">
+				<img src="/static/logoCus.png" alt="Xenesis" class="lg:w-[140px] w-[110px]" />
+				<p class="lg:max-w-[200px] md:max-w-[140px] md:text-center text-gray-300">Epic Events organized for ultimate students!</p>
+			</div>
+			<!-- Useful Links -->
+			<div class="pt-4">
+				<h3 class="font-bold text-white lg:text-xl sm:text-[1.05rem] mb-4 pb-2 relative after:content-&quot;&quot; after:absolute lg:after:left-0 after:left-0 after:bottom-0 md:after:w-[50%] after:w-[100px] after:h-[3px] after:bg-[#9704fe]">Useful Links</h3>
+				<div class="flex flex-col text-left text-gray-400 gap-1 lg:text-base text-sm">
+					<a href="/" class="hover:translate-x-2 hover:text-[#bc85ff] transition-all duration-300">Home</a>
+					<a href="/event" class="hover:translate-x-2 hover:text-[#bc85ff] transition-all duration-300">Events</a>
+					<a href="/aboutus" class="hover:translate-x-2 hover:text-[#bc85ff] transition-all duration-300">About Us</a>
+					<a href="/faqs" class="hover:translate-x-2 hover:text-[#bc85ff] transition-all duration-300">FAQs</a>
+				</div>
+			</div>
+			<!-- Join Us -->
+			<div class="pt-4">
+				<h3 class="font-bold text-white lg:text-xl sm:text-[1.05rem] mb-4 pb-2 relative after:content-&quot;&quot; after:absolute after:left-0 after:bottom-0 md:after:w-[50%] after:w-[100px] after:h-[3px] after:bg-[#9704fe]">Contact Us</h3>
+				<div class="flex flex-col text-left gap-2 text-gray-400 lg:text-base text-sm">
+					<div class="flex flex-col group cursor-pointer">
+						<p class="text-[#9740fe]">Join Us:</p>
+						<a href="mailto:xenesis@ldrp.ac.in" class="text-gray-300 text-sm group-hover:translate-x-2 transition-all duration-300">xenesis@ldrp.ac.in</a>
+					</div>
+					<div class="flex flex-col group cursor-pointer">
+						<p class="text-[#9740fe]">Phone:</p>
+						<p class="text-gray-300 text-sm group-hover:translate-x-2 transition-all duration-300">+91 999 999 9999</p>
+					</div>
+				</div>
+			</div>
+			<!-- Social Links -->
+			<div class="md:pt-4 sm:pt-3 pt-4">
+				<h3 class="font-bold text-white lg:text-xl sm:text-[1.05rem] mb-5 pb-2 relative after:content-&quot;&quot; after:absolute after:left-0 after:bottom-0 md:after:w-[50%] after:w-[100px] after:h-[3px] after:bg-[#9704fe]">Social Links</h3>
+				<p class="lg:max-w-[250px] md:max-w-[200px] text-gray-300">Get in touch! Find us on any platform.</p>
+				<div class="flex items-center justify-start lg:gap-5 gap-4 md:mt-4 mt-2">
+					<a href="https://www.instagram.com/xenesisldrp/" class="text-gray-400 lg:text-xl md:text-lg text-base hover:-translate-y-1.5 hover:text-[#9740fe] transition-all duration-300"><i class="bi bi-facebook"></i></a>
+					<a href="https://twitter.com/xenesisldrp" class="text-gray-400 lg:text-xl md:text-lg text-base hover:-translate-y-1.5 hover:text-[#9740fe] transition-all duration-300"><i class="bi bi-twitter"></i></a>
+					<a href="https://www.facebook.com/xenesisldrp/" class="text-gray-400 lg:text-xl md:text-lg text-base hover:-translate-y-1.5 hover:text-[#9740fe] transition-all duration-300"><i class="bi bi-instagram"></i></a>
+					<a href="#" class="text-gray-400 lg:text-xl md:text-lg text-base hover:-translate-y-1.5 hover:text-[#9740fe] transition-all duration-300"><i class="bi bi-youtube"></i></a>
+				</div>
+			</div>
+		</div>
+		<!-- Copyrights -->
+		<div class="bg-[#211e60] bg-opacity-20 md:w-fit w-full md:px-24 px-8 md:pr-36 mb-0 clip-copyrights text-gray-300 font-semibold py-8 md:text-xl text-md">&copy; 2023 Xenesis All Rights Registered</div>
+	</footer>
+
+    <!-- FAQ Script -->
+	<script>
+		function faqUpdater(element) {
+			let faqArr = document.getElementsByClassName("faq");
+			for (let faq = 0; faq < faqArr.length; faq++) {
+				const elementfaq = faqArr[faq];
+				if (elementfaq.getElementsByTagName("button")[0] != element) {
+					elementfaq.getElementsByTagName("div")[0].classList.add("scale-y-0");
+					elementfaq.getElementsByTagName("div")[0].classList.add("h-0");
+					elementfaq.getElementsByTagName("div")[0].classList.remove("scale-y-100");
+				} else {
+                    elementfaq.getElementsByTagName("div")[0].classList.remove("scale-y-0");
+					elementfaq.getElementsByTagName("div")[0].classList.remove("h-0");
+					elementfaq.getElementsByTagName("div")[0].classList.add("scale-y-100");
+                }
+			}
+		}
+	</script>
+
+    <script src="/static/js/header.js"></script>
+</body>
+</html>

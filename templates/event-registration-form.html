@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Enrollment Form</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <script src="/static/tailwind.js"></script>
+    <link rel="stylesheet" href="/static/tailwind.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        .form {
+            background: radial-gradient(at top left, #211e60 1%, #240a34 50%);
+            box-shadow: 0 0 100px 0 rgba(0, 0, 0, 0.8);
+        }
+        .clip-copyrights {
+            clip-path: polygon(0 0, 85% 0%, 100% 100%, 0% 100%);
+        }
+        .clip-button {
+            background: linear-gradient(to right, #7815ea, #c595ff) !important;
+            clip-path: polygon(0% 0%, 90% 0, 100% 30%, 100% 100%, 0 100%);
+        }
+    </style>
+</head>
+<body class="customScrollbar">
+    <nav class="flex items-center overflow-visible justify-between text-white fixed w-full top-0 pt-[calc(2vh)] pb-10 px-[calc(3vh)] z-50 transition-all duration-300" id="navbar">
+        <a href="/">
+            <img src="/static/logoCus.png" class="h-16 w-auto" />
+        </a>
+        <ul class="md:flex items-center hidden">
+            <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/">Home</a></li>
+            <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/events">Events</a></li>
+            <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/aboutus">About Us</a></li>
+            <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/faqs">FAQs</a></li>
+            {% if isUser == False %}
+            <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/login">Login</a></li>
+            <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/register">Register</a></li>
+            {%else%}
+            {% if isVolunteer == True%}
+            <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/ticketVerifer">Verifier</a></li>
+            {%endif%}
+            <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/myTicket">My Tickets</a></li>
+<li class="mx-[calc(2vh)] py-2 w-14"></li>
+            {%endif%}
+        </ul>
+    </nav>
+    {% if isUser == True %}
+    <div class="fixed right-10 top-6 z-[999] flex items-center justify-center gap-4 px-[calc(2vh)]">
+        <img src="/static/avatars/{{profilePic}}.png" alt="" class="w-[50px] h-[50px] rounded-full object-cover cursor-pointer bg-slate-300" onclick="toggleProfileDropdown()" />
+
+        <div class="absolute bg-slate-600 top-16 right-0 w-full min-w-[200px] rounded-md z-[999] h-0 overflow-hidden transition-all duration-300" id="profile-dropdown-mobile">
+            <p class="w-full px-4 text-white"><i class="bi bi-person mr-2.5"></i>{{userName}}</p>
+            <hr class="w-full my-2" />
+            <a href="/logout" class="">
+                <p class="w-full px-4 text-white"><i class="bi bi-box-arrow-right mr-2.5"></i>Logout</p>
+            </a>
+        </div>
+    </div>
+    {%endif%}
+
+    <!-- Main -->
+    <section class="relative flex items-center justify-center w-full h-full min-h-[100vh] max-h-[100vh] overflow-hidden">
+
+        <div class="absolute top-0 left-0 w-screen h-[calc((1024/1536)*100vw)] h-full min-h-[100vh]">
+            <canvas id="canvas" class="h-full w-full object-center block"></canvas>
+        </div>
+
+        <div class="absolute w-full h-full bg-gradient-to-t from-[#240a34] via-transparent to-transparent z-10"> </div>
+
+        <div class="form max-w-[800px] lg:w-full w-[90%] h-full md:px-12 sm:px-10 px-8 lg:py-16 sm:py-11 py-10 backdrop-blur form z-10 rounded-xl">
+            <!-- text-transparent bg-clip-text bg-gradient-to-tr from-orange-500 to-yellow-300 -->
+            <h1 class="text-white form-header-text text-center md:text-3xl sm:text-2xl text-xl font-bold uppercase text-white mb-10 flex justify-center items-center gap-4"><img src="/static/ldrp.png" alt="" class="w-[50px] h-[50px]">Enroll other team members</h1>
+            <!-- Approved members Div -->
+            <div class="flex flex-col items-start justify-center gap-3 w-full my-5 mb-9" id="approved-members">
+                <!-- Members -->
+                <div class="flex items-center justify-between gap-2 w-full bg-gradient-to-r from-slate-600 via-slate-600 to-slate-500 py-2 px-4 rounded-md">
+                    <p id="currentusermail" class="text-green-400 flex items-center gap-2 text-lg overflow-x-scroll customScrollbar"><i class="bi bi-patch-check text-xl"></i>{{email}}</p>
+                    <button class=" text-red-600 !outline-none" onclick="removeMember(this)"><i class="bi bi-trash3"></i></button>
+                </div>
+            </div>
+            <form action="./" method="post" class="" >
+                <input type="text" name="isForm" id='isForm' hidden value="true" />
+                <div class='w-full flex flex-col items-center gap-5 w-full'>
+                    <div class="flex items-end justify-center gap-4 w-full">
+                        <!-- Add Members Input Div -->
+                        <div id="formDiv" class='flex group relative w-full justify-center font-semibold'>
+                            <input type="email" id='email' spellCheck='false' class='peer bg-transparent font-light tracking-wider w-full pr-3 pl-1 py-2 transition-all duration-300 outline-none text-white border-b-[1px] border-white invalid:border-pink-300 invalid:text-red-400 focus:invalid:border-pink-300' placeholder=' ' tabIndex="1" />
+                            <label for='email' class='absolute left-0 -top-4 text-white text-sm transition-all duration-300 peer-focus:text-sm peer-focus:-top-4 peer-invalid:text-red-400 peer-placeholder-shown:top-2 peer-placeholder-shown:text-base peer-placeholder-shown:text-white'>Email</label>
+                        </div>
+                        <button type="button" class="flex items-center justify-center !outline-none text-slate-200 border-slate-200 rounded-md gap-2 text-2xl" onclick="addMember()"><i class="bi bi-plus-circle"></i></button>
+                    </div>
+                    <input type="button" value="Register" tabIndex="7" onclick="javascript:window.location.href='/eventConfirmation'" class='w-fit bg-orange-300 text-black backdrop-blur-sm outline-none mt-5 xl:px-16 lg:px-12 sm:px-10 px-9 py-1.5 xl:text-lg lg:text-md font-semibold cursor-pointer transition-all duration-200 focus:-translate-y-1 hover:ring-[#211d5e] rounded-md' />
+                </div>           
+                <!-- bg-gradient-to-tr from-orange-500 to-yellow-300 -->
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#240a34] pt-20">
+        <div class="md:flex sm:grid sm:grid-cols-2 flex flex-col md:flex-row lg:justify-around justify-center md:gap-10 gap-3 xl:px-32 lg:px-20 md:px-12 px-8 mb-8">
+            <!-- Social | Logo -->
+            <div class="flex flex-col md:items-center items-start gap-3">
+                <img src="/static/logoCus.png" alt="Xenesis" class="lg:w-[140px] w-[110px]" />
+                <p class="lg:max-w-[200px] md:max-w-[140px] md:text-center text-gray-300">Epic Events organized for ultimate students!</p>
+            </div>
+            <!-- Useful Links -->
+            <div class="pt-4">
+                <h3 class="font-bold text-white lg:text-xl sm:text-[1.05rem] mb-4 pb-2 relative after:content-&quot;&quot; after:absolute lg:after:left-0 after:left-0 after:bottom-0 md:after:w-[50%] after:w-[100px] after:h-[3px] after:bg-[#9704fe]">Useful Links</h3>
+                <div class="flex flex-col text-left text-gray-400 gap-1 lg:text-base text-sm">
+                    <a href="/" class="hover:translate-x-2 hover:text-[#bc85ff] transition-all duration-300">Home</a>
+                    <a href="/event" class="hover:translate-x-2 hover:text-[#bc85ff] transition-all duration-300">Events</a>
+                    <a href="/aboutus" class="hover:translate-x-2 hover:text-[#bc85ff] transition-all duration-300">About Us</a>
+                    <a href="/faqs" class="hover:translate-x-2 hover:text-[#bc85ff] transition-all duration-300">FAQs</a>
+                </div>
+            </div>
+            <!-- Join Us -->
+            <div class="pt-4">
+                <h3 class="font-bold text-white lg:text-xl sm:text-[1.05rem] mb-4 pb-2 relative after:content-&quot;&quot; after:absolute after:left-0 after:bottom-0 md:after:w-[50%] after:w-[100px] after:h-[3px] after:bg-[#9704fe]">Contact Us</h3>
+                <div class="flex flex-col text-left gap-2 text-gray-400 lg:text-base text-sm">
+                    <div class="flex flex-col group cursor-pointer">
+                        <p class="text-[#9740fe]">Join Us:</p>
+                        <a href="mailto:xenesis@ldrp.ac.in" class="text-gray-300 text-sm group-hover:translate-x-2 transition-all duration-300">xenesis@ldrp.ac.in</a>
+                    </div>
+                    <div class="flex flex-col group cursor-pointer">
+                        <p class="text-[#9740fe]">Phone:</p>
+                        <p class="text-gray-300 text-sm group-hover:translate-x-2 transition-all duration-300">+91 999 999 9999</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Social Links -->
+            <div class="md:pt-4 sm:pt-3 pt-4">
+                <h3 class="font-bold text-white lg:text-xl sm:text-[1.05rem] mb-5 pb-2 relative after:content-&quot;&quot; after:absolute after:left-0 after:bottom-0 md:after:w-[50%] after:w-[100px] after:h-[3px] after:bg-[#9704fe]">Social Links</h3>
+                <p class="lg:max-w-[250px] md:max-w-[200px] text-gray-300">Get in touch! Find us on any platform.</p>
+                <div class="flex items-center justify-start lg:gap-5 gap-4 md:mt-4 mt-2">
+                    <a href="https://www.instagram.com/xenesisldrp/" class="text-gray-400 lg:text-xl md:text-lg text-base hover:-translate-y-1.5 hover:text-[#9740fe] transition-all duration-300"><i class="bi bi-facebook"></i></a>
+                    <a href="https://twitter.com/xenesisldrp" class="text-gray-400 lg:text-xl md:text-lg text-base hover:-translate-y-1.5 hover:text-[#9740fe] transition-all duration-300"><i class="bi bi-twitter"></i></a>
+                    <a href="https://www.facebook.com/xenesisldrp/" class="text-gray-400 lg:text-xl md:text-lg text-base hover:-translate-y-1.5 hover:text-[#9740fe] transition-all duration-300"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="text-gray-400 lg:text-xl md:text-lg text-base hover:-translate-y-1.5 hover:text-[#9740fe] transition-all duration-300"><i class="bi bi-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <!-- Copyrights -->
+        <div class="bg-[#211e60] bg-opacity-20 md:w-fit w-full md:px-24 px-8 md:pr-36 mb-0 clip-copyrights text-gray-300 font-semibold py-8 md:text-xl text-md">&copy; 2023 Xenesis All Rights Registered</div>
+    </footer>
+
+    <script id="vs" type="f">
+    attribute vec2 position;
+    attribute vec2 texcoord;
+    
+    uniform mat3 u_matrix;
+    
+    varying vec2 v_texcoord;
+    
+    void main() {
+            gl_Position = vec4(u_matrix * vec3(position, 1), 1);
+            v_texcoord = texcoord;
+    }
+    </script>
+    <!-- fragment shader -->
+    <script id="fs" type="f">
+        precision mediump float;
+        
+        uniform vec2 u_mouse;
+        
+        uniform sampler2D u_originalImage;
+        uniform sampler2D u_mapImage;
+        
+        varying vec2 v_texcoord;
+        
+        void main() {
+            vec4 depthDistortion = texture2D(u_mapImage, v_texcoord);
+            float parallaxMult = depthDistortion.r;
+        
+            vec2 parallax = (u_mouse) * parallaxMult;
+        
+            vec4 original = texture2D(u_originalImage, (v_texcoord + parallax));
+            gl_FragColor = original;
+        }
+    </script>
+    <!-- partial -->
+    <script src='https://cdn.rawgit.com/greggman/twgl.js/master/dist/4.x/twgl-full.min.js'></script>
+    <script src='https://webglfundamentals.org/webgl/resources/m3.js'></script>
+    <script>
+        function main(id, sourceImage, depthMap, parallaxSpeed) {
+            // Get A WebGL context
+            /** @type {HTMLCanvasElement} */
+            const canvas = document.getElementById(id);
+            const gl = canvas.getContext("webgl");
+            if (!gl) {
+                return;
+            }
+
+            let originalImage = { width: 0, height: 0 }; // replaced after loading
+            const originalTexture = twgl.createTexture(
+                gl,
+                {
+                    src: sourceImage,
+                    crossOrigin: "",
+                },
+                (err, texture, source) => {
+                    originalImage = source;
+                }
+            );
+
+            const mapTexture = twgl.createTexture(gl, {
+                src: depthMap,
+                crossOrigin: "",
+            });
+
+            // compile shaders, link program, lookup location
+            const programInfo = twgl.createProgramInfo(gl, ["vs", "fs"]);
+
+            // calls gl.createBuffer, gl.bindBuffer, gl.bufferData for a quad
+            const bufferInfo = twgl.primitives.createXYQuadBufferInfo(gl);
+
+            const mouse = [0, 0];
+            document.addEventListener("mousemove", (event) => {
+                mouse[0] = ((event.clientX / gl.canvas.clientWidth) * 2 - 1) * parallaxSpeed;
+                mouse[1] = ((event.clientY / gl.canvas.clientHeight) * 2 - 1) * parallaxSpeed;
+            });
+
+            document.addEventListener("touchmove", (event) => {
+                mouse[0] = ((event.touches[0].clientX / gl.canvas.clientWidth) * 2 - 1) * parallaxSpeed;
+                mouse[1] = ((event.touches[0].clientY / gl.canvas.clientHeight) * 2 - 1) * parallaxSpeed;
+            });
+
+            document.addEventListener("touchend", (event) => {
+                mouse[0] = 0;
+                mouse[1] = 0;
+            });
+
+            var nMouse = [0, 0];
+            var oMouse = [0, 0];
+
+            requestAnimationFrame(render);
+
+            function render() {
+                twgl.resizeCanvasToDisplaySize(gl.canvas);
+
+                gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+
+                gl.clearColor(0, 0, 0, 0);
+                gl.clear(gl.COLOR_BUFFER_BIT);
+
+                gl.useProgram(programInfo.program);
+
+                // calls gl.bindBuffer, gl.enableVertexAttribArray, gl.vertexAttribPointer
+                twgl.setBuffersAndAttributes(gl, programInfo, bufferInfo);
+
+                const canvasAspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
+                const imageAspect = originalImage.width / originalImage.height;
+                const mat = m3.scaling(imageAspect / canvasAspect, -1);
+
+                nMouse[0] += (mouse[0] - nMouse[0]) * 0.05;
+                nMouse[1] += (mouse[1] - nMouse[1]) * 0.05;
+
+                // calls gl.activeTexture, gl.bindTexture, gl.uniformXXX
+                twgl.setUniforms(programInfo, {
+                    u_matrix: mat,
+                    u_originalImage: originalTexture,
+                    u_mapImage: mapTexture,
+                    u_mouse: nMouse,
+                });
+
+                // calls gl.drawArrays or gl.drawElements
+                twgl.drawBufferInfo(gl, bufferInfo);
+
+                requestAnimationFrame(render);
+            }
+        }
+
+        main("canvas", "/static/event-images/eventHerolandingPage2.png", "/static/event-images/eventHeroDepthMap.jpeg", -0.03);
+    </script>
+
+    <!-- Custom Add Member Script -->
+    <script>
+
+        let approvedMembersDiv = document.getElementById('approved-members')
+        let membersCount = approvedMembersDiv.children.length
+        let userCount = 1
+        function addMember() {
+            let inputEmail = document.getElementById('email')
+            if(inputEmail.value !== '' && membersCount <= 2) {
+                fetch("/addTeamMembers/", {
+					method: "POST",
+					body: JSON.stringify({
+						email: inputEmail.value,
+                        isVerify:true
+					}),
+					headers: {
+						"Content-type": "application/json; charset=UTF-8"
+					}
+				})
+				.then(response => response.json())
+				.then(json => {
+                    if(json.hasOwnProperty("msg")){
+                        let memDiv = document.createElement('div')
+                        let memName = document.createElement('p')
+                        let tickIcon = document.createElement('i')
+                        let deleteIcon = document.createElement('i')
+                        let formDiv = document.getElementById("formDiv")
+                        let input = document.createElement('input')
+
+                        memDiv.classList.add('flex', 'items-center', 'justify-between', 'gap-2', 'w-full', 'bg-gradient-to-r', 'from-slate-600', 'via-slate-600', 'to-slate-500', 'py-2', 'px-4', 'rounded-md');
+                        memName.classList.add('text-green-400', 'flex', 'items-center', 'gap-2', 'text-lg', 'overflow-x-scroll', 'customScrollbar');
+                        tickIcon.classList.add('bi', 'bi-patch-check', 'text-xl');
+                        deleteIcon.classList.add('text-red-600', '!outline-none', 'bi', 'bi-trash3', 'cursor-pointer');
+                        deleteIcon.setAttribute("onclick", "removeMember(this)");
+                        userCount += 1
+                        input.value = inputEmail.value
+                        input.setAttribute("id","user"+userCount)
+                        input.hidden = true
+                        formDiv.append(input)
+                        
+
+
+                        memName.append(tickIcon)
+                        memName.innerHTML += inputEmail.value
+                        memDiv.append(memName)
+                        memDiv.append(deleteIcon)
+                        approvedMembersDiv.append(memDiv)
+
+                        membersCount = approvedMembersDiv.children.length
+                        document.getElementById('email').value = ""
+                    }
+                    else{
+						alert(json.error)
+					}
+				});
+            }
+        }
+
+        function removeMember(div) {
+            div.parentElement.remove()
+            membersCount = approvedMembersDiv.children.length
+            userCount -= 1
+        }
+    </script>
+
+    <script src="/static/js/header.js" defer></script>
+</body>
+</html>
