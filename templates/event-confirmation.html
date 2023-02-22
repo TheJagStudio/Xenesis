@@ -102,30 +102,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {%for user in team%}
                                     <tr class="transition duration-300 ease-in-out hover:bg-slate-600">
-                                        <td class="px-6 py-3 whitespace-nowrap text-lg">1</td>
-                                        <td class="text-base px-6 py-3 whitespace-nowrap">Parth Padhiar</td>
-                                        <td class="text-base px-6 py-3 whitespace-nowrap">parthpadhiar2002@gmail.com</td>
-                                        <td class="text-base px-6 py-3 whitespace-nowrap">9099333060</td>
+                                        <td class="px-6 py-3 whitespace-nowrap text-lg">{{forloop.index}}</td>
+                                        <td class="text-base px-6 py-3 whitespace-nowrap">{{user.name}}</td>
+                                        <td class="text-base px-6 py-3 whitespace-nowrap">{{user.email}}</td>
+                                        <td class="text-base px-6 py-3 whitespace-nowrap">{{user.phone}}</td>
                                     </tr>
-                                    <tr class="transition duration-300 ease-in-out hover:bg-slate-600">
-                                        <td class="px-6 py-3 whitespace-nowrap text-lg">2</td>
-                                        <td class="text-base px-6 py-3 whitespace-nowrap">Jagrat Patel</td>
-                                        <td class="text-base px-6 py-3 whitespace-nowrap">thejagstudio@gmail.com</td>
-                                        <td class="text-base px-6 py-3 whitespace-nowrap">9099333060</td>
-                                    </tr>
-                                    <tr class="transition duration-300 ease-in-out hover:bg-slate-600">
-                                        <td class="px-6 py-3 whitespace-nowrap text-lg">3</td>
-                                        <td class="text-base px-6 py-3 whitespace-nowrap">Jaivin Barot</td>
-                                        <td class="text-base px-6 py-3 whitespace-nowrap">barotjaivin@gmail.com</td>
-                                        <td class="text-base px-6 py-3 whitespace-nowrap">9099333060</td>
-                                    </tr>
-                                    <tr class="transition duration-300 ease-in-out hover:bg-slate-600">
-                                        <td class="px-6 py-3 whitespace-nowrap text-lg">4</td>
-                                        <td class="text-base px-6 py-3 whitespace-nowrap">Shubham Bhogayata</td>
-                                        <td class="text-base px-6 py-3 whitespace-nowrap">shubhambhogayata@gmail.com</td>
-                                        <td class="text-base px-6 py-3 whitespace-nowrap">9099333060</td>
-                                    </tr>
+                                    {%endfor%}
                                 </tbody>
                             </table>
                         </div>
@@ -136,10 +120,72 @@
 
         <!-- Back | Pay Buttons -->
         <div class="flex items-center justify-center gap-5 z-40 w-full py-5 backdrop-blur">
-            <a href="#" class="lg:px-16 lg:py-4 sm:px-10 sm:py-3 px-6 py-1.5 text-white rounded-md bg-red-500 font-semibold text-xl group"><i class="transition-all duration-200 bi bi-backspace group-hover:mr-1"></i> Back</a>
-            <a href="/" class="lg:px-16 lg:py-4 sm:px-10 sm:py-3 px-6 py-1.5 text-white rounded-md bg-green-500 font-semibold text-xl group"><i class="transition-all duration-200 bi bi-paypal group-hover:mr-1"></i> Pay</a>
+            <a href="/" class="lg:px-16 lg:py-4 sm:px-10 sm:py-3 px-6 py-1.5 text-white rounded-md bg-red-500 font-semibold text-xl group"><i class="transition-all duration-200 bi bi-backspace group-hover:mr-1"></i> Back</a>
+            <button onclick="ConfirmationModalToggle()" class="lg:px-16 lg:py-4 sm:px-10 sm:py-3 px-6 py-1.5 text-white rounded-md bg-green-500 font-semibold text-xl group"><i class="transition-all duration-200 bi bi-paypal group-hover:mr-1"></i> Pay</button>
         </div>
     </section>
+    {% if isUser == True %}
+    <div id="ConfirmationModal" class="fixed inset-0 z-[100] flex flex-col opacity-0 h-0 py-0 items-center justify-center overflow-hidden px-4  sm:px-5" >
+        <div class="absolute inset-0 bg-slate-900/60 transition-opacity duration-300"></div>
+        <div class="relative max-w-md rounded-lg bg-white pt-10 pb-4 text-center transition-all duration-300 dark:bg-navy-700">
+        <div class="avatar h-20 w-20 mx-auto">
+            <img class="rounded-full" src="/static/avatars/{{profilePic}}.png" alt="avatar" />
+            
+        </div>
+        <div class="mt-4 px-4 sm:px-12">
+            <h3 class="text-lg text-slate-800 dark:text-navy-50">
+            Please Confirm Your Payment
+            </h3>
+            <p class="mt-1 text-slate-500 dark:text-navy-200">
+            On confirming your payment will be processed immediately.
+            </p>
+        </div>
+        <div class="my-4 mt-16 h-px bg-slate-200 dark:bg-navy-500"></div>
+
+        <div class="space-x-3">
+            <button onclick="ConfirmationModalToggle()" class="btn min-w-[7rem] rounded-full border border-slate-300 font-medium text-slate-800 hover:bg-slate-150 focus:bg-slate-150 active:bg-slate-150/80 dark:border-navy-450 dark:text-navy-50 dark:hover:bg-navy-500 dark:focus:bg-navy-500 dark:active:bg-navy-500/90" >
+            Cancel
+            </button>
+            <button onclick="confirmPayment()" class="btn min-w-[7rem] rounded-full bg-green-500 font-medium text-white hover:bg-primary-focus focus:bg-primary-focus active:bg-primary-focus/90 dark:bg-accent dark:hover:bg-accent-focus dark:focus:bg-accent-focus dark:active:bg-accent/90" >
+            Confirm
+            </button>
+        </div>
+        </div>
+    </div>
+    <script>
+        function ConfirmationModalToggle(){
+            document.getElementById('ConfirmationModal').classList.toggle('h-0');
+            document.getElementById('ConfirmationModal').classList.toggle('py-6')
+            document.getElementById('ConfirmationModal').classList.toggle('opacity-0')
+        }
+        function confirmPayment(){
+            document.getElementById('ConfirmationModal').classList.toggle('py-6')
+            document.getElementById('ConfirmationModal').classList.toggle('h-0');
+            document.getElementById('ConfirmationModal').classList.toggle('opacity-0');
+            fetch("/ticketGenrator/", {
+					method: "POST",
+					body: JSON.stringify({
+						email: '{{email}}',
+                        event: '{{event}}',
+                        isTeam:true
+					}),
+					headers: {
+						"Content-type": "application/json; charset=UTF-8"
+					}
+				})
+				.then(response => response.json())
+				.then(json => {
+                    try{
+                        alert(json["msg"])
+                    }
+                    catch(e){
+                        alert(json["error"])
+                    }
+                })
+            
+        }
+    </script>
+    {%endif%}
 
     <!-- Footer -->
     <footer class="bg-[#240a34] pt-20">

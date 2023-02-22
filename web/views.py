@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.models import User
+from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt    
 from api.models import Profile, Department, Event, Ticket, Notifications
 import re
@@ -280,6 +281,7 @@ def event(request, event):
     context["teamParticapantCount"] = eventData.teamParticapantCount
     context["isClosed"] = eventData.isClosed
     context["status"] = eventData.status
+    request.session['event'] = eventData.name
     return render(request, "event-details.html", context)
 
 def otpvalidationWeb(request):
@@ -498,7 +500,7 @@ def myTicket(request):
         userName = ""
         profilePic = "0001"
     if isUser == True:
-        tickets = Ticket.objects.filter(owner=profile).all()
+        tickets = Ticket.objects.filter(Q(owner=profile)|Q(owner1=profile)|Q(owner2=profile)|Q(owner3=profile)|Q(owner4=profile)).all()
         dataTemp = []
         for ticket in tickets:
             temp = {}
@@ -518,6 +520,8 @@ def myTicket(request):
                 data.append(i)
             else:
                 data2.append(i)
+        data = data[::-1]
+        data2 = data2[::-1]
         data.extend(data2)
         context = {
             "data" : data,
@@ -552,7 +556,9 @@ def eventConfirmation(request):
         "isUser" : isUser,
         "isVolunteer" : isVolunteer,
         "userName" : userName,
-        "profilePic" : profilePic
+        "profilePic" : profilePic,
+        "team" : request.session['team'],
+        "event" : request.session['event']
     }
     return render(request, "event-confirmation.html",context)
 
@@ -577,20 +583,46 @@ def addTeamMebers(request):
         profilePic = "0001"
     
     if request.method == "POST":
-        body = json.loads(request.body)
-        email = body['email']
-        user = User.objects.filter(email=email).first()
-        if user is not None:
-            return HttpResponse(json.dumps({"msg": email + " does exist in our Database."}), content_type="application/json")
+        isForm = request.POST.get('isForm',False)
+        if isForm == False:
+            body = json.loads(request.body)
+            email = body['email']
+            user = User.objects.filter(email=email).first()
+            if user is not None:
+                return HttpResponse(json.dumps({"msg": email + " does exist in our Database."}), content_type="application/json")
+            else:
+                return HttpResponse(json.dumps({"error": "Email does not exist in our Database"}), content_type="application/json")
         else:
-            return HttpResponse(json.dumps({"error": "Email does not exist in our Database"}), content_type="application/json")
+            users = request.POST.get('user')
+            emailArr = users.split(",")
+            print(emailArr)
+            request.session['team'] = []
+            try:
+                for i in range(len(emailArr)):
+                    user = User.objects.filter(email=emailArr[i]).first()
+                    profile = Profile.objects.filter(user=user).first()
+                    if user is not None:
+                        request.session['team'].append({"name":user.first_name, "email":user.email,"phone":profile.phone})
+                return redirect("/eventConfirmation/")
+            except:
+                context = {
+                    'email':request.user,
+                    "isUser" : isUser,
+                    "isVolunteer" : isVolunteer,
+                    "userName" : userName,
+                    "profilePic" : profilePic,
+                    "event" : request.session['event'],
+                    "error" : "Please confirm emails of your team members."
+                }
+                return render(request, 'event-registration-form.html',context)
     
     context = {
         'email':request.user,
         "isUser" : isUser,
         "isVolunteer" : isVolunteer,
         "userName" : userName,
-        "profilePic" : profilePic
+        "profilePic" : profilePic,
+        "event" : request.session['event']
     }
     return render(request, 'event-registration-form.html',context)
 
@@ -599,21 +631,63 @@ def ticketGenrator(request):
     if request.method == "POST":
         try:
             body = json.loads(request.body)
-            eventName = body['event']
-            event = Event.objects.filter(name=eventName).first()
-            email = body['email']
-            user = User.objects.filter(email=email).first()
-            owner = Profile.objects.filter(user=user).first()
-            qrCodeData = uuid.uuid1()
-            userCount = body['userCount']
-            newTicket = Ticket()
-            newTicket.event = event
-            newTicket.owner = owner
-            newTicket.qrCodeData = qrCodeData
-            newTicket.userCount = userCount
-            newTicket.save()
-            return HttpResponse(json.dumps({"msg": "Ticket has been generated successfully."}), content_type="application/json")
-        except:
-            return HttpResponse(json.dumps({"error": "Error in Ticket Generation"}), content_type="application/json")
+            if 'isTeam' not in body.keys():
+                eventName = body['event']
+                event = Event.objects.filter(name=eventName).first()
+                email = body['email']
+                user = User.objects.filter(email=email).first()
+                owner = Profile.objects.filter(user=user).first()
+                qrCodeData = uuid.uuid1()
+                userCount = body['userCount']
+                newTicket = Ticket()
+                newTicket.event = event
+                newTicket.owner = owner
+                newTicket.qrCodeData = qrCodeData
+                newTicket.userCount = userCount
+                newTicket.save()
+                return HttpResponse(json.dumps({"msg": "Ticket has been generated successfully."}), content_type="application/json")
+            else:
+                eventName = body['event']
+                print(eventName)
+                event = Event.objects.filter(name=eventName).first()
+                email = request.session['team'][0]['email']
+                user = User.objects.filter(email=email).first()
+                owner = Profile.objects.filter(user=user).first()
+                qrCodeData = uuid.uuid1()
+                newTicket = Ticket()
+                newTicket.event = event
+                newTicket.owner = owner
+                try:
+                    teamMember1= User.objects.filter(email=request.session['team'][1]["email"]).first()
+                    teamMember1Profile = Profile.objects.filter(user=teamMember1).first()
+                    newTicket.owner1 = teamMember1Profile 
+                except:
+                    newTicket.owner1 = None
+                try:
+                    teamMember2= User.objects.filter(email=request.session['team'][2]["email"]).first()
+                    teamMember2Profile = Profile.objects.filter(user=teamMember2).first()
+                    newTicket.owner2 = teamMember2Profile 
+                except:
+                    newTicket.owner2 = None
+                try:
+                    teamMember3= User.objects.filter(email=request.session['team'][3]["email"]).first()
+                    teamMember3Profile = Profile.objects.filter(user=teamMember3).first()
+                    newTicket.owner3 = teamMember3Profile 
+                except:
+                    newTicket.owner3 = None
+                try:
+                    teamMember4= User.objects.filter(email=request.session['team'][4]["email"]).first()
+                    teamMember4Profile = Profile.objects.filter(user=teamMember4).first()
+                    newTicket.owner4 = teamMember4Profile 
+                except:
+                    newTicket.owner4 = None
+                print("ran")
+                newTicket.qrCodeData = qrCodeData
+                newTicket.userCount = len(request.session['team'])
+                newTicket.save()
+                request.session['team'] = []
+                return HttpResponse(json.dumps({"msg": "Ticket has been generated successfully."}), content_type="application/json")
+        except Exception as error:
+            return HttpResponse(json.dumps({"error": str(error)}), content_type="application/json")
     else:
         return render(request, "404.html")
