@@ -28,7 +28,7 @@
         <a href="/">
             <img src="/static/logoCus.png" class="h-16 w-auto" />
         </a>
-        <ul class="md:flex items-center hidden">
+        <ul class="lg:flex items-center hidden">
             <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/">Home</a></li>
             <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/events">Events</a></li>
             <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/aboutus">About Us</a></li>
@@ -41,10 +41,29 @@
             <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/ticketVerifer">Verifier</a></li>
             {%endif%}
             <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/myTicket">My Tickets</a></li>
-<li class="mx-[calc(2vh)] py-2 w-14"></li>
+            <li class="mx-[calc(2vh)] py-2 w-14"></li>
             {%endif%}
         </ul>
+
+        <!-- Mobile Menu -->
+        <div class="absolute top-0 left-full flex md:hidden flex-col gap-5 items-center justify-center w-screen h-screen z-[999] bg-slate-900 bg-opacity-95 transition-all duration-300" id="mobile-menu">
+            <button class="absolute top-10 right-10 !outline-none" onclick="toggleMobileMenu()"><i class="bi bi-x-lg"></i></button>
+            <a href="/" class="text-2xl">Home</a>
+            <a href="/events" class="text-2xl">Events</a>
+            <a href="/aboutus" class="text-2xl">About Us</a>
+            <a href="/faqs" class="text-2xl">FAQs</a>
+            {% if isUser == False %}
+                <a href="/login" class="text-2xl">Login</a>
+                <a href="/register" class="text-2xl">Register</a>
+                {%else%}
+                {% if isVolunteer == True%}
+                    <a href="/ticketVerifer" class="text-2xl">Verifer</a>
+                {%endif%}
+                <a href="/myTicket" class="text-2xl">My Tickets</a>
+            {%endif%}
+        </div>
     </nav>
+
     {% if isUser == True %}
     <div class="fixed right-10 top-6 z-[999] flex items-center justify-center gap-4 px-[calc(2vh)]">
         <img src="/static/avatars/{{profilePic}}.png" alt="" class="w-[50px] h-[50px] rounded-full object-cover cursor-pointer bg-slate-300" onclick="toggleProfileDropdown()" />
@@ -56,6 +75,8 @@
                 <p class="w-full px-4 text-white"><i class="bi bi-box-arrow-right mr-2.5"></i>Logout</p>
             </a>
         </div>
+        <!-- Menu Toggle Button -->
+		<button class="text-2xl text-white block lg:hidden !outline-none" onclick="toggleMobileMenu()"><i class="bi bi-list"></i></button>
     </div>
     {%endif%}
     {%if error != None%}
@@ -63,8 +84,9 @@
         alert("{{error}}")
     </script>
     {%endif%}
+
     <!-- Main -->
-    <section class="relative flex items-center justify-center w-full h-full min-h-[100vh] max-h-[100vh] overflow-hidden">
+    <section class="relative flex items-center justify-center w-full h-full min-h-[100vh] pt-10 overflow-hidden">
 
         <div class="absolute top-0 left-0 w-screen h-[calc((1024/1536)*100vw)] h-full min-h-[100vh]">
             <canvas id="canvas" class="h-full w-full object-center block"></canvas>
@@ -73,8 +95,7 @@
         <div class="absolute w-full h-full bg-gradient-to-t from-[#240a34] via-transparent to-transparent z-10"> </div>
 
         <div class="form max-w-[800px] lg:w-full w-[90%] h-full md:px-12 sm:px-10 px-8 lg:py-16 sm:py-11 py-10 backdrop-blur form z-10 rounded-xl">
-            <!-- text-transparent bg-clip-text bg-gradient-to-tr from-orange-500 to-yellow-300 -->
-            <h1 class="text-white form-header-text text-center md:text-3xl sm:text-2xl text-xl font-bold uppercase text-white mb-10 flex justify-center items-center gap-4"><img src="/static/ldrp.png" alt="" class="w-[50px] h-[50px]">Enroll other team members for <br> {{event}}</h1>
+            <h1 class="text-transparent bg-clip-text bg-gradient-to-tr from-orange-500 to-yellow-300 form-header-text text-center md:text-3xl sm:text-2xl text-xl font-bold uppercase text-white mb-10 flex justify-center items-center gap-4"><img src="/static/ldrp.png" alt="" class="w-[50px] h-[50px]">Enroll other team members for <br> {{event}}</h1>
             <!-- Approved members Div -->
             <div class="flex flex-col items-start justify-center gap-3 w-full my-5 mb-9" id="approved-members">
                 <!-- Members -->
@@ -95,7 +116,7 @@
                         </div>
                         <button type="button" class="flex items-center justify-center !outline-none text-slate-200 border-slate-200 rounded-md gap-2 text-2xl" onclick="addMember()"><i class="bi bi-plus-circle"></i></button>
                     </div>
-                    <input type="submit" value="Register" tabIndex="7" class='w-fit bg-orange-300 text-black backdrop-blur-sm outline-none mt-5 xl:px-16 lg:px-12 sm:px-10 px-9 py-1.5 xl:text-lg lg:text-md font-semibold cursor-pointer transition-all duration-200 focus:-translate-y-1 hover:ring-[#211d5e] rounded-md' />
+                    <input type="submit" value="Register" tabIndex="7" class='w-fit bg-gradient-to-tr from-orange-500 to-yellow-300 text-white backdrop-blur-sm outline-none mt-5 xl:px-16 lg:px-12 sm:px-10 px-9 py-1.5 xl:text-lg lg:text-md font-semibold cursor-pointer transition-all duration-200 focus:-translate-y-1 hover:ring-[#211d5e] rounded-md' />
                 </div>           
                 <!-- bg-gradient-to-tr from-orange-500 to-yellow-300 -->
             </form>
@@ -341,6 +362,6 @@
         }
     </script>
 
-    <script src="/static/js/header.js" defer></script>
+    <script src="/static/js/header.js"></script>
 </body>
 </html>

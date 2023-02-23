@@ -19,7 +19,7 @@ def home(request):
             profile = Profile.objects.filter(user=request.user).first()
             userName = request.user.first_name
             isUser = True
-            isVolunteer = profile.isVolunteer
+            isVolunteer = profile.isCampainVolunteer
             profilePic = profile.profilePic
         except:
             userName = "Anonymous"
@@ -60,7 +60,7 @@ def events(request):
             profile = Profile.objects.filter(user=request.user).first()
             userName = request.user.first_name
             isUser = True
-            isVolunteer = profile.isVolunteer
+            isVolunteer = profile.isCampainVolunteer
             profilePic = profile.profilePic
         except:
             userName = "Anonymous"
@@ -105,7 +105,7 @@ def aboutus(request):
             profile = Profile.objects.filter(user=request.user).first()
             userName = request.user.first_name
             isUser = True
-            isVolunteer = profile.isVolunteer
+            isVolunteer = profile.isCampainVolunteer
             profilePic = profile.profilePic
         except:
             userName = "Anonymous"
@@ -222,7 +222,7 @@ def event(request, event):
             userName = request.user.first_name
             email = request.user.email
             isUser = True
-            isVolunteer = profile.isVolunteer
+            isVolunteer = profile.isCampainVolunteer
             profilePic = profile.profilePic
         except:
             userName = "Anonymous"
@@ -314,7 +314,7 @@ def cart(request):
             profile = Profile.objects.filter(user=request.user).first()
             userName = request.user.first_name
             isUser = True
-            isVolunteer = profile.isVolunteer
+            isVolunteer = profile.isCampainVolunteer
             profilePic = profile.profilePic
         except:
             userName = "Anonymous"
@@ -344,7 +344,7 @@ def faqs(request):
             profile = Profile.objects.filter(user=request.user).first()
             userName = request.user.first_name
             isUser = True
-            isVolunteer = profile.isVolunteer
+            isVolunteer = profile.isCampainVolunteer
             profilePic = profile.profilePic
         except:
             userName = "Anonymous"
@@ -426,7 +426,7 @@ def ticketVerifer(request):
             profile = Profile.objects.filter(user=request.user).first()
             userName = request.user.first_name
             isUser = True
-            isVolunteer = profile.isVolunteer
+            isVolunteer = profile.isCampainVolunteer
             profilePic = profile.profilePic
         except:
             userName = "Anonymous"
@@ -487,7 +487,7 @@ def myTicket(request):
             profile = Profile.objects.filter(user=request.user).first()
             userName = request.user.first_name
             isUser = True
-            isVolunteer = profile.isVolunteer
+            isVolunteer = profile.isCampainVolunteer
             profilePic = profile.profilePic
         except:
             userName = "Anonymous"
@@ -505,6 +505,7 @@ def myTicket(request):
         for ticket in tickets:
             temp = {}
             temp["id"] = ticket.id
+            print(ticket.id)
             temp["profilePic"] = ticket.owner.profilePic
             temp["username"] = ticket.owner.user.first_name
             temp["email"] = ticket.owner.user.email
@@ -540,7 +541,7 @@ def eventConfirmation(request):
             profile = Profile.objects.filter(user=request.user).first()
             userName = request.user.first_name
             isUser = True
-            isVolunteer = profile.isVolunteer
+            isVolunteer = profile.isCampainVolunteer
             profilePic = profile.profilePic
         except:
             userName = "Anonymous"
@@ -569,7 +570,7 @@ def addTeamMebers(request):
             profile = Profile.objects.filter(user=request.user).first()
             userName = request.user.first_name
             isUser = True
-            isVolunteer = profile.isVolunteer
+            isVolunteer = profile.isCampainVolunteer
             profilePic = profile.profilePic
         except:
             userName = "Anonymous"

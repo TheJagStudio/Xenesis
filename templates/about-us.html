@@ -42,7 +42,7 @@
                <img src="/static/avatars/{{profilePic}}.png" alt="" class="w-[50px] h-[50px] rounded-full object-cover cursor-pointer bg-slate-300" onclick="toggleProfileDropdown()">
 
                <div class="absolute bg-slate-600 top-16 right-0 w-full min-w-[200px] rounded-md z-[999] h-0 overflow-hidden transition-all duration-300" id="profile-dropdown">
-               <p class="w-full px-4 text-white"><i class="bi bi-person mr-2.5"></i>{{userName}}</p>
+               <p class="w-full px-4 text-white truncate capitalize"><i class="bi bi-person mr-2.5"></i>{{userName}}</p>
                <hr class="w-full my-2" />
                <a href="/logout" class="">
                     <p class="w-full px-4 text-white"><i class="bi bi-box-arrow-right mr-2.5"></i>Logout</p>
@@ -67,12 +67,12 @@
 
                <div class="py-8 px-6">
                     <h1 class="text-white text-3xl capitalize font-bold mb-5">Something about us</h1>
-                    <p class="text-white my-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia maxime distinctio, error asperiores voluptatem maiores reprehenderit sint, impedit dolore excepturi sequiLorem ipsum dolor sit amet consectetur adipisicing elit. Quia maxime distinctio, error asperiores voluptatem maiores reprehenderit sint, impedit dolore excepturi sequi, autem aliquid suscipit ducimus rem deserunt quaerat aliquam debitis!</p>
-                    <p class="text-white my-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia maxime distinctio, error asperiores voluptatem maiores reprehenderit sint, impedit dolore excepturi sequi, autem aliquid suscipit ducimus rem deserunt quaerat aliquam debitis!</p>
-                    <p class="text-white my-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia maxime distinctio, error asperiores voluptatem maiores reprehenderit sinLorem ipsum dolor sit amet consectetur adipisicing elit. Quia maxime distinctio, error asperiores voluptatem maiores reprehenderit sinLorem ipsum dolor sit amet consectetur adipisicing elit. Quia maxime distinctio, error asperiores voluptatem maiores reprehenderit sinLorem ipsum dolor sit amet consectetur adipisicing elit. Quia maxime distinctio, error asperiores voluptatem maiores reprehenderit sint, impedit dolore excepturi sequi, autem aliquid suscipit ducimus rem deserunt quaerat aliquam debitis!</p>
-                    <p class="text-white my-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia maxime distinctio, error asperiores voluptatem maiores reprehenderit sint, impedit dolore excepturi sequi, autem aliquid suscipit ducimus rem deserunt quaerat aliquam debitis!</p>
-                    <p class="text-white my-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia maxime distinctio, error asperiores voluptatem maiores reprehenderit sinLorem ipsum dolor sit amet consectetur adipisicing elit. Quia maxime distinctio, error asperiores voluptatem maiores reprehenderit sinLorem ipsum dolor sit amet consectetur adipisicing elit. Quia maxime distinctio, error asperiores voluptatem maiores reprehenderit sinLorem ipsum dolor sit amet consectetur adipisicing elit. Quia maxime distinctio, error asperiores voluptatem maiores reprehenderit sint, impedit dolore excepturi sequi, autem aliquid suscipit ducimus rem deserunt quaerat aliquam debitis!</p>
-                    <p class="text-white my-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia maxime distinctio, error asperiores voluptatem maiores reprehenderit sint, impedit dolore excepturi sequi, autem aliquid suscipit ducimus rem deserunt quaerat aliquam debitis!</p>
+                    <p class="text-white my-5">Xenesis is an annual technical festival organized by LDRP-ITR, providing a platform for students to showcase their technical skills and compete with their peers. The festival brings together a diverse range of participants from different engineering colleges across the country.</p>
+                    <p class="text-white my-5">With a plethora of events, workshops, and technical talks, Xenesis aims to create an atmosphere that fosters learning, creativity, and innovation. The festival provides an opportunity for students to engage in hands-on technical activities, gain practical experience, and enhance their problem-solving abilities.</p>
+                    <p class="text-white my-5">At Xenesis, we strive to inspire and encourage the next generation of engineers and technologists. We believe that the festival is not just about competition but also about creating a sense of community and sparking a passion for technology.</p>
+                    <p class="text-white my-5">Our team comprises enthusiastic students who work tirelessly to organize and execute the festival. We aim to create a memorable experience for all participants and ensure that everyone has an enjoyable and rewarding time.</p>
+                    <p class="text-white my-5">Xenesis has been a resounding success over the years, attracting participants from far and wide. We are committed to making each edition of the festival better than the last, by incorporating feedback and improving the overall experience.</p>
+                    <p class="text-white my-5">Come be a part of the Xenesis family and join us in celebrating technology and innovation!</p>
                </div>
           </section>
      </div>
@@ -90,7 +90,7 @@
                     <div class="fixed right-10 top-6 z-[999] overflow-visible flex items-center justify-center gap-4 px-[calc(2vh)]">
                
                          <div class="absolute bg-slate-600 top-16 right-0 w-full min-w-[200px] rounded-md z-[999] h-0 overflow-hidden transition-all duration-300" id="profile-dropdown-mobile">
-                              <p class="w-full px-4 text-white"><i class="bi bi-person mr-2.5"></i>{{userName}}</p>
+                              <p class="w-full px-4 text-white truncate capitalize"><i class="bi bi-person mr-2.5"></i>{{userName}}</p>
                               <hr class="w-full my-2" />
                               <a href="/logout" class="">
                                    <p class="w-full px-4 text-white"><i class="bi bi-box-arrow-right mr-2.5"></i>Logout</p>
@@ -102,15 +102,22 @@
                </div>
 
                <!-- Mobile Menu -->
-               <div class="absolute top-0 left-full flex flex-col gap-5 items-center justify-center w-screen h-screen z-[999] bg-slate-900 bg-opacity-95  transition-all duration-300" id="mobile-menu">
-                    <button class="absolute top-10 right-10 !outline-none" onclick="toggleMobileMenu()"><i class="bi bi-x-lg"></i></button>
-                    <a href="/" class="text-2xl">Home</a>
-                    <a href="/events" class="text-2xl">Events</a>
-                    <a href="#" class="text-2xl">Event Confirm</a>
-                    <a href="/aboutus" class="text-2xl">About Us</a>
-                    <a href="/login" class="text-2xl">Login</a>
-                    <a href="/register" class="text-2xl">Register</a>
-               </div>
+			<div class="absolute top-0 left-full flex flex-col gap-5 items-center justify-center w-screen h-screen z-[999] bg-slate-900 bg-opacity-95 transition-all duration-300" id="mobile-menu">
+				<button class="absolute top-10 right-10 !outline-none" onclick="toggleMobileMenu()"><i class="bi bi-x-lg"></i></button>
+				<a href="/" class="text-2xl">Home</a>
+				<a href="/events" class="text-2xl">Events</a>
+				<a href="/aboutus" class="text-2xl">About Us</a>
+				<a href="/faqs" class="text-2xl">FAQs</a>
+				{% if isUser == False %}
+					<a href="/login" class="text-2xl">Login</a>
+					<a href="/register" class="text-2xl">Register</a>
+					{%else%}
+					{% if isVolunteer == True%}
+						<a href="/ticketVerifer" class="text-2xl">Verifer</a>
+					{%endif%}
+					<a href="/myTicket" class="text-2xl">My Tickets</a>
+				{%endif%}
+			</div>
           </nav>
 
           <section
@@ -129,36 +136,12 @@
           <section class="sm:py-16 lg:py-20 xl:py-24 tails-selected-element outline-none bg-[#240A35]">
                <div class="py-8 px-6 text-justify">
                     <h1 class="text-white text-3xl capitalize font-bold mb-5">Something about us</h1>
-                    <p class="text-white my-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia maxime
-                         distinctio, error asperiores voluptatem maiores reprehenderit sint, impedit dolore excepturi
-                         sequiLorem ipsum dolor sit amet consectetur adipisicing elit. Quia maxime distinctio, error
-                         asperiores voluptatem maiores reprehenderit sint, impedit dolore excepturi sequi, autem aliquid
-                         suscipit ducimus rem deserunt quaerat aliquam debitis!</p>
-                    <p class="text-white my-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia maxime
-                         distinctio, error asperiores voluptatem maiores reprehenderit sint, impedit dolore excepturi
-                         sequi, autem aliquid suscipit ducimus rem deserunt quaerat aliquam debitis!</p>
-                    <p class="text-white my-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia maxime
-                         distinctio, error asperiores voluptatem maiores reprehenderit sinLorem ipsum dolor sit amet
-                         consectetur adipisicing elit. Quia maxime distinctio, error asperiores voluptatem maiores
-                         reprehenderit sinLorem ipsum dolor sit amet consectetur adipisicing elit. Quia maxime
-                         distinctio, error asperiores voluptatem maiores reprehenderit sinLorem ipsum dolor sit amet
-                         consectetur adipisicing elit. Quia maxime distinctio, error asperiores voluptatem maiores
-                         reprehenderit sint, impedit dolore excepturi sequi, autem aliquid suscipit ducimus rem deserunt
-                         quaerat aliquam debitis!</p>
-                    <p class="text-white my-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia maxime
-                         distinctio, error asperiores voluptatem maiores reprehenderit sint, impedit dolore excepturi
-                         sequi, autem aliquid suscipit ducimus rem deserunt quaerat aliquam debitis!</p>
-                    <p class="text-white my-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia maxime
-                         distinctio, error asperiores voluptatem maiores reprehenderit sinLorem ipsum dolor sit amet
-                         consectetur adipisicing elit. Quia maxime distinctio, error asperiores voluptatem maiores
-                         reprehenderit sinLorem ipsum dolor sit amet consectetur adipisicing elit. Quia maxime
-                         distinctio, error asperiores voluptatem maiores reprehenderit sinLorem ipsum dolor sit amet
-                         consectetur adipisicing elit. Quia maxime distinctio, error asperiores voluptatem maiores
-                         reprehenderit sint, impedit dolore excepturi sequi, autem aliquid suscipit ducimus rem deserunt
-                         quaerat aliquam debitis!</p>
-                    <p class="text-white my-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia maxime
-                         distinctio, error asperiores voluptatem maiores reprehenderit sint, impedit dolore excepturi
-                         sequi, autem aliquid suscipit ducimus rem deserunt quaerat aliquam debitis!</p>
+                    <p class="text-white my-5">Xenesis is an annual technical festival organized by LDRP-ITR, providing a platform for students to showcase their technical skills and compete with their peers. The festival brings together a diverse range of participants from different engineering colleges across the country.</p>
+                    <p class="text-white my-5">With a plethora of events, workshops, and technical talks, Xenesis aims to create an atmosphere that fosters learning, creativity, and innovation. The festival provides an opportunity for students to engage in hands-on technical activities, gain practical experience, and enhance their problem-solving abilities.</p>
+                    <p class="text-white my-5">At Xenesis, we strive to inspire and encourage the next generation of engineers and technologists. We believe that the festival is not just about competition but also about creating a sense of community and sparking a passion for technology.</p>
+                    <p class="text-white my-5">Our team comprises enthusiastic students who work tirelessly to organize and execute the festival. We aim to create a memorable experience for all participants and ensure that everyone has an enjoyable and rewarding time.</p>
+                    <p class="text-white my-5">Xenesis has been a resounding success over the years, attracting participants from far and wide. We are committed to making each edition of the festival better than the last, by incorporating feedback and improving the overall experience.</p>
+                    <p class="text-white my-5">Come be a part of the Xenesis family and join us in celebrating technology and innovation!</p>
                </div>
           </section>
      </div>
