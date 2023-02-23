@@ -80,7 +80,7 @@
                 <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/ticketVerifer">Verifer</a></li>
                 {%endif%}
                 <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/myTicket">My Tickets</a></li>
-<li class="mx-[calc(2vh)] py-2 w-14"></li>
+                <li class="mx-[calc(2vh)] py-2 w-14"></li>
                 {%endif%}
             </ul>
         </nav>
@@ -172,7 +172,12 @@
                 <!-- Faculty Co-ordinators -->
                 <div class="sm:text-center xl:mt-16 mt-10">
                     <p class="font-bold text-3xl mb-5 text-blue-400">Student Coordinators</p>
-                    <p class="text-gray-300 sm:text-lg"><b class="font-bold capitalize">{{organiser1}}</b> : {{organiser1Phone}},<br /> <b class="font-bold capitalize">{{organiser2}}</b> : {{organiser2Phone}},<br /> <b class="font-bold capitalize">{{organiser3}}</b> : {{organiser3Phone}},<br /> <b class="font-bold capitalize">{{organiser4}}</b> : {{organiser4Phone}},<br /> <b class="font-bold capitalize">{{organiser5}}</b> : {{organiser5Phone}}</p>
+                    <p class="text-gray-300 sm:text-lg">
+                        {%if organiser1 != None and organiser1 != " " and organiser1 != ""  %}<b class="font-bold capitalize">{{organiser1}}</b> : {{organiser1Phone}},<br /> {%endif%}
+                        {%if organiser2 != None and organiser2 != " " and organiser2 != ""  %}<b class="font-bold capitalize">{{organiser2}}</b> : {{organiser2Phone}},<br /> {%endif%}
+                        {%if organiser3 != None and organiser3 != " " and organiser3 != ""  %}<b class="font-bold capitalize">{{organiser3}}</b> : {{organiser3Phone}},<br /> {%endif%}
+                        {%if organiser4 != None and organiser4 != " " and organiser4 != ""  %}<b class="font-bold capitalize">{{organiser4}}</b> : {{organiser4Phone}},<br /> {%endif%}
+                        {%if organiser5 != None and organiser5 != " " and organiser5 != ""  %}<b class="font-bold capitalize">{{organiser5}}</b> : {{organiser5Phone}}{%endif%}</p>
                 </div>
                 <!-- Prizes -->
                 <div class="sm:text-center xl:mt-0 mt-10">
@@ -197,7 +202,7 @@
             </div>   
 
             <!-- Rules -->
-            <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-2 sm:gap-10 gap-6 sm:my-32 my-20 border">
+            <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-2 sm:gap-10 gap-6 sm:my-32 my-20">
                 <!-- Rules -->
                 <div>
                     <p class="font-bold text-3xl mb-5 text-blue-400">Rules of Event</p>
