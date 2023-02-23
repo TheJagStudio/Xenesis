@@ -32,7 +32,7 @@
 					<li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/ticketVerifer">Verifer</a></li>
 					{%endif%}
 					<li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/myTicket">My Tickets</a></li>
-<li class="mx-[calc(2vh)] py-2 w-14"></li>
+					<li class="mx-[calc(2vh)] py-2 w-14"></li>
 					{%endif%}
 				</ul>
 			</nav>
@@ -121,8 +121,8 @@
 				<a href="/">
 					<img src="/static/logoCus.png" class="h-14 w-auto" />
 				</a>
-
 				<div class="relative flex items-center justify-center gap-4">
+					{% if isUser == True %}
 					<!-- Profile Image -->
 					<img src="/static/avatars/{{profilePic}}.png" alt="" class="w-[45px] h-[45px] rounded-full object-cover bg-slate-300" onclick="toggleProfileDropdown()" />
 					<!-- Profile -->
@@ -135,10 +135,10 @@
 							</a>
 						</div>
 					</div>
+					{%endif%}
 					<!-- Menu Toggle Button -->
 					<button class="text-2xl block lg:hidden !outline-none" onclick="toggleMobileMenu()"><i class="bi bi-list"></i></button>
 				</div>
-
 				<!-- Mobile Menu -->
 				<div class="absolute top-0 left-full flex flex-col gap-5 items-center justify-center w-screen h-screen z-[999] bg-slate-900 bg-opacity-95 transition-all duration-300" id="mobile-menu">
 					<button class="absolute top-10 right-10 !outline-none" onclick="toggleMobileMenu()"><i class="bi bi-x-lg"></i></button>
@@ -164,78 +164,33 @@
 						<h2 class="text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">Tickets</h2>
 					</div>
 					<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6 xl:grid-cols-4">
-						<div class="flex grow flex-col pt-5 border rounded-lg bg-red-500/60">
-							<div class="flex items-center justify-between gap-5 w-full px-4">
-								<div class="avatar h-20 w-20">
-									<img class="rounded-full ring ring-[#ffffff]" src="/static/avatars/0001.png" alt="avatar" />
+						{% for ticket in data%}
+						<div id="ticket_{{ticket.id}}" class="flex grow flex-col justify-between pt-5 border rounded-lg {% if ticket.isPaid == True%}bg-green-500/60{%else%}bg-red-500/60{%endif%} transition-all duration-300">
+							<div class="flex items-center gap-5 w-full px-4">
+								<div class="avatar w-[20%] min-w-[20%]">
+									<img class="rounded-full ring ring-[#ffffff] w-full h-full object-cover bg-slate-500" src="/static/avatars/{{ticket.profilePic}}.png" alt="avatar" />
 								</div>
-								<div>
-									<h3 class="text-lg font-medium text-white dark:text-navy-100">Konnor Guzman</h3>
-									<p class="text-gray-400">Konnor@gmail.com</p>
+								<div class="overflow-hidden">
+									<h3 class="text-lg font-medium text-white dark:text-navy-100">{{ticket.username}}</h3>
+									<p class="text-gray-300 truncate">{{ticket.email}}</p>
+									<p class="capitalize text-white">Ticket id : T{{ticket.id}}</p>
 								</div>
 							</div>
+							{% if ticket.isPaid == True%}
+							<div class="mt-3 flex items-center justify-center h-48">
+								<img class="mix-blend-darken object-contain w-full h-full" src="https://chart.googleapis.com/chart?cht=qr&chl={{ticket.qrCodeData}}&chs=160x160&chld=L|0"/>
+							</div>
+							{%else%}
+							<div class="mt-3 flex items-center justify-center h-48">
+								<img class="mix-blend-darken object-contain w-full h-full" src="/static/pay.png"/>
+							</div>
+							{%endif%}
 							<div class="my-4 px-4">
-								<h1 class="text-white font-bold text-xl title-truncate">X-Motion game mania</h1>
-								<p class="text-white">₹ 100</p>
-							</div>
-							<div class="bg-[#2F1D69] text-white text-center p-2 rounded-b-lg font-semibold">
-								<button>Accept</button>
+								<h1 class="text-white font-bold text-xl title-truncate">{{ticket.eventName}}</h1>
+								<p class="text-white">₹ {{ticket.price}}</p>
 							</div>
 						</div>
-                        <div class="flex grow flex-col pt-5 border rounded-lg bg-green-500/60">
-							<div class="flex items-center justify-between gap-5 w-full px-4">
-								<div class="avatar h-20 w-20">
-									<img class="rounded-full ring ring-[#ffffff]" src="/static/avatars/0002.png" alt="avatar" />
-								</div>
-								<div>
-									<h3 class="text-lg font-medium text-white dark:text-navy-100">Konnor Guzman</h3>
-									<p class="text-gray-400">Konnor@gmail.com</p>
-								</div>
-							</div>
-							<div class="my-4 px-4">
-								<h1 class="text-white font-bold text-xl title-truncate">X-Motion game mania</h1>
-								<p class="text-white">₹ 100</p>
-							</div>
-							<div class="bg-[#2F1D69] text-white text-center p-2 rounded-b-lg font-semibold">
-								<button>Accept</button>
-							</div>
-						</div>
-                        <div class="flex grow flex-col pt-5 border rounded-lg bg-red-500/60">
-							<div class="flex items-center justify-between gap-5 w-full px-4">
-								<div class="avatar h-20 w-20">
-									<img class="rounded-full ring ring-[#ffffff]" src="/static/avatars/0001.png" alt="avatar" />
-								</div>
-								<div>
-									<h3 class="text-lg font-medium text-white dark:text-navy-100">Konnor Guzman</h3>
-									<p class="text-gray-400">Konnor@gmail.com</p>
-								</div>
-							</div>
-							<div class="my-4 px-4">
-								<h1 class="text-white font-bold text-xl title-truncate">X-Motion game mania</h1>
-								<p class="text-white">₹ 100</p>
-							</div>
-							<div class="bg-[#2F1D69] text-white text-center p-2 rounded-b-lg font-semibold">
-								<button>Accept</button>
-							</div>
-						</div>
-                        <div class="flex grow flex-col pt-5 border rounded-lg bg-green-500/60">
-							<div class="flex items-center justify-between gap-5 w-full px-4">
-								<div class="avatar h-20 w-20">
-									<img class="rounded-full ring ring-[#ffffff]" src="/static/avatars/0001.png" alt="avatar" />
-								</div>
-								<div>
-									<h3 class="text-lg font-medium text-white dark:text-navy-100">Konnor Guzman</h3>
-									<p class="text-gray-400">Konnor@gmail.com</p>
-								</div>
-							</div>
-							<div class="my-4 px-4">
-								<h1 class="text-white font-bold text-xl title-truncate">X-Motion game mania</h1>
-								<p class="text-white">₹ 100</p>
-							</div>
-							<div class="bg-[#2F1D69] text-white text-center p-2 rounded-b-lg font-semibold">
-								<button>Accept</button>
-							</div>
-						</div>
+						{%endfor%}
 					</div>
 				</div>
 			</section>
@@ -269,7 +224,7 @@
 						</div>
 						<div class="flex flex-col group cursor-pointer">
 							<p class="text-[#9740fe]">Phone:</p>
-							<p class="text-gray-300 text-sm group-hover:tranwhite transition-all duration-300">+91 999 999 9999</p>
+							<a class="text-gray-300 text-sm group-hover:tranwhite transition-all duration-300">+91 786 308 5614</a>
 						</div>
 					</div>
 				</div>

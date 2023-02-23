@@ -651,7 +651,7 @@ def ticketGenrator(request):
                 newTicket.qrCodeData = qrCodeData
                 newTicket.userCount = userCount
                 newTicket.save()
-                return HttpResponse(json.dumps({"msg": "Ticket has been generated successfully."}), content_type="application/json")
+                return HttpResponse(json.dumps({"msg": "You are successfully registered. Your registration will get confirmed and you will also see the ticket in your account once you make the payment."}), content_type="application/json")
             else:
                 eventName = body['event']
                 print(eventName)
@@ -692,7 +692,7 @@ def ticketGenrator(request):
                 newTicket.userCount = len(request.session['team'])
                 newTicket.save()
                 request.session['team'] = []
-                return HttpResponse(json.dumps({"msg": "Ticket has been generated successfully."}), content_type="application/json")
+                return HttpResponse(json.dumps({"msg": "You are successfully registered. Your registration will get confirmed and you will also see the ticket in your account once you make the payment."}), content_type="application/json")
         except Exception as error:
             return HttpResponse(json.dumps({"error": str(error)}), content_type="application/json")
     else:

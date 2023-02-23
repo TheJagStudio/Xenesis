@@ -58,7 +58,7 @@
 					<li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/ticketVerifer">Verifer</a></li>
 					{%endif%}
 					<li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/myTicket">My Tickets</a></li>
-<li class="mx-[calc(2vh)] py-2 w-14"></li>
+					<li class="mx-[calc(2vh)] py-2 w-14"></li>
 					{%endif%}
 				</ul>
 			</nav>
@@ -176,18 +176,20 @@
 				</a>
 
 				<div class="relative flex items-center justify-center gap-4 lg:hidden">
+					{% if isUser == True %}
 					<!-- Profile Image -->
 					<img src="/static/avatars/{{profilePic}}.png" alt="" class="w-[45px] h-[45px] rounded-full object-cover bg-slate-300" onclick="toggleProfileDropdown()" />
 					<!-- Profile -->
 					<div class="fixed right-10 top-6 z-[999] overflow-visible flex items-center justify-center gap-4 px-[calc(2vh)]">
 						<div class="absolute bg-slate-600 top-16 right-0 w-full min-w-[200px] rounded-md z-[999] h-0 overflow-hidden transition-all duration-300" id="profile-dropdown-mobile">
-							<p class="w-full px-4 text-white truncate capitalize"><i class="bi bi-person mr-2.5"></i>{{userName}}</p>
+							<p class="w-full px-4 text-white"><i class="bi bi-person mr-2.5"></i>{{userName}}</p>
 							<hr class="w-full my-2" />
 							<a href="/logout" class="">
-								<p class="w-full px-4 text-white"><i class="bi bi-box-arrow-right mr-2.5"></i>Logout</p>
+								<p class="w-full px-4 text-white truncate capitalize"><i class="bi bi-box-arrow-right mr-2.5"></i>Logout</p>
 							</a>
 						</div>
 					</div>
+					{%endif%}
 					<!-- Menu Toggle Button -->
 					<button class="text-2xl block lg:hidden !outline-none" onclick="toggleMobileMenu()"><i class="bi bi-list"></i></button>
 				</div>
@@ -333,7 +335,7 @@
 						</div>
 						<div class="flex flex-col group cursor-pointer">
 							<p class="text-[#9740fe]">Phone:</p>
-							<p class="text-gray-300 text-sm group-hover:translate-x-2 transition-all duration-300">+91 999 999 9999</p>
+							<a href="tel:7863085614" class="text-gray-300 text-sm group-hover:translate-x-2 transition-all duration-300">+91 786 308 5614</a>
 						</div>
 					</div>
 				</div>

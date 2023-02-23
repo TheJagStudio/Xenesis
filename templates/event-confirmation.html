@@ -59,7 +59,7 @@
             <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/ticketVerifer">Verifer</a></li>
             {%endif%}
             <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/myTicket">My Tickets</a></li>
-<li class="mx-[calc(2vh)] py-2 w-14"></li>
+            <li class="mx-[calc(2vh)] py-2 w-14"></li>
             {%endif%}
         </ul>
     </nav>
@@ -132,14 +132,14 @@
             <img class="rounded-full" src="/static/avatars/{{profilePic}}.png" alt="avatar" />
             
         </div>
-        <div class="mt-4 px-4 sm:px-12">
+        <div class="mt-4 px-14 sm:px-4">
             <h3 class="text-lg text-slate-800 dark:text-navy-50">
-            Please Confirm Your Payment
+            Are you sure you want to register
             </h3>
-            <p class="mt-1 text-slate-500 dark:text-navy-200">
+            <!-- <p class="mt-1 text-slate-500 dark:text-navy-200">
             On confirming your payment will be processed immediately.
-            </p>
-        </div>
+            </p> -->
+        </div>  
         <div class="my-4 mt-16 h-px bg-slate-200 dark:bg-navy-500"></div>
 
         <div class="space-x-3">
@@ -215,7 +215,7 @@
                     </div>
                     <div class="flex flex-col group cursor-pointer">
                         <p class="text-[#9740fe]">Phone:</p>
-                        <p class="text-gray-300 text-sm group-hover:translate-x-2 transition-all duration-300">+91 999 999 9999</p>
+                        <a href="tel:7863085614" class="text-gray-300 text-sm group-hover:translate-x-2 transition-all duration-300">+91 786 308 5614</a>
                     </div>
                 </div>
             </div>

@@ -105,9 +105,9 @@
             <a href="/">
                 <img src="/static/logoCus.png" class="h-14 w-auto" />
             </a>
-
             <div class="relative flex items-center justify-center gap-4 lg:hidden">
                 <!-- Profile Image -->
+                {% if isUser == True %}
                 <img src="/static/avatars/{{profilePic}}.png" alt="" class="w-[45px] h-[45px] rounded-full object-cover bg-slate-300" onclick="toggleProfileDropdown()" />
                 <!-- Profile -->
                 <div class="fixed right-10 top-6 z-[999] overflow-visible flex items-center justify-center gap-4 px-[calc(2vh)]">
@@ -119,6 +119,7 @@
                         </a>
                     </div>
                 </div>
+                {%endif%}
                 <!-- Menu Toggle Button -->
                 <button class="text-2xl block lg:hidden !outline-none" onclick="toggleMobileMenu()"><i class="bi bi-list"></i></button>
             </div>
@@ -196,7 +197,7 @@
             </div>   
 
             <!-- Rules -->
-            <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-2 sm:gap-10 gap-6 sm:my-32 my-20">
+            <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-2 sm:gap-10 gap-6 sm:my-32 my-20 border">
                 <!-- Rules -->
                 <div>
                     <p class="font-bold text-3xl mb-5 text-blue-400">Rules of Event</p>
@@ -206,7 +207,7 @@
                         {%endfor%}
                     </ul>
                 </div>
-                <img src="/static/login/login-back.png" alt="" class=" w-full h-full rounded-xl ">
+                <img src="/static/login/login-back.png" alt="" class="w-full h-full max-h-[300px] object-cover rounded-xl ">
             </div>
             <!-- Rounds -->
             {% if rounds.0.2 > 10 %}
@@ -362,7 +363,7 @@
 					</div>
 					<div class="flex flex-col group cursor-pointer">
 						<p class="text-[#9740fe]">Phone:</p>
-						<p class="text-gray-300 text-sm group-hover:translate-x-2 transition-all duration-300">+91 999 999 9999</p>
+						<a href="tel:7863085614" class="text-gray-300 text-sm group-hover:translate-x-2 transition-all duration-300">+91 786 308 5614</a>
 					</div>
 				</div>
 			</div>

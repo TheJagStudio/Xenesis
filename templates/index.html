@@ -192,6 +192,7 @@
 				</a>
 
 				<div class="relative flex items-center justify-center gap-4">
+					{% if isUser == True %}
 					<!-- Profile Image -->
 					<img src="/static/avatars/{{profilePic}}.png" alt="" class="w-[45px] h-[45px] rounded-full object-cover bg-slate-300" onclick="toggleProfileDropdown()" />
 					<!-- Profile -->
@@ -204,6 +205,7 @@
 							</a>
 						</div>
 					</div>
+					{%endif%}
 					<!-- Menu Toggle Button -->
 					<button class="text-2xl block lg:hidden !outline-none" onclick="toggleMobileMenu()"><i class="bi bi-list"></i></button>
 				</div>
@@ -365,7 +367,7 @@
 						</div>
 						<div class="flex flex-col group cursor-pointer">
 							<p class="text-[#9740fe]">Phone:</p>
-							<p class="text-gray-300 text-sm group-hover:translate-x-2 transition-all duration-300">+91 999 999 9999</p>
+							<a href="tel:7863085614" class="text-gray-300 text-sm group-hover:translate-x-2 transition-all duration-300">+91 786 308 5614</a>
 						</div>
 					</div>
 				</div>
