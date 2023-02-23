@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, minimum-scale=1.0">
+    <title>Xenesis - Login</title>
+    <link rel="stylesheet" href="./static/tailwind.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <style>
+        @media screen and (max-width: 830px) {
+            .form-header h1 {
+                font-size: 1.6rem;
+            }
+        }
+        @media screen and (max-width: 645px) {
+            .login-card {
+                position: relative !important;
+                background-size: 300% !important;
+                background-position: center; 
+            }
+        }
+        @media screen and (max-width: 580px) {
+            .form {
+                padding-top: 5rem !important;
+            }
+        }
+        @media screen and (max-width: 501px) {
+            .login-card {
+                background: none !important;
+                background-color: rgba(0, 0, 0, 0.6) !important;
+            }
+            .form {
+                padding: 2rem !important;
+            }
+        }
+        @media screen and (max-width: 401px) {
+            .form {
+                padding: 2.5rem 2rem !important;
+            }
+            .form-header {
+                /* column-gap: 5px !important; */
+                flex-direction: column;
+            }
+            /* .form-header-logo {
+                width: 60px !important;
+                height: 60px !important;
+            } */
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Main -->
+    <div onmousemove="animateObjects(event)" id="main"
+        class='relative bg-[url("/static/login/login-back.png")] relative overflow-hidden bg-cover bg-no-repeat min-h-[100vh] w-full h-full mb-0 flex items-center justify-center'>
+
+        <!-- Login Card -->
+        <div class='login-card absolute lg:bottom-4 -bottom-4 flex items-center bg-[url("/static/login/login-card.png")] bg-no-repeat bg-center justify-center max-w-[1000px] sm:w-[80%] w-[90%] lg:h-[600px] sm:h-[650px] h-auto rounded-xl bg-cover lg:ml-0 sm:ml-16 ml-0'>
+            <form method='POST' enctype='multipart/form-data'
+                class='max-w-[500px] sm:w-[80%] w-full h-auto flex flex-col items-center py-12 pb-10 sm:mt-28 mt-0 z-10
+                xl:px-11 
+                lg:px-16
+                md:px-20 md:ml-1 sm:py-20
+                sm:px-[5%] sm:w-[74%]
+                px-16 pb-7 py-5 form'>
+                <div class="flex items-center justify-center lg:mb-9 mb-8 gap-4 form-header">
+                    <img src="./static/ldrp.png" alt="" class="w-[70px] h-[70px] form-header-logo">
+                    <div>
+                        <h1 class='welcome-h1 font-bold xl:text-4xl sm:text-3xl text-2xl text-transparent bg-clip-text bg-gradient-to-tr from-orange-500 to-yellow-300 uppercase mb-1 text-center'>
+                            Welcome back! 
+                        </h1>
+                        <p class="text-center  xl:text-base md:text-sm sm:text-base font-extralight text-white">Login to access the xenesis world</p>
+                    </div>
+                </div>
+                <div class='w-full flex flex-col gap-7 w-full mb-1'>
+                    <div class='flex group relative w-full justify-center'>
+                        <input type="email" id='email' spellCheck='false' class='peer bg-transparent w-full pr-3 pl-1 py-2 transition-all duration-300 outline-none text-white border-b-[1px] border-orange-300
+                        invalid:border-pink-300 invalid:text-pink-400 focus:invalid:border-pink-300' placeholder=' '
+                            tabIndex="1" />
+                        <label for='email'
+                            class='absolute left-0 -top-4 text-orange-300 text-sm transition-all duration-300
+                        peer-focus:text-sm peer-focus:-top-4 peer-invalid:text-pink-400
+                        peer-placeholder-shown:top-2 peer-placeholder-shown:text-base peer-placeholder-shown:text-white'>Email</label>
+                    </div>
+                    <div class='flex group relative w-full justify-center'>
+                        <input type="password" id='password' spellCheck='false' class='peer bg-transparent w-full pr-3 pl-1 py-2 transition-all duration-300 outline-none text-white border-b-[1px] border-orange-300
+                        invalid:border-pink-300 invalid:text-pink-400 focus:invalid:border-pink-300' placeholder=' '
+                            minLength="8" maxLength="16" tabIndex="2" />
+                        <label for='password'
+                            class='absolute left-0 -top-4 text-orange-300 text-sm transition-all duration-300
+                        peer-focus:text-sm peer-focus:-top-4 peer-invalid:text-pink-400
+                        peer-placeholder-shown:top-2 peer-placeholder-shown:text-base peer-placeholder-shown:text-white'>Password</label>
+                    </div>
+                    <a href="./forgot-password.html" class="text-white text-xs italic w-full text-right transition-all duration-200 -mt-5 hover:-translate-x-1">Forgot Password ?</a>
+                </div>
+                <input type="submit" value="Login" tabIndex="7"
+                    class='bg-gradient-to-tr from-orange-500 to-yellow-300 outline-none mt-4 xl:px-16 lg:px-12 sm:px-10 px-9 py-1.5 text-[#f0e2ea] xl:text-lg lg:text-md font-semibold cursor-pointer transition-all duration-200 focus:-translate-y-1 hover:clip-button hover:bg-yellow-500 hover:ring hover:ring-yellow-100 rounded-md' />
+            </form>
+        </div>
+
+        <!-- Parallax Div -->
+        <div class="absolute w-[100vw] min-h-[100vh] h-full">
+            <img src="./static/login/login-left.png" alt="" class="absolute lg:h-[90vh] md:h-[60vh] sm:h-[35vh] sm:block hidden left-0 bottom-0" id="left-tree">
+            <img src="./static/login/login-right.png" alt="" class="absolute lg:h-[90vh] md:h-[60vh] sm:h-[35vh] sm:block hidden right-0 bottom-0" id="right-tree">
+            <img src="./static/login/login-bird.png" alt="" class="absolute lg:h-[90vh] md:h-[60vh] sm:h-[35vh] sm:block hidden right-[10%] top-[10%]" id="bird">
+        </div>
+
+        <!-- Link to Home Div -->
+        <a href="index.html" class="absolute top-5 left-5 flex flex-col items-center cursor-pointer hover:scale-[1.15] z-30 transition-all duration-300">
+            <i class="bi bi-house-door text-xl text-white bg-[#240a34] px-3 py-2 rounded-full hover:shadow-white hover:shadow-2xl"></i>
+            <p class="mt-1 text-white bg-[#240a34] rounded-md px-2 hidden md:block">Home</p>
+        </a>
+    </div>
+
+    <script src="./static/tailwind.js"></script>
+    <script>
+        let left_tree = document.querySelector('#left-tree');
+        let right_tree = document.querySelector('#right-tree');
+        let bird = document.querySelector('#bird');
+        let loginBg = document.querySelector('#main');
+
+        function animateObjects(event) {
+            let mouseX = event.clientX;
+            let mouseY = event.clientY;
+
+            left_tree.style.left = mouseX * 0.001 + 'px';
+            left_tree.style.bottom = -mouseY * 0.03 + 'px';
+
+            right_tree.style.right = mouseX * 0.001 + 'px';
+            right_tree.style.bottom = mouseY * 0.008 + 'px';
+
+            bird.style.right = mouseX * 0.1 + "px";
+            bird.style.top = mouseY * 0.05 + 'px';
+
+            // loginBg.style.backgroundPositionX = -event.offsetX * 0.01 + "px";
+            // loginBg.style.backgroundPositionY = -event.offsetY * 0.01 + "px";
+        }
+    </script>
+</body>
+
+</html>

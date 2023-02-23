@@ -11,12 +11,12 @@ let profileDropdownMobile = document.querySelector("#profile-dropdown-mobile");
 let profileDropdown = document.querySelector("#profile-dropdown");
 function toggleProfileDropdown() {
 	// Dropdown for Mobile
-	profileDropdownMobile.classList.toggle("h-none");
+	profileDropdownMobile.classList.toggle("h-0");
 	profileDropdownMobile.classList.toggle("h-auto");
 	profileDropdownMobile.classList.toggle("border");
 	profileDropdownMobile.classList.toggle("py-3");
 	// Dropdown for Laptop - Tablet
-	profileDropdown.classList.toggle("h-none");
+	profileDropdown.classList.toggle("h-0");
 	profileDropdown.classList.toggle("h-auto");
 	profileDropdown.classList.toggle("border");
 	profileDropdown.classList.toggle("py-3");

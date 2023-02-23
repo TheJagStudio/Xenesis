@@ -14,18 +14,18 @@ class DepartmentAdmin(ExportActionMixin, admin.ModelAdmin):
 
 
 class EventAdmin(ExportActionMixin, admin.ModelAdmin):
-    list_display = ('name', 'department', 'price', 'location')
-    search_fields = ['name', 'department__name', 'price', 'location']
+    list_display = ('name', 'price', 'location')
+    search_fields = ['name',  'price', 'location']
 
 
 class TicketAdmin(ExportActionMixin, admin.ModelAdmin):
-    list_display = ('owner', 'event', 'date')
-    search_fields = ['owner', 'event__name', 'date']
+    list_display = ('owner',  'date')
+    search_fields = ['owner',  'date']
 
 
 class NotificationsAdmin(ExportActionMixin, admin.ModelAdmin):
-    list_display = ('user', 'event', 'dateTime')
-    search_fields = ['user', 'event__name', 'dateTime']
+    list_display = ('user',  'dateTime')
+    search_fields = ['user',  'dateTime']
 
 class GalleryAdmin(ExportActionMixin, admin.ModelAdmin):
     list_display = ('path',)

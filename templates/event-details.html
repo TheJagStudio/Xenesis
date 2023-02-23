@@ -171,7 +171,7 @@
                 <!-- Faculty Co-ordinators -->
                 <div class="sm:text-center xl:mt-16 mt-10">
                     <p class="font-bold text-3xl mb-5 text-blue-400">Student Coordinators</p>
-                    <p class="text-gray-300 sm:text-lg">{{organiser1}},<br /> {{organiser2}},<br /> {{organiser3}},<br /> {{organiser4}},<br /> {{organiser5}}</p>
+                    <p class="text-gray-300 sm:text-lg"><b class="font-bold capitalize">{{organiser1}}</b> : {{organiser1Phone}},<br /> <b class="font-bold capitalize">{{organiser2}}</b> : {{organiser2Phone}},<br /> <b class="font-bold capitalize">{{organiser3}}</b> : {{organiser3Phone}},<br /> <b class="font-bold capitalize">{{organiser4}}</b> : {{organiser4Phone}},<br /> <b class="font-bold capitalize">{{organiser5}}</b> : {{organiser5Phone}}</p>
                 </div>
                 <!-- Prizes -->
                 <div class="sm:text-center xl:mt-0 mt-10">
@@ -179,7 +179,7 @@
                     <div class="flex items-center justify-center gap-12 pt-4">
                         <div>
                             <img src="/static/trophy/1.png" alt="" class="w-[100px] mix-blend-screen mb-3">
-                            <p class="text-sm sm:text-lg flex flex-col items-center"><span class="font-semibold text-base text-gray-300">1st</span> ₹ 1,500</p>
+                            <p class="text-sm sm:text-lg flex flex-col items-center"><span class="font-semibold text-base text-gray-300">1st</span> ₹ 1,000</p>
                         </div>
                         <div>
                             <img src="/static/trophy/2.png" alt="" class="w-[100px] mix-blend-screen mb-3">
@@ -265,17 +265,17 @@
 
         <!-- Add Event to Cart Div -->
         {% if isUser == True %}
-        {% if isTeamEvent == True %}
-        <a class="w-full h-full relative z-50" href="/addTeamMembers">
-            <button class="fixed bottom-5 right-5 group !outline-none z-50 px-10 py-3 border rounded-lg bg-[#221144] text-white text-lg add-to-cart-btn animate-bounce">
-                <span class=" flex items-center gap-1">Register Team </span>
-            </button>
-        </a>
-        {%else%}
-            <button onclick="ConfirmationModalToggle()" class="fixed bottom-5 right-5 group !outline-none z-50 px-10 py-3 border rounded-lg bg-[#221144] text-white text-lg add-to-cart-btn animate-bounce bg-green-500">
-                <i class="transition-all duration-200 bi bi-paypal group-hover:mr-1"></i> Register
-            </button>
-        {%endif%}
+            {% if isTeamEvent == True %}
+            <a class="w-full h-full relative z-50" href="/addTeamMembers">
+                <button class="fixed bottom-5 right-5 group !outline-none z-50 px-10 py-3 border rounded-lg bg-[#221144] text-white text-lg add-to-cart-btn animate-bounce">
+                    <span class=" flex items-center gap-1">Register Team </span>
+                </button>
+            </a>
+            {%else%}
+                <button onclick="ConfirmationModalToggle()" class="fixed bottom-5 right-5 group !outline-none z-50 px-10 py-3 border rounded-lg bg-[#221144] text-white text-lg add-to-cart-btn animate-bounce bg-green-500">
+                    <i class="transition-all duration-200 bi bi-paypal group-hover:mr-1"></i> Pay
+                </button>
+            {%endif%}
         {%endif%}
 
     </section>
@@ -287,13 +287,13 @@
             <img class="rounded-full" src="/static/avatars/{{profilePic}}.png" alt="avatar" />
             
         </div>
-        <div class="mt-4 px-4 sm:px-12">
+        <div class="mt-4 px-14 sm:px-4">
             <h3 class="text-lg text-slate-800 dark:text-navy-50">
-            Please Confirm Your Payment
+            Are you sure you want to register
             </h3>
-            <p class="mt-1 text-slate-500 dark:text-navy-200">
+            <!-- <p class="mt-1 text-slate-500 dark:text-navy-200">
             On confirming your payment will be processed immediately.
-            </p>
+            </p> -->
         </div>
         <div class="my-4 mt-16 h-px bg-slate-200 dark:bg-navy-500"></div>
 
@@ -330,7 +330,7 @@
 				})
 				.then(response => response.json())
 				.then(json => {})
-            alert("payment has been confirm")
+            alert("You are successfully registered. Your registration will get confirmed and you will also see the ticket in your account once you make the payment.")
         }
     </script>
     {%endif%}
@@ -371,9 +371,9 @@
 				<h3 class="font-bold text-white lg:!text-xl sm:!text-[1.05rem] mb-5 pb-2 relative after:content-&quot;&quot; after:absolute after:left-0 after:bottom-0 md:after:w-[50%] after:w-[100px] after:h-[3px] after:bg-[#9704fe]">Social Links</h3>
 				<p class="lg:!max-w-[250px] md:!max-w-[200px] text-gray-300">Get in touch! Find us on any platform.</p>
 				<div class="flex items-center justify-start lg:gap-5 gap-4 md:mt-4 mt-2">
-					<a href="https://www.instagram.com/xenesisldrp/" class="text-gray-400 lg:text-xl md:text-lg text-base hover:-translate-y-1.5 hover:text-[#9740fe] transition-all duration-300"><i class="bi bi-facebook"></i></a>
+					<a href="https://www.facebook.com/xenesisldrp/" class="text-gray-400 lg:text-xl md:text-lg text-base hover:-translate-y-1.5 hover:text-[#9740fe] transition-all duration-300"><i class="bi bi-facebook"></i></a>
 					<a href="https://twitter.com/xenesisldrp" class="text-gray-400 lg:text-xl md:text-lg text-base hover:-translate-y-1.5 hover:text-[#9740fe] transition-all duration-300"><i class="bi bi-twitter"></i></a>
-					<a href="https://www.facebook.com/xenesisldrp/" class="text-gray-400 lg:text-xl md:text-lg text-base hover:-translate-y-1.5 hover:text-[#9740fe] transition-all duration-300"><i class="bi bi-instagram"></i></a>
+					<a href="https://www.instagram.com/xenesisldrp/" class="text-gray-400 lg:text-xl md:text-lg text-base hover:-translate-y-1.5 hover:text-[#9740fe] transition-all duration-300"><i class="bi bi-instagram"></i></a>
 					<a href="#" class="text-gray-400 lg:text-xl md:text-lg text-base hover:-translate-y-1.5 hover:text-[#9740fe] transition-all duration-300"><i class="bi bi-youtube"></i></a>
 				</div>
 			</div>

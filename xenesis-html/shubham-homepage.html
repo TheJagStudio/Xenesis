@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+     <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, minimum-scale=1.0">
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi&display=swap" rel="stylesheet">
+     <script src="./static/tailwind.js"></script>
+     <link rel="stylesheet" href="./static/tailwind.css">
+     <title>Xenesis</title>
+     <style>
+          * {
+               scroll-behavior: smooth;
+          }
+
+          .eventName {
+               text-shadow: -1px 1px 0 #000,
+                    1px 1px 0 #000,
+                    1px -1px 0 #000,
+                    -1px -1px 0 #000;
+          }
+
+          .customScrollbar::-webkit-scrollbar {
+               display: none;
+          }
+
+          .radial-gradient-container {
+               background: radial-gradient(at top left, #211e60 1%, #240a34 50%);
+          }
+
+          .clip-copyrights {
+            clip-path: polygon(0 0, 85% 0%, 100% 100%, 0% 100%);
+          }
+          .clip-button {
+               clip-path: polygon(0% 0%, 90% 0, 100% 30%, 100% 100%, 0 100%);
+          }
+     </style>
+</head>
+
+<body>
+
+     <div class="md:block hidden">
+          <nav class="flex items-center justify-between text-white fixed w-full top-0 py-[calc(3vh)] px-[calc(3vh)] z-50 transition-all duration-300"
+               id="navbar">
+               <div>
+                    <h1 class="text-[calc(3vh)]">Logo</h1>
+               </div>
+               <ul class="flex items-center">
+                    <li class="px-[calc(2vh)] font-semibold text-[calc(3vh)]"><a href="/">Home</a></li>
+                    <li class="px-[calc(2vh)] font-semibold text-[calc(3vh)]"><a href="/">Events</a></li>
+                    <li class="px-[calc(2vh)] font-semibold text-[calc(3vh)]"><a href="/">About Us</a>
+                    </li>
+                    <div class="px-[calc(2vh)] font-semibold text-[calc(3vh)]">
+                         <button>Register for Event</button>
+                    </div>
+               </ul>
+          </nav>
+
+          <div class="w-full h-screen overflow-hidden customScrollbar relative">
+               <canvas id="canvas" class="w-screen h-[calc((1024/1536)*100vw)] absolute top-0 z-0"></canvas>
+               <div class="absolute top-1/2 -translate-y-1/2 px-[calc(3vh)] w-1/2">
+                    <h1
+                         class="text-[calc(12vh)] text-white uppercase font-bold bg-white w-fit bg-clip-text text-transparent">
+                         Xenesis
+                    </h1>
+                    <p
+                         class="text-[calc(5vh)] text-white uppercase font-bold bg-gradient-to-r from-orange-500 via-white to-green-500 w-fit bg-clip-text text-transparent font-['Tiro_Devanagari_Hindi','serif']">
+                         <q> कौशल&nbsp;भारत&nbsp;कुशल&nbsp;भारत </q>
+                    </p>
+                    <p class="text-[calc(2.5vh)] text-white">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                         Nobis,
+                         quidem sunt repellendus culpa vitae unde reprehenderit sed nostrum aliquid fuga cumque quisquam
+                         natus reiciendis illo quia accusamus vero praesentium placeat?</p>
+               </div>
+          </div>
+
+          <section class="radial-gradient-container w-full py-[calc(3vh)]">
+               <div class="w-full text-center">
+                    <h3 class='uppercase text-white font-semibold'>Departments</h3>
+                    <p class='text-gray-500 text-center my-3 mx-auto w-[500px]'>Check out various events from various
+                         engineering departments.</p>
+               </div>
+               <div class="grid grid-cols-5 gap-5 px-[calc(3vh)]">
+                    <div class="w-full rounded-lg bg-white/10 backdrop-blur-md mx-2">
+                         <div class="overflow-hidden rounded-t-lg">
+                              <img src="https://images.pexels.com/photos/8470810/pexels-photo-8470810.jpeg?auto=compress&cs=tinysrgb"
+                                   alt="" class="h-52 w-full object-cover hover:scale-110 transition-all duration-300">
+                         </div>
+                         <h1 class="p-4 text-white font-bold text-center">Computer Engineering</h1>
+                    </div>
+                    <div class="w-full rounded-lg bg-white/10 backdrop-blur-md mx-2">
+                         <div class="overflow-hidden rounded-t-lg">
+                              <img src="https://images.pexels.com/photos/8470810/pexels-photo-8470810.jpeg?auto=compress&cs=tinysrgb"
+                                   alt="" class="h-52 w-full object-cover hover:scale-110 transition-all duration-300">
+                         </div>
+                         <h1 class="p-4 text-white font-bold text-center">Computer Engineering</h1>
+                    </div>
+                    <div class="w-full rounded-lg bg-white/10 backdrop-blur-md mx-2">
+                         <div class="overflow-hidden rounded-t-lg">
+                              <img src="https://images.pexels.com/photos/8470810/pexels-photo-8470810.jpeg?auto=compress&cs=tinysrgb"
+                                   alt="" class="h-52 w-full object-cover hover:scale-110 transition-all duration-300">
+                         </div>
+                         <h1 class="p-4 text-white font-bold text-center">Computer Engineering</h1>
+                    </div>
+                    <div class="w-full rounded-lg bg-white/10 backdrop-blur-md mx-2">
+                         <div class="overflow-hidden rounded-t-lg">
+                              <img src="https://images.pexels.com/photos/8470810/pexels-photo-8470810.jpeg?auto=compress&cs=tinysrgb"
+                                   alt="" class="h-52 w-full object-cover hover:scale-110 transition-all duration-300">
+                         </div>
+                         <h1 class="p-4 text-white font-bold text-center">Computer Engineering</h1>
+                    </div>
+                    <div class="w-full rounded-lg bg-white/10 backdrop-blur-md mx-2">
+                         <div class="overflow-hidden rounded-t-lg">
+                              <img src="https://images.pexels.com/photos/8470810/pexels-photo-8470810.jpeg?auto=compress&cs=tinysrgb"
+                                   alt="" class="h-52 w-full object-cover hover:scale-110 transition-all duration-300">
+                         </div>
+                         <h1 class="p-4 text-white font-bold text-center">Computer Engineering</h1>
+                    </div>
+               </div>
+          </section>
+
+          <div class="w-full h-fit overflow-hidden customScrollbar relative">
+               <canvas id="canvas1" class="w-screen h-[calc((1024/1536)*100vw)] absolute top-0 z-0"></canvas>
+               <div class="relative w-full h-screen absolute top-1/2 p-6">
+                    <div class='flex flex-col items-center justify-center w-full'>
+                         <h3 class='uppercase text-white font-semibold'>Explore Our Events</h3>
+                         <p class='text-gray-500 text-center my-3 mx-auto w-[500px]'>Take a look at the events organized
+                              by
+                              our
+                              students and feel free to register in any event you want to.</p>
+                    </div>
+                    <div class="flex items-center">
+                         <div class="hover:scale-110 scale-100 origin-center transition-all duration-300"
+                              onclick="handleRight()">
+                              <i class="bi bi-arrow-left-square text-3xl text-white cursor-pointer"></i>
+                         </div>
+                         <div class="flex items-center gap-5 mx-2 overflow-hidden" id="eventSlider">
+                              <div class="bg-[#AAABE2]/50 backdrop-blur-md rounded-lg group min-w-[28vw] max-w-[28vw]"
+                                   id="event">
+                                   <div class="w-full rounded-t-lg overflow-hidden relative group">
+                                        <img src="./static/1.jpg" alt="1"
+                                             class="group-hover:scale-110 h-full w-full object-cover overflow-hidden transition-all duration-300">
+                                   </div>
+                                   <div class="my-3 px-4">
+                                        <h1 class="text-white font-bold text-2xl capitalize eventName">X-motion game
+                                             mania
+                                        </h1>
+                                        <p
+                                             class=" text-[#2F1D69] text-lg my-2 font-semibold rounded-lg capitalize w-fit">
+                                             ₹100 per
+                                             head</p>
+                                        <a href="/"
+                                             class="bg-[#2F1D69] text-white font-semibold px-2 py-1 rounded-lg">Register</a>
+                                   </div>
+                                   <p class="mt-2 px-4 text-white my-3">Lorem ipsum dolor sit amet, consectetur
+                                        adipisicing
+                                        elit.
+                                        Dignissimos, nisi officia.
+                                        Ratione natus doloremque magni quam explicabo</p>
+                                   <div
+                                        class="flex items-end justify-center bg-[#2F1D69] h-14 px-2 -pt-10 pb-0 rounded-b-lg relative">
+                                        <div class="flex flex-col items-center absolute bottom-0 left-20">
+                                             <p
+                                                  class="text-[#2F1D69] font-semibold bg-white rounded-full h-5 w-5 flex items-center justify-center mb-1 font-bold">
+                                                  2</p>
+                                             <p
+                                                  class="bg-gray-500 px-4 py-[3px] text-white font-semibold transition-all duration-300 hover:py-5">
+                                                  ₹1500</p>
+                                        </div>
+                                        <div class="flex flex-col items-center absolute bottom-0 ">
+                                             <p
+                                                  class="text-[#2F1D69] font-semibold bg-white rounded-full h-5 w-5 flex items-center justify-center mb-1 font-bold">
+                                                  1</p>
+                                             <p
+                                                  class="bg-yellow-500 px-4 py-2 text-white font-semibold transition-all duration-300 hover:py-5">
+                                                  ₹2000</p>
+                                        </div>
+                                        <div class="flex flex-col items-center absolute bottom-0 right-20">
+                                             <p
+                                                  class="text-[#2F1D69] font-semibold bg-white rounded-full h-5 w-5 flex items-center justify-center mb-1 font-bold">
+                                                  3</p>
+                                             <p
+                                                  class="bg-orange-900 px-4 py-[3px] text-white font-semibold transition-all duration-300 hover:py-5">
+                                                  ₹1000</p>
+                                        </div>
+                                   </div>
+                              </div>
+                              <div class="bg-[#AAABE2]/50 backdrop-blur-md rounded-lg group min-w-[28vw] max-w-[28vw]"
+                                   id="event">
+                                   <div class="w-full rounded-t-lg overflow-hidden relative group">
+                                        <img src="./static/2.jpg" alt="1"
+                                             class="group-hover:scale-110 h-full w-full object-cover overflow-hidden transition-all duration-300">
+                                   </div>
+                                   <div class="my-3 px-4">
+                                        <h1 class="text-white font-bold text-2xl capitalize eventName">X-motion game
+                                             mania
+                                        </h1>
+                                        <p
+                                             class=" text-[#2F1D69] text-lg my-2 font-semibold rounded-lg capitalize w-fit">
+                                             ₹100 per
+                                             head</p>
+                                        <a href="/"
+                                             class="bg-[#2F1D69] text-white font-semibold px-2 py-1 rounded-lg">Register</a>
+                                   </div>
+                                   <p class="mt-2 px-4 text-white my-3">Lorem ipsum dolor sit amet, consectetur
+                                        adipisicing
+                                        elit.
+                                        Dignissimos, nisi officia.
+                                        Ratione natus doloremque magni quam explicabo</p>
+                                   <div
+                                        class="flex items-end justify-center bg-[#2F1D69] h-14 px-2 -pt-10 pb-0 rounded-b-lg relative">
+                                        <div class="flex flex-col items-center absolute bottom-0 left-20">
+                                             <p
+                                                  class="text-[#2F1D69] font-semibold bg-white rounded-full h-5 w-5 flex items-center justify-center mb-1 font-bold">
+                                                  2</p>
+                                             <p
+                                                  class="bg-gray-500 px-4 py-[3px] text-white font-semibold transition-all duration-300 hover:py-5">
+                                                  ₹1500</p>
+                                        </div>
+                                        <div class="flex flex-col items-center absolute bottom-0 ">
+                                             <p
+                                                  class="text-[#2F1D69] font-semibold bg-white rounded-full h-5 w-5 flex items-center justify-center mb-1 font-bold">
+                                                  1</p>
+                                             <p
+                                                  class="bg-yellow-500 px-4 py-2 text-white font-semibold transition-all duration-300 hover:py-5">
+                                                  ₹2000</p>
+                                        </div>
+                                        <div class="flex flex-col items-center absolute bottom-0 right-20">
+                                             <p
+                                                  class="text-[#2F1D69] font-semibold bg-white rounded-full h-5 w-5 flex items-center justify-center mb-1 font-bold">
+                                                  3</p>
+                                             <p
+                                                  class="bg-orange-900 px-4 py-[3px] text-white font-semibold transition-all duration-300 hover:py-5">
+                                                  ₹1000</p>
+                                        </div>
+                                   </div>
+                              </div>
+                              <div class="bg-[#AAABE2]/50 backdrop-blur-md rounded-lg group min-w-[28vw] max-w-[28vw]"
+                                   id="event">
+                                   <div class="w-full rounded-t-lg overflow-hidden relative group">
+                                        <img src="./static/4.jpg" alt="1"
+                                             class="group-hover:scale-110 h-full w-full object-cover overflow-hidden transition-all duration-300">
+                                   </div>
+                                   <div class="my-3 px-4">
+                                        <h1 class="text-white font-bold text-2xl capitalize eventName">X-motion game
+                                             mania
+                                        </h1>
+                                        <p
+                                             class=" text-[#2F1D69] text-lg my-2 font-semibold rounded-lg capitalize w-fit">
+                                             ₹100 per
+                                             head</p>
+                                        <a href="/"
+                                             class="bg-[#2F1D69] text-white font-semibold px-2 py-1 rounded-lg">Register</a>
+                                   </div>
+                                   <p class="mt-2 px-4 text-white my-3">Lorem ipsum dolor sit amet, consectetur
+                                        adipisicing
+                                        elit.
+                                        Dignissimos, nisi officia.
+                                        Ratione natus doloremque magni quam explicabo</p>
+                                   <div
+                                        class="flex items-end justify-center bg-[#2F1D69] h-14 px-2 -pt-10 pb-0 rounded-b-lg relative">
+                                        <div class="flex flex-col items-center absolute bottom-0 left-20">
+                                             <p
+                                                  class="text-[#2F1D69] font-semibold bg-white rounded-full h-5 w-5 flex items-center justify-center mb-1 font-bold">
+                                                  2</p>
+                                             <p
+                                                  class="bg-gray-500 px-4 py-[3px] text-white font-semibold transition-all duration-300 hover:py-5">
+                                                  ₹1500</p>
+                                        </div>
+                                        <div class="flex flex-col items-center absolute bottom-0 ">
+                                             <p
+                                                  class="text-[#2F1D69] font-semibold bg-white rounded-full h-5 w-5 flex items-center justify-center mb-1 font-bold">
+                                                  1</p>
+                                             <p
+                                                  class="bg-yellow-500 px-4 py-2 text-white font-semibold transition-all duration-300 hover:py-5">
+                                                  ₹2000</p>
+                                        </div>
+                                        <div class="flex flex-col items-center absolute bottom-0 right-20">
+                                             <p
+                                                  class="text-[#2F1D69] font-semibold bg-white rounded-full h-5 w-5 flex items-center justify-center mb-1 font-bold">
+                                                  3</p>
+                                             <p
+                                                  class="bg-orange-900 px-4 py-[3px] text-white font-semibold transition-all duration-300 hover:py-5">
+                                                  ₹1000</p>
+                                        </div>
+                                   </div>
+                              </div>
+                              <div class="bg-[#AAABE2]/50 backdrop-blur-md rounded-lg group min-w-[28vw] max-w-[28vw]"
+                                   id="event">
+                                   <div class="w-full rounded-t-lg overflow-hidden relative group">
+                                        <img src="./static/jett.jpg" alt="1"
+                                             class="group-hover:scale-110 h-full w-full object-cover overflow-hidden transition-all duration-300">
+                                   </div>
+                                   <div class="my-3 px-4">
+                                        <h1 class="text-white font-bold text-2xl capitalize eventName">X-motion game
+                                             mania
+                                        </h1>
+                                        <p
+                                             class=" text-[#2F1D69] text-lg my-2 font-semibold rounded-lg capitalize w-fit">
+                                             ₹100 per
+                                             head</p>
+                                        <a href="/"
+                                             class="bg-[#2F1D69] text-white font-semibold px-2 py-1 rounded-lg">Register</a>
+                                   </div>
+                                   <p class="mt-2 px-4 text-white my-3">Lorem ipsum dolor sit amet, consectetur
+                                        adipisicing
+                                        elit.
+                                        Dignissimos, nisi officia.
+                                        Ratione natus doloremque magni quam explicabo</p>
+                                   <div
+                                        class="flex items-end justify-center bg-[#2F1D69] h-14 px-2 -pt-10 pb-0 rounded-b-lg relative">
+                                        <div class="flex flex-col items-center absolute bottom-0 left-20">
+                                             <p
+                                                  class="text-[#2F1D69] font-semibold bg-white rounded-full h-5 w-5 flex items-center justify-center mb-1 font-bold">
+                                                  2</p>
+                                             <p
+                                                  class="bg-gray-500 px-4 py-[3px] text-white font-semibold transition-all duration-300 hover:py-5">
+                                                  ₹1500</p>
+                                        </div>
+                                        <div class="flex flex-col items-center absolute bottom-0 ">
+                                             <p
+                                                  class="text-[#2F1D69] font-semibold bg-white rounded-full h-5 w-5 flex items-center justify-center mb-1 font-bold">
+                                                  1</p>
+                                             <p
+                                                  class="bg-yellow-500 px-4 py-2 text-white font-semibold transition-all duration-300 hover:py-5">
+                                                  ₹2000</p>
+                                        </div>
+                                        <div class="flex flex-col items-center absolute bottom-0 right-20">
+                                             <p
+                                                  class="text-[#2F1D69] font-semibold bg-white rounded-full h-5 w-5 flex items-center justify-center mb-1 font-bold">
+                                                  3</p>
+                                             <p
+                                                  class="bg-orange-900 px-4 py-[3px] text-white font-semibold transition-all duration-300 hover:py-5">
+                                                  ₹1000</p>
+                                        </div>
+                                   </div>
+                              </div>
+                         </div>
+                         <div class="hover:scale-110 scale-100 origin-center transition-all duration-300"
+                              onclick="handleLeft()">
+                              <i class="bi bi-arrow-right-square text-3xl text-white cursor-pointer"></i>
+                         </div>
+                    </div>
+               </div>
+          </div>
+
+          <section
+               class="py-12 bg-gray-50 sm:py-16 lg:py-20 xl:py-24 tails-selected-element outline-none radial-gradient-container">
+               <div class="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
+                    <div class="max-w-2xl mx-auto text-center">
+                         <h2 class="text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">Frequently
+                              asked questions</h2>
+                         <p class="mt-4 text-base font-normal leading-7 text-white lg:text-lg lg:mt-6 lg:leading-8">Ask
+                              everything you need to know about our products and services.</p>
+                    </div>
+                    <div
+                         class="max-w-5xl mx-auto mt-12 overflow-hidden border border-gray-200 divide-y divide-gray-200 sm:mt-16 rounded-xl">
+                         <div class="faq">
+                              <h3>
+                                   <button onclick="faqUpdater(this)"
+                                        class="flex items-center justify-between w-full px-6 py-5 text-lg font-semibold text-left text-white sm:p-6"
+                                        aria-expanded="false">
+                                        <span> Q. How this theme is different from others in market? </span>
+                                        <span aria-hidden="true" class="ml-4" style="display: none;">
+                                             <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg"
+                                                  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                       d="M20 12H4" class=""></path>
+                                             </svg>
+                                        </span>
+                                        <span aria-hidden="true" class="ml-4">
+                                             <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg"
+                                                  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                       d="M12 4v16m8-8H4"></path>
+                                             </svg>
+                                        </span>
+                                   </button>
+                              </h3>
+                              <div class="overflow-hidden transition-all duration-300 scale-y-0 origin-top h-0">
+                                   <div class="px-6 pb-6">
+                                        <p class="text-base text-white">It is a long established fact that a reader will
+                                             be distracted by the readable content of a page when looking at its layout.
+                                             The
+                                             point of using Lorem Ipsum is that it has a more-or-less normal
+                                             distribution.
+                                        </p>
+                                   </div>
+                              </div>
+                         </div>
+                         <div class="faq">
+                              <h3>
+                                   <button onclick="faqUpdater(this)"
+                                        class="flex items-center justify-between w-full px-6 py-5 text-lg font-semibold text-left text-white sm:p-6"
+                                        aria-expanded="false">
+                                        <span> Q. Does this theme supports plugins? </span>
+                                        <span aria-hidden="true" class="ml-4" style="display: none;">
+                                             <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg"
+                                                  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                       d="M20 12H4"></path>
+                                             </svg>
+                                        </span>
+                                        <span aria-hidden="true" class="ml-4">
+                                             <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg"
+                                                  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                       d="M12 4v16m8-8H4" class=""></path>
+                                             </svg>
+                                        </span>
+                                   </button>
+                              </h3>
+                              <div class="overflow-hidden transition-all duration-300 scale-y-0 origin-top h-0">
+                                   <div class="px-6 pb-6">
+                                        <p class="text-base text-white">It is a long established fact that a reader will
+                                             be distracted by the readable content of a page when looking at its layout.
+                                             The
+                                             point of using Lorem Ipsum is that it has a more-or-less normal
+                                             distribution.
+                                        </p>
+                                   </div>
+                              </div>
+                         </div>
+                         <div class="faq">
+                              <h3>
+                                   <button onclick="faqUpdater(this)"
+                                        class="flex items-center justify-between w-full px-6 py-5 text-lg font-semibold text-left text-white sm:p-6"
+                                        aria-expanded="false">
+                                        <span> Q. Do you provide any moneyback guarantee in this product? </span>
+                                        <span aria-hidden="true" class="ml-4" style="display: none;">
+                                             <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg"
+                                                  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                       d="M20 12H4"></path>
+                                             </svg>
+                                        </span>
+                                        <span aria-hidden="true" class="ml-4">
+                                             <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg"
+                                                  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                       d="M12 4v16m8-8H4" class=""></path>
+                                             </svg>
+                                        </span>
+                                   </button>
+                              </h3>
+                              <div class="overflow-hidden transition-all duration-300 scale-y-0 origin-top h-0">
+                                   <div class="px-6 pb-6">
+                                        <p class="text-base text-white">It is a long established fact that a reader will
+                                             be distracted by the readable content of a page when looking at its layout.
+                                             The
+                                             point of using Lorem Ipsum is that it has a more-or-less normal
+                                             distribution.
+                                        </p>
+                                   </div>
+                              </div>
+                         </div>
+                         <div class="faq">
+                              <h3>
+                                   <button onclick="faqUpdater(this)"
+                                        class="flex items-center justify-between w-full px-6 py-5 text-lg font-semibold text-left text-white sm:p-6"
+                                        aria-expanded="false">
+                                        <span> Q. What payment method do you support? </span>
+                                        <span aria-hidden="true" class="ml-4" style="display: none;">
+                                             <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg"
+                                                  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                       d="M20 12H4"></path>
+                                             </svg>
+                                        </span>
+                                        <span aria-hidden="true" class="ml-4">
+                                             <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg"
+                                                  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                       d="M12 4v16m8-8H4"></path>
+                                             </svg>
+                                        </span>
+                                   </button>
+                              </h3>
+                              <div class="overflow-hidden transition-all duration-300 scale-y-0 origin-top h-0">
+                                   <div class="px-6 pb-6">
+                                        <p class="text-base text-white">It is a long established fact that a reader will
+                                             be distracted by the readable content of a page when looking at its layout.
+                                             The
+                                             point of using Lorem Ipsum is that it has a more-or-less normal
+                                             distribution.
+                                        </p>
+                                   </div>
+                              </div>
+                         </div>
+                         <div class="faq">
+                              <h3>
+                                   <button onclick="faqUpdater(this)"
+                                        class="flex items-center justify-between w-full px-6 py-5 text-lg font-semibold text-left text-white sm:p-6"
+                                        aria-expanded="false">
+                                        <span> Q. Will I get money back if I am not satisfied? </span>
+                                        <span aria-hidden="true" class="ml-4" style="display: none;">
+                                             <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg"
+                                                  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                       d="M20 12H4"></path>
+                                             </svg>
+                                        </span>
+                                        <span aria-hidden="true" class="ml-4">
+                                             <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg"
+                                                  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                       d="M12 4v16m8-8H4"></path>
+                                             </svg>
+                                        </span>
+                                   </button>
+                              </h3>
+                              <div class="overflow-hidden transition-all duration-300 scale-y-0 origin-top h-0">
+                                   <div class="px-6 pb-6">
+                                        <p class="text-base text-white">It is a long established fact that a reader will
+                                             be distracted by the readable content of a page when looking at its layout.
+                                             The
+                                             point of using Lorem Ipsum is that it has a more-or-less normal
+                                             distribution.
+                                        </p>
+                                   </div>
+                              </div>
+                         </div>
+                         <div class="faq">
+                              <h3>
+                                   <button onclick="faqUpdater(this)"
+                                        class="flex items-center justify-between w-full px-6 py-5 text-lg font-semibold text-left text-white sm:p-6"
+                                        aria-expanded="false">
+                                        <span> Q. How do you provide support? </span>
+                                        <span aria-hidden="true" class="ml-4" style="display: none;">
+                                             <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg"
+                                                  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                       d="M20 12H4"></path>
+                                             </svg>
+                                        </span>
+                                        <span aria-hidden="true" class="ml-4">
+                                             <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg"
+                                                  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                       d="M12 4v16m8-8H4"></path>
+                                             </svg>
+                                        </span>
+                                   </button>
+                              </h3>
+                              <div class="overflow-hidden transition-all duration-300 scale-y-0 origin-top h-0">
+                                   <div class="px-6 pb-6">
+                                        <p class="text-base text-white">It is a long established fact that a reader will
+                                             be distracted by the readable content of a page when looking at its layout.
+                                             The
+                                             point of using Lorem Ipsum is that it has a more-or-less normal
+                                             distribution.
+                                        </p>
+                                   </div>
+                              </div>
+                         </div>
+                    </div>
+               </div>
+          </section>
+     </div>
+
+     <div class="block md:hidden">
+          <nav class="w-full backdrop-blur-md fixed bottom-0 p-2 text-white z-50">
+               <ul class="flex items-center justify-around">
+                    <li>
+                         <a href="#" class="flex flex-col items-center">
+                              <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30"
+                                   viewBox="0,0,256,256" style="fill:#000000;">
+                                   <g fill="#1a6cb2" fill-rule="nonzero" stroke="none" stroke-width="1"
+                                        stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10"
+                                        stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none"
+                                        font-size="none" text-anchor="none" style="mix-blend-mode: normal">
+                                        <g transform="scale(10.66667,10.66667)">
+                                             <path d="M12,2.09961l-11,9.90039h3v9h6v-7h4v7h6v-9h3z"></path>
+                                        </g>
+                                   </g>
+                              </svg>
+                              <p>Home</p>
+                         </a>
+                    </li>
+                    <li>
+                         <a href="event.html" class="flex flex-col items-center">
+                              <svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="30" height="30"
+                                   viewBox="0 0 100.000000 100.000000" preserveAspectRatio="xMidYMid meet">
+
+                                   <g transform="translate(0.000000,100.000000) scale(0.100000,-0.100000)"
+                                        fill="#1a6cb2" stroke="none">
+                                        <path
+                                             d="M167 943 c-4 -3 -7 -21 -7 -40 l0 -33 -70 0 -70 0 0 -410 0 -410 480 0 480 0 0 410 0 410 -69 0 -70 0 -3 38 -3 37 -77 3 -78 3 0 -41 0 -40 -180 0 -180 0 0 40 0 40 -73 0 c-41 0 -77 -3 -80 -7z m123 -78 l0 -65 -50 0 -50 0 0 65 0 65 50 0 50 0 0 -65z m520 0 l0 -65 -50 0 -50 0 0 65 0 65 50 0 50 0 0 -65z m-648 -52 l3 -38 75 0 75 0 3 38 3 37 179 0 179 0 3 -37 3 -38 75 0 75 0 3 38 3 38 57 -3 57 -3 0 -85 0 -85 -455 0 -455 0 -3 74 c-2 41 -1 80 2 88 4 9 24 13 60 13 l55 0 3 -37z m798 -453 l0 -290 -460 0 -460 0 0 290 0 290 460 0 460 0 0 -290z" />
+                                        <path
+                                             d="M450 533 c-67 -25 -120 -37 -180 -41 l-85 -7 -3 -74 c-2 -42 2 -79 8 -85 5 -5 10 -38 10 -73 l0 -63 43 0 44 0 16 60 c10 33 21 60 27 60 5 0 53 -16 107 -35 130 -46 133 -46 133 10 0 40 3 45 28 51 42 10 52 23 52 69 0 46 -10 59 -52 69 -23 5 -27 12 -30 48 -2 23 -7 43 -13 44 -5 2 -53 -13 -105 -33z m90 -128 c0 -74 -3 -135 -7 -135 -5 0 -50 14 -101 32 l-93 32 3 69 3 70 90 32 c50 18 93 33 98 34 4 0 7 -60 7 -134z m-230 0 l0 -65 -55 0 -55 0 0 58 c0 32 3 62 7 65 3 4 28 7 55 7 l48 0 0 -65z m315 0 c0 -36 -3 -40 -27 -43 -27 -3 -28 -2 -28 43 0 45 1 46 28 43 24 -3 27 -7 27 -43z m-343 -145 c-13 -41 -20 -50 -39 -50 -21 0 -23 4 -23 50 l0 50 39 0 39 0 -16 -50z" />
+                                        <path
+                                             d="M718 488 c-36 -9 -53 -28 -25 -28 26 0 87 21 87 30 0 12 -12 11 -62 -2z" />
+                                        <path
+                                             d="M693 398 c2 -9 24 -13 62 -13 38 0 60 4 63 13 3 9 -14 12 -63 12 -49 0 -66 -3 -62 -12z" />
+                                        <path
+                                             d="M685 332 c14 -14 85 -35 93 -28 11 12 -13 25 -58 32 -30 4 -42 3 -35 -4z" />
+                                   </g>
+                              </svg>
+                              <p>Events</p>
+                         </a>
+                    </li>
+                    <li>
+                         <a href="aboutus.html" class="flex flex-col items-center">
+                              <svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="30" height="30"
+                                   viewBox="0 0 100.000000 100.000000" preserveAspectRatio="xMidYMid meet">
+
+                                   <g transform="translate(0.000000,100.000000) scale(0.100000,-0.100000)"
+                                        fill="#1a6cb2" stroke="none">
+                                        <path
+                                             d="M435 811 c-52 -31 -68 -58 -72 -114 -3 -40 1 -60 16 -84 54 -86 188 -86 242 0 28 45 22 127 -12 163 -52 55 -119 69 -174 35z m110 -81 c24 -27 22 -70 -5 -92 -28 -23 -52 -23 -80 0 -44 36 -17 112 40 112 15 0 35 -9 45 -20z" />
+                                        <path
+                                             d="M116 674 c-50 -51 -28 -142 40 -164 85 -28 161 59 120 138 -20 39 -44 52 -94 52 -29 0 -46 -7 -66 -26z m94 -49 c18 -22 8 -50 -19 -50 -32 0 -49 28 -32 49 17 20 35 20 51 1z" />
+                                        <path
+                                             d="M757 689 c-9 -5 -24 -24 -33 -41 -41 -79 35 -166 120 -138 105 34 81 191 -28 190 -22 0 -49 -5 -59 -11z m84 -65 c17 -21 0 -49 -32 -49 -27 0 -37 28 -19 50 16 19 34 19 51 -1z" />
+                                        <path
+                                             d="M439 449 c-30 -4 -75 -15 -100 -24 -27 -10 -79 -17 -134 -18 -154 -3 -205 -46 -205 -169 l0 -68 500 0 500 0 0 68 c0 124 -52 167 -205 168 -49 0 -99 5 -110 11 -51 26 -171 42 -246 32z m210 -102 c53 -21 56 -24 59 -59 l3 -38 -210 0 -211 0 0 36 c0 32 4 37 45 55 99 44 213 46 314 6z m-441 -55 l3 -42 -65 0 c-63 0 -66 1 -66 25 0 25 19 40 69 56 46 14 56 7 59 -39z m685 22 c18 -10 27 -22 27 -39 0 -24 -3 -25 -65 -25 l-65 0 0 38 c0 21 3 42 7 46 9 9 60 -2 96 -20z" />
+                                   </g>
+                              </svg>
+                              <p>About Us</p>
+                         </a>
+                    </li>
+               </ul>
+          </nav>
+
+          <section class="w-full radial-gradient-container p-6 pb-20 text-white">
+               <div class="w-full text-center my-2">
+                    <h1 class="text-4xl font-bold">Logo</h1>
+               </div>
+
+               <div class="my-5">
+                    <h1 class="mb-5 text-3xl font-semibold">Departments</h1>
+                    <div class="flex items-center gap-5 overflow-x-scroll customScrollbar">
+                         <div class="w-full rounded-lg bg-white/10 backdrop-blur-md min-w-[250px] max-w-[250px]">
+                              <div class="overflow-hidden rounded-t-lg">
+                                   <img src="https://images.pexels.com/photos/8470810/pexels-photo-8470810.jpeg?auto=compress&cs=tinysrgb"
+                                        alt=""
+                                        class="h-52 w-full object-cover hover:scale-110 transition-all duration-300">
+                              </div>
+                              <h1 class="p-4 text-white font-bold text-center">Computer Engineering</h1>
+                         </div>
+                         <div class="w-full rounded-lg bg-white/10 backdrop-blur-md min-w-[250px] max-w-[250px]">
+                              <div class="overflow-hidden rounded-t-lg">
+                                   <img src="https://images.pexels.com/photos/8470810/pexels-photo-8470810.jpeg?auto=compress&cs=tinysrgb"
+                                        alt=""
+                                        class="h-52 w-full object-cover hover:scale-110 transition-all duration-300">
+                              </div>
+                              <h1 class="p-4 text-white font-bold text-center">Computer Engineering</h1>
+                         </div>
+                         <div class="w-full rounded-lg bg-white/10 backdrop-blur-md min-w-[250px] max-w-[250px]">
+                              <div class="overflow-hidden rounded-t-lg">
+                                   <img src="https://images.pexels.com/photos/8470810/pexels-photo-8470810.jpeg?auto=compress&cs=tinysrgb"
+                                        alt=""
+                                        class="h-52 w-full object-cover hover:scale-110 transition-all duration-300">
+                              </div>
+                              <h1 class="p-4 text-white font-bold text-center">Computer Engineering</h1>
+                         </div>
+                         <div class="w-full rounded-lg bg-white/10 backdrop-blur-md min-w-[250px] max-w-[250px]">
+                              <div class="overflow-hidden rounded-t-lg">
+                                   <img src="https://images.pexels.com/photos/8470810/pexels-photo-8470810.jpeg?auto=compress&cs=tinysrgb"
+                                        alt=""
+                                        class="h-52 w-full object-cover hover:scale-110 transition-all duration-300">
+                              </div>
+                              <h1 class="p-4 text-white font-bold text-center">Computer Engineering</h1>
+                         </div>
+                         <div class="w-full rounded-lg bg-white/10 backdrop-blur-md min-w-[250px] max-w-[250px]">
+                              <div class="overflow-hidden rounded-t-lg">
+                                   <img src="https://images.pexels.com/photos/8470810/pexels-photo-8470810.jpeg?auto=compress&cs=tinysrgb"
+                                        alt=""
+                                        class="h-52 w-full object-cover hover:scale-110 transition-all duration-300">
+                              </div>
+                              <h1 class="p-4 text-white font-bold text-center">Computer Engineering</h1>
+                         </div>
+                    </div>
+               </div>
+
+               <div class="my-5">
+                    <h1 class="mb-5 text-3xl font-semibold">Events</h1>
+                    <div class="flex items-center gap-5 overflow-x-scroll customScrollbar">
+                         <div data-aos="zoom-in"
+                              class="bg-[#AAABE2]/50 backdrop-blur-md rounded-lg group min-w-full max-w-full md:min-w-[32%] md:max-w-[32%] lg:min-w-[24%] lg:max-w-[24%] "
+                              id="event">
+                              <div class="w-full rounded-t-lg overflow-hidden relative group">
+                                   <img src="./static/1.jpg" alt="1"
+                                        class="group-hover:scale-110 h-48 w-full object-cover overflow-hidden transition-all duration-300">
+                              </div>
+                              <div class="my-3 px-4">
+                                   <h1 class="text-white font-bold text-2xl capitalize eventName title-truncate">
+                                        X-motion
+                                        game mania
+                                   </h1>
+                                   <p class=" text-[#2F1D69] text-lg my-2 font-semibold rounded-lg capitalize w-fit">
+                                        ₹100 per
+                                        head</p>
+                                   <a href="/"
+                                        class="bg-[#2F1D69] text-white font-semibold px-2 py-1 rounded-lg">Register</a>
+                              </div>
+                              <p class="mt-2 px-4 text-white my-3 h-24 discription-truncate">Lorem ipsum dolor sit amet
+                                   consectetur adipisicing elit. Magnam labore, ut quos et delectus explicabo nihil
+                                   ipsam
+                                   voluptates iste similique alias numquam veniam quas iusto cumque corrupti dolor optio
+                                   saepe.</p>
+                              <div
+                                   class="flex items-end justify-center bg-[#2F1D69] h-14 px-2 -pt-10 pb-0 rounded-b-lg relative">
+                                   <div class="flex flex-col items-center absolute bottom-0 -translate-x-[100%] z-10">
+                                        <p
+                                             class="text-[#2F1D69] font-semibold bg-white rounded-full h-5 w-5 flex items-center justify-center mb-1 font-bold">
+                                             2</p>
+                                        <p
+                                             class="bg-gray-500 px-4 py-[3px] text-white font-semibold transition-all duration-300 hover:py-5">
+                                             ₹1500</p>
+                                   </div>
+                                   <div class="flex flex-col items-center absolute bottom-0 z-20">
+                                        <p
+                                             class="text-[#2F1D69] font-semibold bg-white rounded-full h-5 w-5 flex items-center justify-center mb-1 font-bold">
+                                             1</p>
+                                        <p
+                                             class="bg-yellow-500 px-4 py-2 text-white font-semibold transition-all duration-300 hover:py-5">
+                                             ₹2000</p>
+                                   </div>
+                                   <div class="flex flex-col items-center absolute bottom-0 translate-x-[100%] z-10">
+                                        <p
+                                             class="text-[#2F1D69] font-semibold bg-white rounded-full h-5 w-5 flex items-center justify-center mb-1 font-bold">
+                                             3</p>
+                                        <p
+                                             class="bg-orange-900 px-4 py-[3px] text-white font-semibold transition-all duration-300 hover:py-5">
+                                             ₹1000</p>
+                                   </div>
+                              </div>
+                         </div>
+                         <div data-aos="zoom-in"
+                              class="bg-[#AAABE2]/50 backdrop-blur-md rounded-lg group min-w-full max-w-full md:min-w-[32%] md:max-w-[32%] lg:min-w-[24%] lg:max-w-[24%] "
+                              id="event">
+                              <div class="w-full rounded-t-lg overflow-hidden relative group">
+                                   <img src="./static/2.jpg" alt="1"
+                                        class="group-hover:scale-110 h-48 w-full object-cover overflow-hidden transition-all duration-300">
+                              </div>
+                              <div class="my-3 px-4">
+                                   <h1 class="text-white font-bold text-2xl capitalize eventName title-truncate">
+                                        X-motion
+                                        game mania
+                                   </h1>
+                                   <p class=" text-[#2F1D69] text-lg my-2 font-semibold rounded-lg capitalize w-fit">
+                                        ₹100 per
+                                        head</p>
+                                   <a href="/"
+                                        class="bg-[#2F1D69] text-white font-semibold px-2 py-1 rounded-lg">Register</a>
+                              </div>
+                              <p class="mt-2 px-4 text-white my-3 h-24 discription-truncate">Lorem ipsum dolor sit amet
+                                   consectetur adipisicing elit. Magnam labore, ut quos et delectus explicabo nihil
+                                   ipsam
+                                   voluptates iste similique alias numquam veniam quas iusto cumque corrupti dolor optio
+                                   saepe.</p>
+                              <div
+                                   class="flex items-end justify-center bg-[#2F1D69] h-14 px-2 -pt-10 pb-0 rounded-b-lg relative">
+                                   <div class="flex flex-col items-center absolute bottom-0 -translate-x-[100%] z-10">
+                                        <p
+                                             class="text-[#2F1D69] font-semibold bg-white rounded-full h-5 w-5 flex items-center justify-center mb-1 font-bold">
+                                             2</p>
+                                        <p
+                                             class="bg-gray-500 px-4 py-[3px] text-white font-semibold transition-all duration-300 hover:py-5">
+                                             ₹1500</p>
+                                   </div>
+                                   <div class="flex flex-col items-center absolute bottom-0 z-20">
+                                        <p
+                                             class="text-[#2F1D69] font-semibold bg-white rounded-full h-5 w-5 flex items-center justify-center mb-1 font-bold">
+                                             1</p>
+                                        <p
+                                             class="bg-yellow-500 px-4 py-2 text-white font-semibold transition-all duration-300 hover:py-5">
+                                             ₹2000</p>
+                                   </div>
+                                   <div class="flex flex-col items-center absolute bottom-0 translate-x-[100%] z-10">
+                                        <p
+                                             class="text-[#2F1D69] font-semibold bg-white rounded-full h-5 w-5 flex items-center justify-center mb-1 font-bold">
+                                             3</p>
+                                        <p
+                                             class="bg-orange-900 px-4 py-[3px] text-white font-semibold transition-all duration-300 hover:py-5">
+                                             ₹1000</p>
+                                   </div>
+                              </div>
+                         </div>
+                         <div data-aos="zoom-in"
+                              class="bg-[#AAABE2]/50 backdrop-blur-md rounded-lg group min-w-full max-w-full md:min-w-[32%] md:max-w-[32%] lg:min-w-[24%] lg:max-w-[24%] "
+                              id="event">
+                              <div class="w-full rounded-t-lg overflow-hidden relative group">
+                                   <img src="./static/4.jpg" alt="1"
+                                        class="group-hover:scale-110 h-48 w-full object-cover overflow-hidden transition-all duration-300">
+                              </div>
+                              <div class="my-3 px-4">
+                                   <h1 class="text-white font-bold text-2xl capitalize eventName title-truncate">
+                                        X-motion
+                                        game mania
+                                   </h1>
+                                   <p class=" text-[#2F1D69] text-lg my-2 font-semibold rounded-lg capitalize w-fit">
+                                        ₹100 per
+                                        head</p>
+                                   <a href="/"
+                                        class="bg-[#2F1D69] text-white font-semibold px-2 py-1 rounded-lg">Register</a>
+                              </div>
+                              <p class="mt-2 px-4 text-white my-3 h-24 discription-truncate">Lorem ipsum dolor sit amet
+                                   consectetur adipisicing elit. Magnam labore, ut quos et delectus explicabo nihil
+                                   ipsam
+                                   voluptates iste similique alias numquam veniam quas iusto cumque corrupti dolor optio
+                                   saepe.</p>
+                              <div
+                                   class="flex items-end justify-center bg-[#2F1D69] h-14 px-2 -pt-10 pb-0 rounded-b-lg relative">
+                                   <div class="flex flex-col items-center absolute bottom-0 -translate-x-[100%] z-10">
+                                        <p
+                                             class="text-[#2F1D69] font-semibold bg-white rounded-full h-5 w-5 flex items-center justify-center mb-1 font-bold">
+                                             2</p>
+                                        <p
+                                             class="bg-gray-500 px-4 py-[3px] text-white font-semibold transition-all duration-300 hover:py-5">
+                                             ₹1500</p>
+                                   </div>
+                                   <div class="flex flex-col items-center absolute bottom-0 z-20">
+                                        <p
+                                             class="text-[#2F1D69] font-semibold bg-white rounded-full h-5 w-5 flex items-center justify-center mb-1 font-bold">
+                                             1</p>
+                                        <p
+                                             class="bg-yellow-500 px-4 py-2 text-white font-semibold transition-all duration-300 hover:py-5">
+                                             ₹2000</p>
+                                   </div>
+                                   <div class="flex flex-col items-center absolute bottom-0 translate-x-[100%] z-10">
+                                        <p
+                                             class="text-[#2F1D69] font-semibold bg-white rounded-full h-5 w-5 flex items-center justify-center mb-1 font-bold">
+                                             3</p>
+                                        <p
+                                             class="bg-orange-900 px-4 py-[3px] text-white font-semibold transition-all duration-300 hover:py-5">
+                                             ₹1000</p>
+                                   </div>
+                              </div>
+                         </div>
+                    </div>
+               </div>
+
+               <div
+                    class="py-12 sm:py-16 lg:py-20 xl:py-24 tails-selected-element outline-none">
+                    <div class="mx-auto md:px-6 lg:px-8 max-w-7xl">
+                         <div class="max-w-2xl mx-auto text-center">
+                              <h2 class="text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">
+                                   Frequently
+                                   asked questions</h2>
+                              <p
+                                   class="mt-4 text-base font-normal leading-7 text-white lg:text-lg lg:mt-6 lg:leading-8">
+                                   Ask
+                                   everything you need to know about our products and services.</p>
+                         </div>
+                         <div
+                              class="max-w-5xl mx-auto mt-12 overflow-hidden border border-gray-200 divide-y divide-gray-200 sm:mt-16 rounded-xl">
+                              <div class="faq">
+                                   <h3>
+                                        <button onclick="faqUpdater(this)"
+                                             class="flex items-center justify-between w-full px-6 py-5 text-lg font-semibold text-left text-white sm:p-6"
+                                             aria-expanded="false">
+                                             <span> Q. How this theme is different from others in market? </span>
+                                             <span aria-hidden="true" class="ml-4" style="display: none;">
+                                                  <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg"
+                                                       fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                       <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M20 12H4" class=""></path>
+                                                  </svg>
+                                             </span>
+                                             <span aria-hidden="true" class="ml-4">
+                                                  <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg"
+                                                       fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                       <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                                  </svg>
+                                             </span>
+                                        </button>
+                                   </h3>
+                                   <div class="overflow-hidden transition-all duration-300 scale-y-0 origin-top h-0">
+                                        <div class="px-6 pb-6">
+                                             <p class="text-base text-white">It is a long established fact that a reader
+                                                  will
+                                                  be distracted by the readable content of a page when looking at its
+                                                  layout.
+                                                  The
+                                                  point of using Lorem Ipsum is that it has a more-or-less normal
+                                                  distribution.
+                                             </p>
+                                        </div>
+                                   </div>
+                              </div>
+                              <div class="faq">
+                                   <h3>
+                                        <button onclick="faqUpdater(this)"
+                                             class="flex items-center justify-between w-full px-6 py-5 text-lg font-semibold text-left text-white sm:p-6"
+                                             aria-expanded="false">
+                                             <span> Q. Does this theme supports plugins? </span>
+                                             <span aria-hidden="true" class="ml-4" style="display: none;">
+                                                  <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg"
+                                                       fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                       <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M20 12H4"></path>
+                                                  </svg>
+                                             </span>
+                                             <span aria-hidden="true" class="ml-4">
+                                                  <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg"
+                                                       fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                       <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M12 4v16m8-8H4" class=""></path>
+                                                  </svg>
+                                             </span>
+                                        </button>
+                                   </h3>
+                                   <div class="overflow-hidden transition-all duration-300 scale-y-0 origin-top h-0">
+                                        <div class="px-6 pb-6">
+                                             <p class="text-base text-white">It is a long established fact that a reader
+                                                  will
+                                                  be distracted by the readable content of a page when looking at its
+                                                  layout.
+                                                  The
+                                                  point of using Lorem Ipsum is that it has a more-or-less normal
+                                                  distribution.
+                                             </p>
+                                        </div>
+                                   </div>
+                              </div>
+                              <div class="faq">
+                                   <h3>
+                                        <button onclick="faqUpdater(this)"
+                                             class="flex items-center justify-between w-full px-6 py-5 text-lg font-semibold text-left text-white sm:p-6"
+                                             aria-expanded="false">
+                                             <span> Q. Do you provide any moneyback guarantee in this product? </span>
+                                             <span aria-hidden="true" class="ml-4" style="display: none;">
+                                                  <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg"
+                                                       fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                       <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M20 12H4"></path>
+                                                  </svg>
+                                             </span>
+                                             <span aria-hidden="true" class="ml-4">
+                                                  <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg"
+                                                       fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                       <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M12 4v16m8-8H4" class=""></path>
+                                                  </svg>
+                                             </span>
+                                        </button>
+                                   </h3>
+                                   <div class="overflow-hidden transition-all duration-300 scale-y-0 origin-top h-0">
+                                        <div class="px-6 pb-6">
+                                             <p class="text-base text-white">It is a long established fact that a reader
+                                                  will
+                                                  be distracted by the readable content of a page when looking at its
+                                                  layout.
+                                                  The
+                                                  point of using Lorem Ipsum is that it has a more-or-less normal
+                                                  distribution.
+                                             </p>
+                                        </div>
+                                   </div>
+                              </div>
+                              <div class="faq">
+                                   <h3>
+                                        <button onclick="faqUpdater(this)"
+                                             class="flex items-center justify-between w-full px-6 py-5 text-lg font-semibold text-left text-white sm:p-6"
+                                             aria-expanded="false">
+                                             <span> Q. What payment method do you support? </span>
+                                             <span aria-hidden="true" class="ml-4" style="display: none;">
+                                                  <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg"
+                                                       fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                       <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M20 12H4"></path>
+                                                  </svg>
+                                             </span>
+                                             <span aria-hidden="true" class="ml-4">
+                                                  <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg"
+                                                       fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                       <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                                  </svg>
+                                             </span>
+                                        </button>
+                                   </h3>
+                                   <div class="overflow-hidden transition-all duration-300 scale-y-0 origin-top h-0">
+                                        <div class="px-6 pb-6">
+                                             <p class="text-base text-white">It is a long established fact that a reader
+                                                  will
+                                                  be distracted by the readable content of a page when looking at its
+                                                  layout.
+                                                  The
+                                                  point of using Lorem Ipsum is that it has a more-or-less normal
+                                                  distribution.
+                                             </p>
+                                        </div>
+                                   </div>
+                              </div>
+                              <div class="faq">
+                                   <h3>
+                                        <button onclick="faqUpdater(this)"
+                                             class="flex items-center justify-between w-full px-6 py-5 text-lg font-semibold text-left text-white sm:p-6"
+                                             aria-expanded="false">
+                                             <span> Q. Will I get money back if I am not satisfied? </span>
+                                             <span aria-hidden="true" class="ml-4" style="display: none;">
+                                                  <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg"
+                                                       fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                       <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M20 12H4"></path>
+                                                  </svg>
+                                             </span>
+                                             <span aria-hidden="true" class="ml-4">
+                                                  <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg"
+                                                       fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                       <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                                  </svg>
+                                             </span>
+                                        </button>
+                                   </h3>
+                                   <div class="overflow-hidden transition-all duration-300 scale-y-0 origin-top h-0">
+                                        <div class="px-6 pb-6">
+                                             <p class="text-base text-white">It is a long established fact that a reader
+                                                  will
+                                                  be distracted by the readable content of a page when looking at its
+                                                  layout.
+                                                  The
+                                                  point of using Lorem Ipsum is that it has a more-or-less normal
+                                                  distribution.
+                                             </p>
+                                        </div>
+                                   </div>
+                              </div>
+                              <div class="faq">
+                                   <h3>
+                                        <button onclick="faqUpdater(this)"
+                                             class="flex items-center justify-between w-full px-6 py-5 text-lg font-semibold text-left text-white sm:p-6"
+                                             aria-expanded="false">
+                                             <span> Q. How do you provide support? </span>
+                                             <span aria-hidden="true" class="ml-4" style="display: none;">
+                                                  <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg"
+                                                       fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                       <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M20 12H4"></path>
+                                                  </svg>
+                                             </span>
+                                             <span aria-hidden="true" class="ml-4">
+                                                  <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg"
+                                                       fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                       <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                                  </svg>
+                                             </span>
+                                        </button>
+                                   </h3>
+                                   <div class="overflow-hidden transition-all duration-300 scale-y-0 origin-top h-0">
+                                        <div class="px-6 pb-6">
+                                             <p class="text-base text-white">It is a long established fact that a reader
+                                                  will
+                                                  be distracted by the readable content of a page when looking at its
+                                                  layout.
+                                                  The
+                                                  point of using Lorem Ipsum is that it has a more-or-less normal
+                                                  distribution.
+                                             </p>
+                                        </div>
+                                   </div>
+                              </div>
+                         </div>
+                    </div>
+               </div>
+          </section>
+     </div>
+
+     
+     <!-- FAQ Script -->
+     <script>
+          function faqUpdater(element) {
+               let faqArr = document.getElementsByClassName("faq")
+               for (let faq = 0; faq < faqArr.length; faq++) {
+                    const elementfaq = faqArr[faq];
+                    if (elementfaq.getElementsByTagName("button")[0] != element) {
+                         elementfaq.getElementsByTagName("div")[0].classList.add("scale-y-0")
+                         elementfaq.getElementsByTagName("div")[0].classList.add("h-0")
+                         elementfaq.getElementsByTagName("div")[0].classList.remove("scale-y-100")
+                    }
+                    else {
+                         elementfaq.getElementsByTagName("div")[0].classList.remove("scale-y-0")
+                         elementfaq.getElementsByTagName("div")[0].classList.remove("h-0")
+                         elementfaq.getElementsByTagName("div")[0].classList.add("scale-y-100")
+                    }
+
+               }
+          }
+     </script>
+
+     <script>
+          function handleLeft() {
+               let slider = document.getElementById("eventSlider");
+               let event = document.getElementById("event");
+               slider.scrollLeft += (event.offsetWidth + 20);
+          }
+          function handleRight() {
+               let slider = document.getElementById("eventSlider");
+               let event = document.getElementById("event");
+               slider.scrollLeft -= (event.offsetWidth + 20);
+          }
+          window.addEventListener('scroll', function () {
+               const header = document.getElementById("navbar");
+               header.classList.toggle('backdrop-blur-md', window.scrollY > 0);
+          });
+
+          // Menu Dropdown Code
+          let mobileMenu = document.querySelector('#mobile-menu');
+          function toggleMobileMenu() {
+               mobileMenu.classList.toggle('hidden');
+          }
+
+          // Profile Dropdown Code
+          let profileDropdownMobile = document.querySelector('#profile-dropdown-mobile');
+          let profileDropdown = document.querySelector('#profile-dropdown');
+          function toggleProfileDropdown() {
+               // Dropdown for Mobile
+               profileDropdownMobile.classList.toggle('h-none')
+               profileDropdownMobile.classList.toggle('h-auto')
+               profileDropdownMobile.classList.toggle('border')
+               profileDropdownMobile.classList.toggle('py-3')
+               // Dropdown for Laptop - Tablet
+               profileDropdown.classList.toggle('h-none')
+               profileDropdown.classList.toggle('h-auto')
+               profileDropdown.classList.toggle('border')
+               profileDropdown.classList.toggle('py-3')
+          }
+     </script>
+
+     <script id="vs" type="f">
+          attribute vec2 position;
+          attribute vec2 texcoord;
+          
+          uniform mat3 u_matrix;
+          
+          varying vec2 v_texcoord;
+          
+          void main() {
+                gl_Position = vec4(u_matrix * vec3(position, 1), 1);
+                v_texcoord = texcoord;
+          }
+     </script>
+     <!-- fragment shader -->
+     <script id="fs" type="f">
+          precision mediump float;
+          
+          uniform vec2 u_mouse;
+          
+          uniform sampler2D u_originalImage;
+          uniform sampler2D u_mapImage;
+          
+          varying vec2 v_texcoord;
+          
+          void main() {
+                vec4 depthDistortion = texture2D(u_mapImage, v_texcoord);
+                float parallaxMult = depthDistortion.r;
+          
+                vec2 parallax = (u_mouse) * parallaxMult;
+          
+                vec4 original = texture2D(u_originalImage, (v_texcoord + parallax));
+                gl_FragColor = original;
+          }
+     </script>
+     <!-- partial -->
+     <script src='https://cdn.rawgit.com/greggman/twgl.js/master/dist/4.x/twgl-full.min.js'></script>
+     <script src='https://webglfundamentals.org/webgl/resources/m3.js'></script>
+     <script>
+          function main(id, sourceImage, depthMap, parallaxSpeed) {
+               // Get A WebGL context
+               /** @type {HTMLCanvasElement} */
+               const canvas = document.getElementById(id);
+               const gl = canvas.getContext("webgl");
+               if (!gl) {
+                    return;
+               }
+
+               let originalImage = { width: 0, height: 0 }; // replaced after loading
+               const originalTexture = twgl.createTexture(
+                    gl,
+                    {
+                         src: sourceImage,
+                         crossOrigin: "",
+                    },
+                    (err, texture, source) => {
+                         originalImage = source;
+                    }
+               );
+
+               const mapTexture = twgl.createTexture(gl, {
+                    src: depthMap,
+                    crossOrigin: "",
+               });
+
+               // compile shaders, link program, lookup location
+               const programInfo = twgl.createProgramInfo(gl, ["vs", "fs"]);
+
+               // calls gl.createBuffer, gl.bindBuffer, gl.bufferData for a quad
+               const bufferInfo = twgl.primitives.createXYQuadBufferInfo(gl);
+
+               const mouse = [0, 0];
+               document.addEventListener("mousemove", (event) => {
+                    mouse[0] = ((event.clientX / gl.canvas.clientWidth) * 2 - 1) * parallaxSpeed;
+                    mouse[1] = ((event.clientY / gl.canvas.clientHeight) * 2 - 1) * parallaxSpeed;
+               });
+
+               document.addEventListener("touchmove", (event) => {
+                    mouse[0] = ((event.touches[0].clientX / gl.canvas.clientWidth) * 2 - 1) * parallaxSpeed;
+                    mouse[1] = ((event.touches[0].clientY / gl.canvas.clientHeight) * 2 - 1) * parallaxSpeed;
+               });
+
+               document.addEventListener("touchend", (event) => {
+                    mouse[0] = 0;
+                    mouse[1] = 0;
+               });
+
+               var nMouse = [0, 0];
+               var oMouse = [0, 0];
+
+               requestAnimationFrame(render);
+
+               function render() {
+                    twgl.resizeCanvasToDisplaySize(gl.canvas);
+
+                    gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+
+                    gl.clearColor(0, 0, 0, 0);
+                    gl.clear(gl.COLOR_BUFFER_BIT);
+
+                    gl.useProgram(programInfo.program);
+
+                    // calls gl.bindBuffer, gl.enableVertexAttribArray, gl.vertexAttribPointer
+                    twgl.setBuffersAndAttributes(gl, programInfo, bufferInfo);
+
+                    const canvasAspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
+                    const imageAspect = originalImage.width / originalImage.height;
+                    const mat = m3.scaling(imageAspect / canvasAspect, -1);
+
+                    nMouse[0] += (mouse[0] - nMouse[0]) * 0.05;
+                    nMouse[1] += (mouse[1] - nMouse[1]) * 0.05;
+
+                    // calls gl.activeTexture, gl.bindTexture, gl.uniformXXX
+                    twgl.setUniforms(programInfo, {
+                         u_matrix: mat,
+                         u_originalImage: originalTexture,
+                         u_mapImage: mapTexture,
+                         u_mouse: nMouse,
+                    });
+
+                    // calls gl.drawArrays or gl.drawElements
+                    twgl.drawBufferInfo(gl, bufferInfo);
+
+                    requestAnimationFrame(render);
+               }
+          }
+
+          main("canvas", "./static/homepage/landingPage.png", "./static/homepage/heroDepthMap.jpeg", -0.05);
+          main("canvas1", "./static/homepage/landingPage3.png", "./static/homepage/depthMap3.jpeg", -0.05);
+     </script>
+</body>
+
+</html>

@@ -273,10 +273,15 @@ def event(request, event):
     context["organisers"] = eventData.organisers
     context["volunteer"] = eventData.volunteer
     context["organiser1"] = eventData.organiser1.user.get_full_name() if eventData.organiser1 != None else ""
+    context["organiser1Phone"] = Profile.objects.filter(user=eventData.organiser1.user).first().phone if eventData.organiser1 != None else ""
     context["organiser2"] = eventData.organiser2.user.get_full_name() if eventData.organiser2 != None else ""
+    context["organiser2Phone"] = Profile.objects.filter(user=eventData.organiser2.user).first().phone if eventData.organiser2 != None else ""
     context["organiser3"] = eventData.organiser3.user.get_full_name() if eventData.organiser3 != None else ""
+    context["organiser3Phone"] = Profile.objects.filter(user=eventData.organiser3.user).first().phone if eventData.organiser3 != None else ""
     context["organiser4"] = eventData.organiser4.user.get_full_name() if eventData.organiser4 != None else ""
+    context["organiser4Phone"] = Profile.objects.filter(user=eventData.organiser4.user).first().phone if eventData.organiser4 != None else ""
     context["organiser5"] = eventData.organiser5.user.get_full_name() if eventData.organiser5 != None else ""
+    context["organiser5Phone"] = Profile.objects.filter(user=eventData.organiser5.user).first().phone if eventData.organiser5 != None else ""
     context["isTeamEvent"] = eventData.isTeamEvent
     context["teamParticapantCount"] = eventData.teamParticapantCount
     context["isClosed"] = eventData.isClosed

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, minimum-scale=1.0">
+    <title>Xenesis - Event Confirmation</title>
+    <link rel="stylesheet" href="./static/tailwind.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <style>
+        * {
+            scroll-behavior: smooth;
+        }
+        .clip-copyrights {
+            clip-path: polygon(0 0, 85% 0%, 100% 100%, 0% 100%);
+        }
+        .clip-button {
+            background: linear-gradient(to right, #7815ea, #c595ff) !important;
+            clip-path: polygon(0% 0%, 90% 0, 100% 30%, 100% 100%, 0 100%);
+        }
+        .eventName {
+               text-shadow: -1px 1px 0 #000,
+                    1px 1px 0 #000,
+                    1px -1px 0 #000,
+                    -1px -1px 0 #000;
+        }
+        .customScrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .radial-gradient-container {
+            background: radial-gradient(at top left, #211e60 1%, #240a34 50%);
+        }
+        @media screen and (max-width: 424px) {
+            h1.hero-h1 {
+                font-size: 2.4rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="flex items-center justify-between text-white fixed w-full top-0 py-[calc(3vh)] px-[calc(3vh)] z-50 transition-all duration-300" id="navbar">
+        <div>
+        <h1 class="text-[calc(3vh)]">Logo</h1>
+        </div>
+
+        <div class="relative flex items-center justify-center gap-4 lg:hidden">
+             <!-- Profile Image -->
+             <img src="./static/event-images/4.jpg" alt="" class=" w-[35px] h-[35px] rounded-full object-cover" onclick="toggleProfileDropdown()">
+             <!-- Profile Dropdown -->
+             <div class="absolute bg-slate-600 bg-opacity-50 top-12 right-0 w-full min-w-[200px] rounded-md border-slate-400 z-50 h-0 overflow-hidden transition-all duration-300" id="profile-dropdown-mobile">
+                  <a href="#" class="">
+                       <p class="w-full px-4"><i class="bi bi-gear mr-2.5"></i>Profile Settings</p>
+                  </a>
+                  <hr class="my-3 border-b-slate-400">
+                  <a href="#" class="">
+                       <p class="w-full px-4"><i class="bi bi-box-arrow-right mr-2.5"></i>Logout</p>
+                  </a>
+             </div>
+             <!-- Menu Toggle Button -->
+             <button class="text-2xl block lg:hidden !outline-none" onclick="toggleMobileMenu()"><i class="bi bi-list"></i></button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="absolute top-0 left-0 flex flex-col gap-5 items-center justify-center w-screen h-screen z-50 bg-slate-900 bg-opacity-95 hidden" id="mobile-menu">
+             <button class="absolute top-5 right-5 !outline-none" onclick="toggleMobileMenu()"><i class="bi bi-x-lg"></i></button>
+             <a href="/" class="text-2xl">Home</a>
+             <a href="/events" class="text-2xl">Events</a>
+             <a href="#" class="text-2xl">Event Confirm</a>
+             <a href="/aboutus" class="text-2xl">About Us</a>
+             <a href="/login" class="text-2xl">Login</a>
+             <a href="/register" class="text-2xl">Register</a>
+        </div>
+
+        <!-- Tablet | Laptop Menu -->
+        <ul class="flex items-center hidden lg:flex">
+             <li class="px-[calc(2vh)] font-semibold text-[calc(3vh)]"><a href="/">Home</a></li>
+             <li class="px-[calc(2vh)] font-semibold text-[calc(3vh)]"><a href="/events">Events</a></li>
+             <li class="px-[calc(2vh)] font-semibold text-[calc(3vh)]"><a href="#">Event Confirm</a></li>
+             <li class="px-[calc(2vh)] font-semibold text-[calc(3vh)]"><a href="/aboutus">About Us</a></li>
+             <li class="px-[calc(2vh)] font-semibold text-[calc(3vh)]"><a href="/login">Login</a></li>
+             <li class="px-[calc(2vh)] font-semibold text-[calc(3vh)]"><a href="/register">Register</a></li>
+             <div class="px-[calc(2vh)] font-semibold text-[calc(3vh)]">
+                  <button>Register for Event</button>
+             </div>
+             <div class="relative flex items-center justify-center gap-4 px-[calc(2vh)]">
+                  <img src="./static/event-images/4.jpg" alt="" class=" w-[50px] h-[50px] rounded-full object-cover" onclick="toggleProfileDropdown()">
+        
+                  <div class="absolute bg-slate-600 bg-opacity-50 top-16 right-0 w-full min-w-[200px] rounded-md border-slate-400 z-50 h-0 overflow-hidden transition-all duration-300" id="profile-dropdown">
+                       <a href="#" class="">
+                            <p class="w-full px-4"><i class="bi bi-gear mr-2.5"></i>Profile Settings</p>
+                       </a>
+                       <hr class="my-3 border-b-slate-400">
+                       <a href="#" class="">
+                            <p class="w-full px-4"><i class="bi bi-box-arrow-right mr-2.5"></i>Logout</p>
+                       </a>
+                  </div>
+             </div>
+        </ul>
+    </nav>
+
+    <!-- Registration Details -->
+    <section class="w-full h-full bg-gradient-to-b from-[#240a34] to-[#211e60] sm:pb-6 pb-20 relative">
+
+        <!-- Hero Section -->
+        <div class="w-full h-screen bg-[url(./static/login/login-back.png)] bg-no-repeat bg-cover flex items-center justify-center relative sm:px-16 px-10">
+            <!-- opacity div -->
+            <div class="absolute w-full h-full bg-[rgba(0,0,0,0.5)]"></div>
+            <div class="absolute w-full h-full bg-gradient-to-t from-[#221348] via-transparent to-transparent z-10"> </div>
+            <h1 class="lg:text-[5vw] sm:text-[3.2rem] text-[3rem] md:leading-loose leading-snug z-30 font-extrabold text-blue-500 text-center hero-h1">X-Motion Game Mania</h1>
+        </div>
+
+        <!-- Location | Prizes -->
+        <div class="flex flex-col md:flex-row md:items-start items-center justify-center md:mt-16 mt-10 md:gap-32 gap-10">
+            <!-- Location -->
+            <div class="sm:text-center text-white">
+                <h1 class="font-bold text-3xl mb-4 text-blue-400">Location of Event</h1>
+                <p><span class="font-semibold text-gray-300 sm:text-lg">Floor</span> : 1st floor</p>
+                <p><span class="font-semibold text-gray-300 sm:text-lg">Lab / Hall / Class</span> : Lab A1, A2, B1</p>
+            </div>
+            <!-- Prizes -->
+            <div class="text-center text-white">
+                <p class="font-bold text-3xl mb-2 text-blue-400">Prizes</p>
+                <div class="flex items-center justify-center gap-12 pt-4">
+                    <div>
+                        <img src="./static/trophy/1.png" alt="" class="w-[100px] mb-3">
+                        <p class="text-sm sm:!text-lg flex flex-col items-center"><span class="font-semibold text-md text-gray-300">1st</span> ₹ 1,500</p>
+                    </div>
+                    <div>
+                        <img src="./static/trophy/2.png" alt="" class="w-[100px] mb-3">
+                        <p class="text-sm sm:!text-lg flex flex-col items-center"><span class="font-semibold text-md text-gray-300">2nd</span> ₹ 1,000</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Participants -->
+        <div class="mt-16 w-full flex flex-col items-center justify-center">
+            <h1 class="font-bold text-3xl mb-5 text-blue-400">Participants</h1>
+            <div class="flex flex-col w-full xl:px-32 lg:px-20 md:px-12 sm:px-10 px-8">
+                <div class="overflow-x-auto sm:-mx-6 lg:-mx-8 rounded-lg">
+                    <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8 rounded-lg">
+                        <div class="overflow-hidden border border-slate-500 rounded-lg">
+                            <table class="min-w-full text-white">
+                                <thead class="bg-transparent border-b border-b-slate-500">
+                                    <tr>
+                                        <th scope="col" class="text-lg px-6 py-4 text-left">#</th>
+                                        <th scope="col" class="text-lg px-6 py-4 text-left">Name</th>
+                                        <th scope="col" class="text-lg px-6 py-4 text-left">Email</th>
+                                        <th scope="col" class="text-lg px-6 py-4 text-left">Mobile</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="transition duration-300 ease-in-out hover:bg-slate-600">
+                                        <td class="px-6 py-3 whitespace-nowrap text-lg">1</td>
+                                        <td class="text-base px-6 py-3 whitespace-nowrap">Parth Padhiar</td>
+                                        <td class="text-base px-6 py-3 whitespace-nowrap">parthpadhiar2002@gmail.com</td>
+                                        <td class="text-base px-6 py-3 whitespace-nowrap">9099333060</td>
+                                    </tr>
+                                    <tr class="transition duration-300 ease-in-out hover:bg-slate-600">
+                                        <td class="px-6 py-3 whitespace-nowrap text-lg">2</td>
+                                        <td class="text-base px-6 py-3 whitespace-nowrap">Jagrat Patel</td>
+                                        <td class="text-base px-6 py-3 whitespace-nowrap">thejagstudio@gmail.com</td>
+                                        <td class="text-base px-6 py-3 whitespace-nowrap">9099333060</td>
+                                    </tr>
+                                    <tr class="transition duration-300 ease-in-out hover:bg-slate-600">
+                                        <td class="px-6 py-3 whitespace-nowrap text-lg">3</td>
+                                        <td class="text-base px-6 py-3 whitespace-nowrap">Jaivin Barot</td>
+                                        <td class="text-base px-6 py-3 whitespace-nowrap">barotjaivin@gmail.com</td>
+                                        <td class="text-base px-6 py-3 whitespace-nowrap">9099333060</td>
+                                    </tr>
+                                    <tr class="transition duration-300 ease-in-out hover:bg-slate-600">
+                                        <td class="px-6 py-3 whitespace-nowrap text-lg">4</td>
+                                        <td class="text-base px-6 py-3 whitespace-nowrap">Shubham Bhogayata</td>
+                                        <td class="text-base px-6 py-3 whitespace-nowrap">shubhambhogayata@gmail.com</td>
+                                        <td class="text-base px-6 py-3 whitespace-nowrap">9099333060</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+              </div>
+                <!-- <div class="flex flex-col items-center justify-center gap-3 max-w-[1000px] w-full lg:px-0 md:px-10">
+                    <div class="grid grid-cols-3 !gap-3 w-full text-lg text-gray-300">
+                        <p class="block sm:hidden">Member 1</p>
+                        <p class="">Parth Padhiar</p>
+                        <p class="">parthpadhiar2002@gmai.com</p>
+                        <p class="text-center">9099333060</p>
+                    </div>
+                    <div class="grid grid-cols-3 !gap-3 w-full text-lg text-gray-300">
+                        <p class="block sm:hidden">Member 2</p>
+                        <p class="">Jagrat Patel</p>
+                        <p class="">jagratpatel@gmai.com</p>
+                        <p class="text-center">9099333060</p>
+                    </div>
+                    <div class="grid grid-cols-3 !gap-3 w-full text-lg text-gray-300">
+                        <p class="block sm:hidden">Member 3</p>
+                        <p class="">Jaivin Barot</p>
+                        <p class="">jaivinbarot@gmai.com</p>
+                        <p class="text-center">9099333060</p>
+                    </div>
+                    <div class="grid grid-cols-3 !gap-3 w-full text-lg text-gray-300">
+                        <p class="block sm:hidden">Member 4</p>
+                        <p class="">Shubham Bhogayata</p>
+                        <p class="">shubhambhogayata@gmai.com</p>
+                        <p class="text-center">9099333060</p>
+                    </div>
+                </div> -->
+        </div>
+
+        <!-- Back | Pay Buttons -->
+        <div class="fixed bottom-0 left-[50%] translate-x-[-50%] flex items-center justify-center gap-5 z-40 w-full py-5 backdrop-blur">
+            <a href="#" class="lg:px-16 lg:py-4 sm:px-10 sm:py-3 px-6 py-1.5 text-white rounded-md bg-red-500 font-semibold text-xl group"><i class="transition-all duration-200 bi bi-backspace group-hover:mr-1"></i> Back</a>
+            <a href="#" class="lg:px-16 lg:py-4 sm:px-10 sm:py-3 px-6 py-1.5 text-white rounded-md bg-green-500 font-semibold text-xl group"><i class="transition-all duration-200 bi bi-paypal group-hover:mr-1"></i> Pay</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#211e60] pt-20">
+        <div class='flex flex-col md:flex-row lg:justify-around justify-center md:gap-10 gap-3 xl:px-32 lg:px-20 md:px-12 px-8 mb-8'>
+            <!-- Social | Logo -->
+            <div class='flex flex-col md:items-center items-start gap-3'>
+                <img src='./static/ldrp.png' alt='Xenesis' class='lg:w-[140px] w-[110px]' />
+                <p class='lg:max-w-[200px] md:max-w-[140px] md:text-center text-gray-300'>Epic Events organized for ultimate students!</p>
+                <div class='flex items-center justify-center lg:gap-5 gap-4 md:mt-3 mt-1'>
+                    <a href='' class='text-[#9740fe] lg:text-2xl md:text-xl text-2xl hover:-translate-y-2 hover:text-[#dfc5ff] transition-all duration-300'><i class="bi bi-facebook"></i></a>
+                    <a href='' class='text-[#9740fe] lg:text-2xl md:text-xl text-2xl hover:-translate-y-2 hover:text-[#dfc5ff] transition-all duration-300'><i class="bi bi-twitter"></i></a>
+                    <a href='' class='text-[#9740fe] lg:text-2xl md:text-xl text-2xl hover:-translate-y-2 hover:text-[#dfc5ff] transition-all duration-300'><i class="bi bi-instagram"></i></a>
+                    <a href='' class='text-[#9740fe] lg:text-3xl md:text-xl text-2xl hover:-translate-y-2 hover:text-[#dfc5ff] transition-all duration-300'><i class="bi bi-youtube"></i></a>
+                </div>
+            </div>
+            <!-- Useful Links -->
+            <div class='pt-4'>
+                <h3 class='font-bold text-white lg:text-xl sm:text-lg mb-4 pb-2 relative after:content-"" after:absolute lg:after:left-2 after:left-0 after:bottom-0 md:after:w-[50%] after:w-[100px] after:h-[3px] after:bg-[#9704fe]'>Useful Links</h3>
+                <div class='flex flex-col text-left text-gray-400 gap-1 lg:pl-2 pl-0 lg:text-base text-sm'>
+                    <a href='' class='hover:translate-x-2 hover:text-[#bc85ff] transition-all duration-300'>Events</a>
+                    <a href='' class='hover:translate-x-2 hover:text-[#bc85ff] transition-all duration-300'>About Us</a>
+                    <a href='' class='hover:translate-x-2 hover:text-[#bc85ff] transition-all duration-300'>Register in Event</a>
+                    <a href='' class='hover:translate-x-2 hover:text-[#bc85ff] transition-all duration-300'>Events</a>
+                </div>
+            </div>
+            <!-- Join Us -->
+            <div class='pt-4'>
+                <h3 class='font-bold text-white lg:text-xl sm:text-lg mb-4 pb-2 relative after:content-"" after:absolute lg:after:left-2 after:left-0 after:bottom-0 md:after:w-[50%] after:w-[100px] after:h-[3px] after:bg-[#9704fe]'>Contact Us</h3>
+                <div class='flex flex-col text-left gap-2 text-gray-400 lg:pl-2 pl-0 lg:text-base text-sm'>
+                    <div class='flex flex-col group cursor-pointer'>
+                        <p class='text-[#9740fe]'>Join Us:</p>
+                        <p class='text-gray-300 text-sm group-hover:translate-x-2 transition-all duration-300'>ldrp@gmail.com</p>
+                    </div>
+                    <div class='flex flex-col group cursor-pointer'>
+                        <p class='text-[#9740fe]'>Phone:</p>
+                        <p class='text-gray-300 text-sm group-hover:translate-x-2 transition-all duration-300'>+91 999 999 9999</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Newsletter -->
+            <div class='pt-4'>
+                <h3 class='font-bold text-white lg:text-xl sm:text-lg mb-5 pb-2 relative after:content-"" after:absolute after:left-0 after:bottom-0 md:after:w-[50%] after:w-[100px] after:h-[3px] after:bg-[#9704fe]'>Newsletter Signup</h3>
+                <div class='flex flex-col text-left gap-2 text-gray-400 lg:text-base text-sm'>
+                    <form class='flex flex-col items-start gap-3'>
+                        <input type="email" placeholder='abc@xyz.com' class='lg:px-3 px-2.5 lg:py-2 py-1.5 text-sm outline-none bg-transparent border border-gray-500 rounded' />
+                        <input type="submit" value="Subscribe" class='uppercase cursor-pointer text-xs lg:px-6 px-4 lg:py-3 py-2 clip-button text-white font-semibold hover:bg-[black] bg-gradient-to-tr from-[#7815ea] to-[#c595ff] hover:translate-x-1 transition-all duration-300' />
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Copyrights -->
+        <div class='bg-[#240a34] bg-opacity-20 md:w-fit w-full md:px-24 px-8 md:pr-36 mb-0 sm:clip-copyrights text-gray-300 font-semibold py-8 text-xl'>
+            &copy; 2023 Xenesis All Rights Registered
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', function () {
+            const header = document.getElementById("navbar");
+            header.classList.toggle('backdrop-blur-md', window.scrollY > 0);
+        });
+
+        // Menu Dropdown Code
+        let mobileMenu = document.querySelector('#mobile-menu');
+        function toggleMobileMenu() {
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        // Profile Dropdown Code
+        let profileDropdownMobile = document.querySelector('#profile-dropdown-mobile');
+        let profileDropdown = document.querySelector('#profile-dropdown');
+        function toggleProfileDropdown() {
+            // Dropdown for Mobile
+            profileDropdownMobile.classList.toggle('h-none')
+            profileDropdownMobile.classList.toggle('h-auto')
+            profileDropdownMobile.classList.toggle('border')
+            profileDropdownMobile.classList.toggle('py-3')
+            // Dropdown for Laptop - Tablet
+            profileDropdown.classList.toggle('h-none')
+            profileDropdown.classList.toggle('h-auto')
+            profileDropdown.classList.toggle('border')
+            profileDropdown.classList.toggle('py-3')
+        }
+    </script>
+
+    <!-- Tailwind Js -->
+    <script src="./static/tailwind.js"></script>
+</body>
+
+</html>

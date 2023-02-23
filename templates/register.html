@@ -250,19 +250,20 @@
 				inputPassword.type = "password"
 				eyeOpen.classList.toggle('hidden')
 				eyeClosed.classList.toggle('hidden')
-			}
-			else {
+			} else if(inputPassword.type === "password") {
 				inputPassword.type = "text"
 				eyeOpen.classList.toggle('hidden')
-				eyeClosed.classList.toggle('hidden')
+				eyeOpen.classList.toggle('hidden')
 			}
+		}
 
-			if(inputRePassword.type === "text") {
-				inputPassword.type = "password"
+		function togglReEye() {
+			if(inputRePassword.type === "text"){
+				inputRePassword.type = "password"
 				eyeOpenRe.classList.toggle('hidden')
 				eyeClosedRe.classList.toggle('hidden')
 			}
-			else {
+			else if(inputRePassword.type === "password") {
 				inputRePassword.type = "text"
 				eyeOpenRe.classList.toggle('hidden')
 				eyeClosedRe.classList.toggle('hidden')

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, minimum-scale=1.0">
+    <title>Event Enrollment Form</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <script src="./static/tailwind.js"></script>
+    <link rel="stylesheet" href="./static/tailwind.css">
+    <style>
+        .form {
+            background: radial-gradient(at top left, #211e60 1%, #240a34 50%);
+            box-shadow: 0 0 100px 0 rgba(0, 0, 0, 0.8);
+        }
+        .clip-copyrights {
+            clip-path: polygon(0 0, 85% 0%, 100% 100%, 0% 100%);
+        }
+        .clip-button {
+            background: linear-gradient(to right, #7815ea, #c595ff) !important;
+            clip-path: polygon(0% 0%, 90% 0, 100% 30%, 100% 100%, 0 100%);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="flex items-center justify-between text-white fixed w-full top-0 py-[calc(3vh)] px-[calc(3vh)] z-50 transition-all duration-300" id="navbar">
+        <div>
+        <h1 class="text-[calc(3vh)]">Logo</h1>
+        </div>
+
+        <div class="relative flex items-center justify-center gap-4 lg:hidden">
+             <!-- Profile Image -->
+             <img src="./static/event-images/4.jpg" alt="" class=" w-[35px] h-[35px] rounded-full object-cover" onclick="toggleProfileDropdown()">
+             <!-- Profile Dropdown -->
+             <div class="absolute bg-slate-600 bg-opacity-50 top-12 right-0 w-full min-w-[200px] rounded-md border-slate-400 z-50 h-0 overflow-hidden transition-all duration-300" id="profile-dropdown-mobile">
+                  <a href="#" class="">
+                       <p class="w-full px-4"><i class="bi bi-gear mr-2.5"></i>Profile Settings</p>
+                  </a>
+                  <hr class="my-3 border-b-slate-400">
+                  <a href="#" class="">
+                       <p class="w-full px-4"><i class="bi bi-box-arrow-right mr-2.5"></i>Logout</p>
+                  </a>
+             </div>
+             <!-- Menu Toggle Button -->
+             <button class="text-2xl block lg:hidden !outline-none" onclick="toggleMobileMenu()"><i class="bi bi-list"></i></button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="absolute top-0 left-0 flex flex-col gap-5 items-center justify-center w-screen h-screen z-50 bg-slate-900 bg-opacity-95 hidden" id="mobile-menu">
+             <button class="absolute top-5 right-5 !outline-none" onclick="toggleMobileMenu()"><i class="bi bi-x-lg"></i></button>
+             <a href="/" class="text-2xl">Home</a>
+             <a href="/events" class="text-2xl">Events</a>
+             <a href="#" class="text-2xl">Event Confirm</a>
+             <a href="/aboutus" class="text-2xl">About Us</a>
+             <a href="/login" class="text-2xl">Login</a>
+             <a href="/register" class="text-2xl">Register</a>
+        </div>
+
+        <!-- Tablet | Laptop Menu -->
+        <ul class="flex items-center hidden lg:flex">
+             <li class="px-[calc(2vh)] font-semibold text-[calc(3vh)]"><a href="/">Home</a></li>
+             <li class="px-[calc(2vh)] font-semibold text-[calc(3vh)]"><a href="/events">Events</a></li>
+             <li class="px-[calc(2vh)] font-semibold text-[calc(3vh)]"><a href="#">Event Confirm</a></li>
+             <li class="px-[calc(2vh)] font-semibold text-[calc(3vh)]"><a href="/aboutus">About Us</a></li>
+             <li class="px-[calc(2vh)] font-semibold text-[calc(3vh)]"><a href="/login">Login</a></li>
+             <li class="px-[calc(2vh)] font-semibold text-[calc(3vh)]"><a href="/register">Register</a></li>
+             <div class="px-[calc(2vh)] font-semibold text-[calc(3vh)]">
+                  <button>Register for Event</button>
+             </div>
+             <div class="relative flex items-center justify-center gap-4 px-[calc(2vh)]">
+                  <img src="./static/event-images/4.jpg" alt="" class=" w-[50px] h-[50px] rounded-full object-cover" onclick="toggleProfileDropdown()">
+        
+                  <div class="absolute bg-slate-600 bg-opacity-50 top-16 right-0 w-full min-w-[200px] rounded-md border-slate-400 z-50 h-0 overflow-hidden transition-all duration-300" id="profile-dropdown">
+                       <a href="#" class="">
+                            <p class="w-full px-4"><i class="bi bi-gear mr-2.5"></i>Profile Settings</p>
+                       </a>
+                       <hr class="my-3 border-b-slate-400">
+                       <a href="#" class="">
+                            <p class="w-full px-4"><i class="bi bi-box-arrow-right mr-2.5"></i>Logout</p>
+                       </a>
+                  </div>
+             </div>
+        </ul>
+    </nav>
+
+    <!-- Main -->
+    <section class="relative flex items-center justify-center w-full h-full min-h-[100vh] max-h-[100vh] overflow-hidden">
+
+        <div class="absolute top-0 left-0 w-screen h-[calc((1024/1536)*100vw)] h-full min-h-[100vh]">
+            <canvas id="canvas" class="h-full w-full object-center block"></canvas>
+        </div>
+
+        <div class="absolute w-full h-full bg-gradient-to-t from-[#240a34] via-transparent to-transparent z-10"> </div>
+
+        <div class="form max-w-[800px] w-full lg:w-[90%] h-full md:px-12 sm:px-10 px-8 lg:py-16 sm:py-11 py-10 backdrop-blur form z-10 rounded-xl">
+            <!-- text-transparent bg-clip-text bg-gradient-to-tr from-orange-500 to-yellow-300 -->
+            <h1 class="text-white form-header-text text-center md:text-4xl sm:text-3xl text-2xl font-bold uppercase text-white mb-10 flex justify-center items-center gap-4"><img src="./static/ldrp.png" alt="" class="w-[50px] h-[50px]">Enroll other team members</h1>
+            <!-- Approved members Div -->
+            <div class="flex flex-col items-start justify-center gap-3 w-full my-5 mb-9" id="approved-members">
+                <!-- Members -->
+                <div class="flex items-center justify-between w-full bg-gradient-to-r from-slate-600 via-slate-600 to-slate-500 py-2 px-4 rounded-md">
+                    <p class="text-green-400 flex items-center gap-2 text-lg"><i class="bi bi-patch-check text-xl"></i>parthpadhiar2002@gmail.com</p>
+                    <!-- <button class=" text-red-600 !outline-none" onclick="removeMember(this)"><i class="bi bi-trash3"></i></button> -->
+                </div>
+            </div>
+            <form method="get" class="">
+                <div class='w-full flex flex-col items-center gap-5 w-full'>
+                    <div class="flex items-end justify-center gap-4 w-full">
+                        <!-- Add Members Input Div -->
+                        <div class='flex group relative w-full justify-center font-semibold'>
+                            <input type="email" id='email' spellCheck='false' class='peer bg-transparent font-light tracking-wider w-full pr-3 pl-1 py-2 transition-all duration-300 outline-none text-white border-b-[1px] border-white
+                            invalid:border-pink-300 invalid:text-red-400 focus:invalid:border-pink-300' placeholder=' '
+                                tabIndex="1" />
+                            <label for='email'
+                                class='absolute left-0 -top-4 text-white text-sm transition-all duration-300
+                            peer-focus:text-sm peer-focus:-top-4 peer-invalid:text-red-400
+                            peer-placeholder-shown:top-2 peer-placeholder-shown:text-base peer-placeholder-shown:text-white'>Email</label>
+                        </div>
+                        <button type="button" class="flex items-center justify-center !outline-none text-slate-200 border-slate-200 rounded-md gap-2 text-2xl" onclick="addMember()"><i class="bi bi-plus-circle"></i></button>
+                    </div>
+                    <input type="submit" value="Register" tabIndex="7"
+                    class='w-fit bg-white/50 text-black backdrop-blur-sm outline-none mt-5 xl:px-16 lg:px-12 sm:px-10 px-9 py-1.5 xl:text-lg lg:text-md font-semibold cursor-pointer transition-all duration-200 focus:-translate-y-1 hover:ring-[#211d5e] rounded-md' />
+                </div>           
+                <!-- bg-gradient-to-tr from-orange-500 to-yellow-300 -->
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#240a34] pt-20">
+        <div class='flex flex-col md:flex-row lg:justify-around justify-center md:gap-10 gap-3 xl:px-32 lg:px-20 md:px-12 px-8 mb-8'>
+            <!-- Social | Logo -->
+            <div class='flex flex-col md:items-center items-start gap-3'>
+                <img src='./static/ldrp.png' alt='Xenesis' class='lg:w-[140px] w-[110px]' />
+                <p class='lg:max-w-[200px] md:max-w-[140px] md:text-center text-gray-300'>Epic Events organized for ultimate students!</p>
+                <div class='flex items-center justify-center lg:gap-5 gap-4 md:mt-3 mt-1'>
+                    <a href='' class='text-[#9740fe] lg:text-2xl md:text-xl text-2xl hover:-translate-y-2 hover:text-[#dfc5ff] transition-all duration-300'><i class="bi bi-facebook"></i></a>
+                    <a href='' class='text-[#9740fe] lg:text-2xl md:text-xl text-2xl hover:-translate-y-2 hover:text-[#dfc5ff] transition-all duration-300'><i class="bi bi-twitter"></i></a>
+                    <a href='' class='text-[#9740fe] lg:text-2xl md:text-xl text-2xl hover:-translate-y-2 hover:text-[#dfc5ff] transition-all duration-300'><i class="bi bi-instagram"></i></a>
+                    <a href='' class='text-[#9740fe] lg:text-3xl md:text-xl text-2xl hover:-translate-y-2 hover:text-[#dfc5ff] transition-all duration-300'><i class="bi bi-youtube"></i></a>
+                </div>
+            </div>
+            <!-- Useful Links -->
+            <div class='pt-4'>
+                <h3 class='font-bold text-white lg:text-xl sm:text-lg mb-4 pb-2 relative after:content-"" after:absolute lg:after:left-2 after:left-0 after:bottom-0 md:after:w-[50%] after:w-[100px] after:h-[3px] after:bg-[#9704fe]'>Useful Links</h3>
+                <div class='flex flex-col text-left text-gray-400 gap-1 lg:pl-2 pl-0 lg:text-base text-sm'>
+                    <a href='' class='hover:translate-x-2 hover:text-[#bc85ff] transition-all duration-300'>Events</a>
+                    <a href='' class='hover:translate-x-2 hover:text-[#bc85ff] transition-all duration-300'>About Us</a>
+                    <a href='' class='hover:translate-x-2 hover:text-[#bc85ff] transition-all duration-300'>Register in Event</a>
+                    <a href='' class='hover:translate-x-2 hover:text-[#bc85ff] transition-all duration-300'>Events</a>
+                </div>
+            </div>
+            <!-- Join Us -->
+            <div class='pt-4'>
+                <h3 class='font-bold text-white lg:text-xl sm:text-lg mb-4 pb-2 relative after:content-"" after:absolute lg:after:left-2 after:left-0 after:bottom-0 md:after:w-[50%] after:w-[100px] after:h-[3px] after:bg-[#9704fe]'>Contact Us</h3>
+                <div class='flex flex-col text-left gap-2 text-gray-400 lg:pl-2 pl-0 lg:text-base text-sm'>
+                    <div class='flex flex-col group cursor-pointer'>
+                        <p class='text-[#9740fe]'>Join Us:</p>
+                        <p class='text-gray-300 text-sm group-hover:translate-x-2 transition-all duration-300'>ldrp@gmail.com</p>
+                    </div>
+                    <div class='flex flex-col group cursor-pointer'>
+                        <p class='text-[#9740fe]'>Phone:</p>
+                        <p class='text-gray-300 text-sm group-hover:translate-x-2 transition-all duration-300'>+91 999 999 9999</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Newsletter -->
+            <div class='pt-4'>
+                <h3 class='font-bold text-white lg:text-xl sm:text-lg mb-5 pb-2 relative after:content-"" after:absolute after:left-0 after:bottom-0 md:after:w-[50%] after:w-[100px] after:h-[3px] after:bg-[#9704fe]'>Newsletter Signup</h3>
+                <div class='flex flex-col text-left gap-2 text-gray-400 lg:text-base text-sm'>
+                    <form class='flex flex-col items-start gap-3'>
+                        <input type="email" placeholder='abc@xyz.com' class='lg:px-3 px-2.5 lg:py-2 py-1.5 text-sm outline-none bg-transparent border border-gray-500 rounded' />
+                        <input type="submit" value="Subscribe" class='uppercase cursor-pointer text-xs lg:px-6 px-4 lg:py-3 py-2 clip-button text-white font-semibold hover:bg-[black] bg-gradient-to-tr from-[#7815ea] to-[#c595ff] hover:translate-x-1 transition-all duration-300' />
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Copyrights -->
+        <div class='bg-[#240a34] bg-opacity-20 md:w-fit w-full md:px-24 px-8 md:pr-36 mb-0 sm:clip-copyrights text-gray-300 font-semibold py-8 text-xl'>
+            &copy; 2023 Xenesis All Rights Registered
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', function () {
+            const header = document.getElementById("navbar");
+            header.classList.toggle('backdrop-blur-md', window.scrollY > 0);
+        });
+
+        // Menu Dropdown Code
+        let mobileMenu = document.querySelector('#mobile-menu');
+        function toggleMobileMenu() {
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        // Profile Dropdown Code
+        let profileDropdownMobile = document.querySelector('#profile-dropdown-mobile');
+        let profileDropdown = document.querySelector('#profile-dropdown');
+        function toggleProfileDropdown() {
+            // Dropdown for Mobile
+            profileDropdownMobile.classList.toggle('h-none')
+            profileDropdownMobile.classList.toggle('h-auto')
+            profileDropdownMobile.classList.toggle('border')
+            profileDropdownMobile.classList.toggle('py-3')
+            // Dropdown for Laptop - Tablet
+            profileDropdown.classList.toggle('h-none')
+            profileDropdown.classList.toggle('h-auto')
+            profileDropdown.classList.toggle('border')
+            profileDropdown.classList.toggle('py-3')
+        }
+    </script>
+
+    <script id="vs" type="f">
+    attribute vec2 position;
+    attribute vec2 texcoord;
+    
+    uniform mat3 u_matrix;
+    
+    varying vec2 v_texcoord;
+    
+    void main() {
+          gl_Position = vec4(u_matrix * vec3(position, 1), 1);
+          v_texcoord = texcoord;
+    }
+    </script>
+    <!-- fragment shader -->
+    <script id="fs" type="f">
+        precision mediump float;
+        
+        uniform vec2 u_mouse;
+        
+        uniform sampler2D u_originalImage;
+        uniform sampler2D u_mapImage;
+        
+        varying vec2 v_texcoord;
+        
+        void main() {
+            vec4 depthDistortion = texture2D(u_mapImage, v_texcoord);
+            float parallaxMult = depthDistortion.r;
+        
+            vec2 parallax = (u_mouse) * parallaxMult;
+        
+            vec4 original = texture2D(u_originalImage, (v_texcoord + parallax));
+            gl_FragColor = original;
+        }
+    </script>
+    <!-- partial -->
+    <script src='https://cdn.rawgit.com/greggman/twgl.js/master/dist/4.x/twgl-full.min.js'></script>
+    <script src='https://webglfundamentals.org/webgl/resources/m3.js'></script>
+    <script>
+        function main(id, sourceImage, depthMap, parallaxSpeed) {
+            // Get A WebGL context
+            /** @type {HTMLCanvasElement} */
+            const canvas = document.getElementById(id);
+            const gl = canvas.getContext("webgl");
+            if (!gl) {
+                return;
+            }
+
+            let originalImage = { width: 0, height: 0 }; // replaced after loading
+            const originalTexture = twgl.createTexture(
+                gl,
+                {
+                    src: sourceImage,
+                    crossOrigin: "",
+                },
+                (err, texture, source) => {
+                    originalImage = source;
+                }
+            );
+
+            const mapTexture = twgl.createTexture(gl, {
+                src: depthMap,
+                crossOrigin: "",
+            });
+
+            // compile shaders, link program, lookup location
+            const programInfo = twgl.createProgramInfo(gl, ["vs", "fs"]);
+
+            // calls gl.createBuffer, gl.bindBuffer, gl.bufferData for a quad
+            const bufferInfo = twgl.primitives.createXYQuadBufferInfo(gl);
+
+            const mouse = [0, 0];
+            document.addEventListener("mousemove", (event) => {
+                mouse[0] = ((event.clientX / gl.canvas.clientWidth) * 2 - 1) * parallaxSpeed;
+                mouse[1] = ((event.clientY / gl.canvas.clientHeight) * 2 - 1) * parallaxSpeed;
+            });
+
+            document.addEventListener("touchmove", (event) => {
+                mouse[0] = ((event.touches[0].clientX / gl.canvas.clientWidth) * 2 - 1) * parallaxSpeed;
+                mouse[1] = ((event.touches[0].clientY / gl.canvas.clientHeight) * 2 - 1) * parallaxSpeed;
+            });
+
+            document.addEventListener("touchend", (event) => {
+                mouse[0] = 0;
+                mouse[1] = 0;
+            });
+
+            var nMouse = [0, 0];
+            var oMouse = [0, 0];
+
+            requestAnimationFrame(render);
+
+            function render() {
+                twgl.resizeCanvasToDisplaySize(gl.canvas);
+
+                gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+
+                gl.clearColor(0, 0, 0, 0);
+                gl.clear(gl.COLOR_BUFFER_BIT);
+
+                gl.useProgram(programInfo.program);
+
+                // calls gl.bindBuffer, gl.enableVertexAttribArray, gl.vertexAttribPointer
+                twgl.setBuffersAndAttributes(gl, programInfo, bufferInfo);
+
+                const canvasAspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
+                const imageAspect = originalImage.width / originalImage.height;
+                const mat = m3.scaling(imageAspect / canvasAspect, -1);
+
+                nMouse[0] += (mouse[0] - nMouse[0]) * 0.05;
+                nMouse[1] += (mouse[1] - nMouse[1]) * 0.05;
+
+                // calls gl.activeTexture, gl.bindTexture, gl.uniformXXX
+                twgl.setUniforms(programInfo, {
+                    u_matrix: mat,
+                    u_originalImage: originalTexture,
+                    u_mapImage: mapTexture,
+                    u_mouse: nMouse,
+                });
+
+                // calls gl.drawArrays or gl.drawElements
+                twgl.drawBufferInfo(gl, bufferInfo);
+
+                requestAnimationFrame(render);
+            }
+        }
+
+        main("canvas", "./static/event-images/eventHerolandingPage2.png", "./static/event-images/eventHeroDepthMap.jpeg", -0.03);
+    </script>
+</body>
+</html>

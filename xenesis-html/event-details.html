@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, minimum-scale=1.0">
+    <title>Xenesis - Event Details</title>
+    <link rel="stylesheet" href="./static/tailwind.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        .fade {
+            /* animation-name: fade;
+            animation-duration: 1.5s;
+            animation-fill-mode: forwards; */
+            animation: fade 1.5s linear forwards;
+            object-fit: cover;
+        }
+        @keyframes fade {
+            from {
+                opacity: .4
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+
+        h1.event-title {
+            font-family: 'Poppins', sans-serif;
+            ;
+            color: transparent;
+            -webkit-text-stroke: 1px white;
+            /* text-shadow: -1px 1px 0 #000, 1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000; */
+        }
+
+        .clip-copyrights {
+            clip-path: polygon(0 0, 85% 0%, 100% 100%, 0% 100%);
+        }
+        .clip-button {
+            background: linear-gradient(to right, #7815ea, #c595ff) !important;
+            clip-path: polygon(0% 0%, 90% 0, 100% 30%, 100% 100%, 0 100%);
+        }
+        .font-poppins {
+            font-family: 'Poppins', 'snas-serif';
+        }
+
+        @media screen and (max-width: 400px){
+            /* .organizers-div { 
+                grid-template-columns: repeat(1, 1fr) !important;
+                gap: 2.6rem !important;
+            } */
+            .org-images {
+                width: 140px !important;
+                height: 140px !important;
+            }
+            .org-name {
+                /* font-size: 1.6rem !important; */
+            }
+        }
+
+        @media screen and (max-width: 350px) {
+            .org-images {
+                width: 120px !important;
+                height: 120px !important;
+            }
+        }
+     </style>
+</head>
+
+
+<!-- mix-blend-multiply mix-blend-overlay mix-blend-lighten mix-blend-color-dodge mix-blend-color-burn mix-blend-difference mix-blend-exclusion mix-blend-hue mix-blend-saturation mix-blend-color mix-blend-luminosity mix-blend-plus-lighter -->
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="flex items-center justify-between text-white fixed w-full top-0 py-[calc(3vh)] px-[calc(3vh)] z-50 transition-all duration-300" id="navbar">
+        <div>
+        <h1 class="text-[calc(3vh)]">Logo</h1>
+        </div>
+
+        <div class="relative flex items-center justify-center gap-4 lg:hidden">
+            <!-- Profile Image -->
+            <div class="w-[35px] h-[35px] rounded-full" id="profile-image-mobile">
+            </div>
+            <!-- Profile Dropdown -->
+            <div class="absolute bg-slate-600 bg-opacity-50 top-12 right-0 w-full min-w-[200px] rounded-md border-slate-400 z-50 h-0 overflow-hidden transition-all duration-300 !backdrop-blur" id="profile-dropdown-mobile">
+                 <a href="#" class="">
+                    <p class="w-full px-4"><i class="bi bi-gear mr-2.5"></i>Profile Settings</p>
+                 </a>
+                 <hr class="my-3 border-b-slate-400">
+                 <a href="#" class="">
+                    <p class="w-full px-4"><i class="bi bi-box-arrow-right mr-2.5"></i>Logout</p>
+                 </a>
+            </div>
+            <!-- Menu Toggle Button -->
+            <button class="text-2xl block lg:hidden !outline-none" onclick="toggleMobileMenu()"><i class="bi bi-list"></i></button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="absolute top-0 left-0 flex flex-col gap-5 items-center justify-center w-screen h-screen z-50 bg-slate-900 bg-opacity-95 hidden" id="mobile-menu">
+            <button class="absolute top-5 right-5 !outline-none" onclick="toggleMobileMenu()"><i class="bi bi-x-lg"></i></button>
+            <a href="/" class="text-2xl">Home</a>
+            <a href="/events" class="text-2xl">Events</a>
+            <a href="#" class="text-2xl">Event Confirm</a>
+            <a href="/aboutus" class="text-2xl">About Us</a>
+            <a href="/login" class="text-2xl">Login</a>
+            <a href="/register" class="text-2xl">Register</a>
+        </div>
+
+        <!-- Tablet | Laptop Menu -->
+        <ul class="flex items-center hidden lg:flex">
+            <li class="px-[calc(2vh)] font-semibold text-[calc(3vh)]"><a href="/">Home</a></li>
+            <li class="px-[calc(2vh)] font-semibold text-[calc(3vh)]"><a href="/events">Events</a></li>
+            <li class="px-[calc(2vh)] font-semibold text-[calc(3vh)]"><a href="#">Event Confirm</a></li>
+            <li class="px-[calc(2vh)] font-semibold text-[calc(3vh)]"><a href="/aboutus">About Us</a></li>
+            <li class="px-[calc(2vh)] font-semibold text-[calc(3vh)]"><a href="/login">Login</a></li>
+            <li class="px-[calc(2vh)] font-semibold text-[calc(3vh)]"><a href="/register">Register</a></li>
+            <div class="px-[calc(2vh)] font-semibold text-[calc(3vh)]">
+                <button>Register for Event</button>
+            </div>
+            <div class="relative flex items-center justify-center gap-4 px-[calc(2vh)]">
+                <!-- Profile Image -->
+                <div class="w-[35px] h-[35px] rounded-full" id="profile-image">
+                </div>
+                <!-- Profile Dropdown -->
+                <div class="absolute bg-slate-600 bg-opacity-50 top-16 right-0 w-full min-w-[200px] rounded-md border-slate-400 z-50 h-0 overflow-hidden transition-all duration-300" id="profile-dropdown">
+                    <a href="#" class="">
+                        <p class="w-full px-4"><i class="bi bi-gear mr-2.5"></i>Profile Settings</p>
+                    </a>
+                    <hr class="my-3 border-b-slate-400">
+                    <a href="#" class="">
+                        <p class="w-full px-4"><i class="bi bi-box-arrow-right mr-2.5"></i>Logout</p>
+                    </a>
+                </div>
+            </div>
+        </ul>
+    </nav>
+
+    <!-- Main Section -->
+    <section class="w-full h-full min-h-[100vh] relative flex flex-col items-center justify-center bg-gradient-to-b from-[#240a34] to-[#211e60]">
+
+        <!-- bg image over title -->
+        <img src="./static/event-images/bg-2.png" class="w-screen h-[calc(100vw * (1024/1096))] mix-blend-darken opacity-40 absolute bg-cover xl:-top-10 lg:top-[10vh] md:top-[30vh] sm:top-[40vh] left-0 z-20" alt="">
+
+        <!-- Image Slider -->
+        <div class="w-full h-full relative flex items-center justify-center overflow-y-hidden">
+            <div class="absolute w-full h-full bg-gradient-to-t from-[#240a34] via-transparent to-transparent z-10"> </div>
+            <div class="flex relative overflow-hidden">
+                <img src="./static/event-images/jett.jpg" alt="" class="w-screen md:h-screen h-full object-cover object-right mySlides fade">
+                <img src="./static/event-images/1.jpg" alt="" class="w-screen md:h-screen h-full object-cover object-center mySlides fade">
+                <img src="./static/event-images/2.jpg" alt="" class="w-screen md:h-screen h-full object-cover object-center mySlides fade">
+                <img src="./static/event-images/4.jpg" alt="" class="w-screen md:h-screen h-full object-cover object-center mySlides fade">
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="w-full h-full xl:px-32 lg:px-20 md:px-16 sm:px-12 px-8 sm:py-20 py-0 sm:pt-0 text-white relative z-30">
+
+            <!-- <h1 class="event-title text-[6vw] font-bold text-transparent">X-Motion Game Mania</h1> -->
+            <h1 class="lg:text-[5vw] sm:text-[7vw] text-[2.3rem] sm:leading-loose leading-10 z-30 font-extrabold sm:-mt-36 text-white text-center">X-Motion Game Mania</h1>
+
+            <!-- Description -->
+            <div class="sm:mb-24 my-10 text-center">
+                <p class="font-bold text-3xl mb-5 text-blue-400 z-30">Description</p>
+                <p class="text-gray-300 sm:text-lg leading-7 text-justify sm:font-normal font-light">This event is a unique combination of technology and entertainment.
+                    Participants will have the opportunity to play virtual reality (VR) games without the need of VR
+                    headset, using camera and motion detection technology instead. This event will challenge both the
+                    technical and entertainment skills of each participants, as they navigate a series of games that
+                    will test their logical thinking, memory, and teamwork abilities. Get ready for a high-tech twists
+                    on classic games and see if you have what it takes to emerge on the top at 
+                    <span class="font-semibold">X-Motion Game Mania</span>!</p>
+            </div>
+
+            <!-- Faculty | Prizes | Location -->
+            <div class="grid gap-10 xl:grid-cols-3 grid-cols-1 sm:mb-24 mb-12">
+                <!-- Faculty Co-ordinators -->
+                <div class="sm:text-center xl:mt-16 mt-10">
+                    <p class="font-bold text-3xl mb-5 text-blue-400">Faculty Coordinators</p>
+                    <p class="text-gray-300 sm:text-lg">Vishal Barot,<br /> Piyush Kapadiya</p>
+                </div>
+                <!-- Prizes -->
+                <div class="sm:text-center xl:mt-0 mt-10">
+                    <p class="font-bold text-3xl mb-2 text-blue-400">Prizes</p>
+                    <div class="flex items-center justify-center gap-12 pt-4">
+                        <div>
+                            <img src="./static/trophy/1.png" alt="" class="w-[100px] mix-blend-screen mb-3">
+                            <p class="sm:!text-lg text-sm flex flex-col items-center"><span class="font-semibold text-base text-gray-300">1st</span> ₹ 1,500</p>
+                        </div>
+                        <div>
+                            <img src="./static/trophy/2.png" alt="" class="w-[100px] mix-blend-screen mb-3">
+                            <p class="sm:!text-lg text-sm flex flex-col items-center"><span class="font-semibold text-base text-gray-300">2nd</span> ₹ 1,000</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Location -->
+                <div class="sm:text-center xl:mt-16 mt-10">
+                    <p class="font-bold text-3xl mb-5 text-blue-400">Location of Event</p>
+                    <p><span class="font-semibold text-gray-300 sm:text-lg">Floor</span> : 1st floor</p>
+                    <p><span class="font-semibold text-gray-300 sm:text-lg">Lab / Hall / Class</span> : Lab A1, A2, B1</p>
+                </div>
+            </div>   
+
+            <!-- Rules -->
+            <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-2 sm:gap-10 gap-6 sm:my-32 my-20">
+                <!-- Rules -->
+                <div>
+                    <p class="font-bold text-3xl mb-5 text-blue-400">Rules of Event</p>
+                    <ul class="pl-5 lg:pr-5 pr-0 text-gray-300 sm:text-lg sm:font-normal font-light">
+                        <li class="list-decimal mb-4">Participants are not allowed to use any of the props for explanation during
+                            the event.</li>
+                        <li class="list-decimal mb-4">The participants qualifying the preceding rounds shall be eligible for the
+                            next round.</li>
+                        <li class="list-decimal mb-4">Participants breaking the rules will be disqualified.</li>
+                        <li class="list-decimal mb-4">Participants are not allowed to use any of the props for explanation during
+                            the event</li>
+                        <li class="list-decimal mb-4">Participants are not allowed to use any of the props for explanation during
+                            the event</li>
+                        <li class="list-decimal">Participants are not allowed to use any of the props for explanation during
+                            the event</li>
+                    </ul>
+                </div>
+                <img src="./static/login/login-back.png" alt="" class=" w-full h-full rounded-xl ">
+            </div>
+            
+            <!-- Rounds -->
+            <div class="flex mb-12">
+                <div class="">
+                    <p class="font-bold text-3xl lg:mb-8 sm:mb-4 text-blue-400">Rounds</p>
+                    <ul class="pl-8 text-gray-300 sm:text-lg flex flex-col lg:gap-14 gap-6">
+                        <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-12 gap-0">
+                            <img src="./static/login/login-back.png" alt="" class="w-full h-full rounded-xl hidden lg:block">
+                            <div class="lg:pl-4 pl-0">
+                                <li class="list-decimal font-semibold my-2 text-white text-lg">Balloon Popper</li>
+                                <ul class="pl-4">
+                                    <li class="font-light list-disc mb-3">In this round, participants will play the Balloon Popper game using camera and motion detection technology.</li>
+                                    <li class="font-light list-disc mb-3">The objective of the game is to pop as many balloons on the screen as possible by using a real ball.</li>
+                                    <li class="font-light list-disc mb-3">Participants will be tasked with hitting all the balloons on the screen before they fly out.</li>
+                                    <li class="font-light list-disc mb-3">The game is fast-paced and requires quick reflexes and precise movements.</li>
+                                    <li class="font-light list-disc mb-3">Participants will compete against each other for the highest score, and the top performers will move on to the next round.</li>
+                                    <li class="font-light list-disc mb-3">The Balloon Popper round is designed to test the participants' hand-eye coordination and reaction time, making it a fun and exciting challenge for all players.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-12 gap-0">
+                            <div>
+                                <li class="list-decimal font-semibold my-2 text-white text-lg">Subway Surfer Challenge</li>
+                                <ul class="pl-4">
+                                    <li class="font-light list-disc mb-3">In this round, participants will compete against each other in the classic Subway Surfer game using camera and motion detection technology.</li>
+                                    <li class="font-light list-disc mb-3">The objective of the game is to run as far as possible while avoiding obstacles and collecting coins.</li>
+                                    <li class="font-light list-disc mb-3">Participants will be able to see their opponent's progress on the screen, adding a competitive edge to the game.</li>
+                                    <li class="font-light list-disc mb-3">The player with the highest score at the end of the round will be declared the winner.</li>
+                                    <li class="font-light list-disc mb-3">The Subway Surfer Challenge requires participants to use quick thinking, strategic planning, and precise movements.</li>
+                                    <li class="font-light list-disc mb-3">This round will test the participants' agility, coordination, and problem-solving skills, making it a thrilling and exciting challenge for all players.</li>
+                                </ul>
+                            </div>
+                            <img src="./static/login/login-back.png" alt="" class="w-full h-full rounded-xl hidden lg:block">
+                        </div>
+                        <div class="grid lg:grid-cols-2 grid-cols-1 lg:gap-12 gap-0">
+                            <img src="./static/login/login-back.png" alt="" class="w-full h-full rounded-xl hidden lg:block">
+                            <div class="lg:pl-4 pl-0">
+                                <li class="list-decimal font-semibold my-2 text-white text-lg">Beat Saber Finale</li>
+                                <ul class="pl-4">
+                                    <li class="font-light list-disc mb-3">The Beat Saber Finale is the final round of the X - Motion Game Mania event.</li>
+                                    <li class="font-light list-disc mb-3">In this round, participants will use camera and motion detection technology to play the popular rhythm-based Beat Saber game.</li>
+                                    <li class="font-light list-disc mb-3">The objective of the game is to slash the virtual beats with a pair of laser swords, in time with the music.</li>
+                                    <li class="font-light list-disc mb-3">Participants will be competing against each other for the highest score, with the winner being declared the champion of the X - Motion Game Mania event.</li>
+                                    <li class="font-light list-disc mb-3">The Beat Saber Finale requires participants to combine quick reflexes, coordination, and musical rhythm to succeed.</li>
+                                    <li class="font-light list-disc mb-3">This exciting and challenging round will test the skills of all participants and provide a thrilling conclusion to the X- Motion Game Mania event. Get ready to rock out and show your skills!</li>
+                                </ul>
+                            </div>
+                        </div>  
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Organizers -->
+            <div class="mb-6">
+                <p class="font-bold text-3xl mb-2 text-blue-400">Organizers</p>
+                <div class="md:flex grid grid-cols-2 items-center lg:justify-start justify-center lg:gap-10 gap-5 sm:gap-y-8 mt-10 organizers-div">
+                    <div class="flex flex-col items-center justify-center">
+                        <img src="./static/event-images/jett.jpg" alt="" class="xl:w-[200px] lg:w-[160px] md:w-[140px] w-[160px] xl:h-[200px] lg:h-[160px] md:h-[140px] h-[160px] object-cover object-right rounded-full org-images">
+                        <p class="mt-3 text-center lg:text-2xl sm:text-xl text-lg lg:font-bold font-semibold org-name">Parth Padhiar</p>
+                    </div>
+                    <div class="flex flex-col items-center justify-center">
+                        <img src="./static/event-images/1.jpg" alt="" class="xl:w-[200px] lg:w-[160px] md:w-[140px] w-[160px] xl:h-[200px] lg:h-[160px] md:h-[140px] h-[160px] object-cover object-center rounded-full org-images">
+                        <p class="mt-3 text-center lg:text-2xl sm:text-xl text-lg lg:font-bold font-semibold org-name">Jagrat Patel</p>
+                    </div>
+                    <div class="flex flex-col items-center justify-center">
+                        <img src="./static/event-images/2.jpg" alt="" class="xl:w-[200px] lg:w-[160px] md:w-[140px] w-[160px] xl:h-[200px] lg:h-[160px] md:h-[140px] h-[160px] object-cover object-center rounded-full org-images">
+                        <p class="mt-3 text-center lg:text-2xl sm:text-xl text-lg lg:font-bold font-semibold org-name">Jaivin Barot</p>
+                    </div>
+                    <div class="flex flex-col items-center justify-center">
+                        <img src="./static/event-images/4.jpg" alt="" class="xl:w-[200px] lg:w-[160px] md:w-[140px] w-[160px] xl:h-[200px] lg:h-[160px] md:h-[140px] h-[160px] object-cover object-center rounded-full org-images">
+                        <p class="mt-3 text-center lg:text-2xl sm:text-xl text-lg lg:font-bold font-semibold org-name">Shubham Bhogayata</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Event to Cart Div -->
+        <div class="w-full h-full relative z-50">
+            <button class="fixed bottom-5 right-5 group !outline-none z-50 px-10 py-3 border rounded-lg bg-[#221144] text-white text-lg add-to-cart-btn animate-bounce">
+                <span class=" flex items-center gap-1">Add Event to <i class="bi bi-cart2 mx-1 group-hover:drop-shadow-2xl group-hover:text-2xl transition-all duration-300"></i></span>
+            </button>
+        </div>
+
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#211e60] pt-16">
+        <div class='flex flex-col md:flex-row lg:justify-around justify-center md:gap-10 gap-3 xl:px-32 lg:px-20 md:px-12 px-8 mb-8'>
+            <!-- Social | Logo -->
+            <div class='flex flex-col md:items-center items-start gap-3'>
+                <img src='./static/ldrp.png' alt='Xenesis' class='lg:w-[140px] w-[110px]' />
+                <p class='lg:max-w-[200px] md:max-w-[140px] md:text-center text-gray-300'>Epic Events organized for ultimate students!</p>
+                <div class='flex items-center justify-center lg:gap-5 gap-4 md:mt-3 mt-1'>
+                    <a href='' class='text-[#9740fe] lg:text-2xl md:text-xl text-2xl hover:-translate-y-2 hover:text-[#dfc5ff] transition-all duration-300'><i class="bi bi-facebook"></i></a>
+                    <a href='' class='text-[#9740fe] lg:text-2xl md:text-xl text-2xl hover:-translate-y-2 hover:text-[#dfc5ff] transition-all duration-300'><i class="bi bi-twitter"></i></a>
+                    <a href='' class='text-[#9740fe] lg:text-2xl md:text-xl text-2xl hover:-translate-y-2 hover:text-[#dfc5ff] transition-all duration-300'><i class="bi bi-instagram"></i></a>
+                    <a href='' class='text-[#9740fe] lg:text-3xl md:text-xl text-2xl hover:-translate-y-2 hover:text-[#dfc5ff] transition-all duration-300'><i class="bi bi-youtube"></i></a>
+                </div>
+            </div>
+            <!-- Useful Links -->
+            <div class='pt-4'>
+                <h3 class='font-bold text-white lg:text-xl sm:text-lg mb-4 pb-2 relative after:content-"" after:absolute lg:after:left-2 after:left-0 after:bottom-0 md:after:w-[50%] after:w-[100px] after:h-[3px] after:bg-[#9704fe]'>Useful Links</h3>
+                <div class='flex flex-col text-left text-gray-400 gap-1 lg:pl-2 pl-0 lg:text-base text-sm'>
+                    <a href='' class='hover:translate-x-2 hover:text-[#bc85ff] transition-all duration-300'>Events</a>
+                    <a href='' class='hover:translate-x-2 hover:text-[#bc85ff] transition-all duration-300'>About Us</a>
+                    <a href='' class='hover:translate-x-2 hover:text-[#bc85ff] transition-all duration-300'>Register in Event</a>
+                    <a href='' class='hover:translate-x-2 hover:text-[#bc85ff] transition-all duration-300'>Events</a>
+                </div>
+            </div>
+            <!-- Join Us -->
+            <div class='pt-4'>
+                <h3 class='font-bold text-white lg:text-xl sm:text-lg mb-4 pb-2 relative after:content-"" after:absolute lg:after:left-2 after:left-0 after:bottom-0 md:after:w-[50%] after:w-[100px] after:h-[3px] after:bg-[#9704fe]'>Contact Us</h3>
+                <div class='flex flex-col text-left gap-2 text-gray-400 lg:pl-2 pl-0 lg:text-base text-sm'>
+                    <div class='flex flex-col group cursor-pointer'>
+                        <p class='text-[#9740fe]'>Join Us:</p>
+                        <p class='text-gray-300 text-sm group-hover:translate-x-2 transition-all duration-300'>ldrp@gmail.com</p>
+                    </div>
+                    <div class='flex flex-col group cursor-pointer'>
+                        <p class='text-[#9740fe]'>Phone:</p>
+                        <p class='text-gray-300 text-sm group-hover:translate-x-2 transition-all duration-300'>+91 999 999 9999</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Newsletter -->
+            <div class='pt-4'>
+                <h3 class='font-bold text-white lg:text-xl sm:text-lg mb-5 pb-2 relative after:content-"" after:absolute after:left-0 after:bottom-0 md:after:w-[50%] after:w-[100px] after:h-[3px] after:bg-[#9704fe]'>Newsletter Signup</h3>
+                <div class='flex flex-col text-left gap-2 text-gray-400 lg:text-base text-sm'>
+                    <form class='flex flex-col items-start gap-3'>
+                        <input type="email" placeholder='abc@xyz.com' class='lg:px-3 px-2.5 lg:py-2 py-1.5 text-sm outline-none bg-transparent border border-gray-500 rounded' />
+                        <input type="submit" value="Subscribe" class='uppercase cursor-pointer text-xs lg:px-6 px-4 lg:py-3 py-2 clip-button text-white font-semibold hover:bg-[black] bg-gradient-to-tr from-[#7815ea] to-[#c595ff] hover:translate-x-1 transition-all duration-300' />
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Copyrights -->
+        <div class='bg-[#240a34] bg-opacity-20 md:w-fit w-full md:px-24 px-8 md:pr-36 mb-0 sm:!clip-copyrights text-gray-300 font-semibold py-8 text-xl'>
+            &copy; 2023 Xenesis All Rights Registered
+        </div>
+    </footer>
+
+    <!-- Tailwind Library -->
+    <script src="./static/tailwind.js"></script>
+
+    <script>
+        // let slideIndex = 1;
+        // showSlides(slideIndex);
+
+        // // Next/previous controls
+        // function changeSlide(count) {
+        //     showSlides(slideIndex += count);
+        // }
+
+        // function showSlides(n) {
+        //     let i;
+        //     let slides = document.getElementsByClassName("mySlides");
+        //     if (n > slides.length) { slideIndex = 1 }
+        //     if (n < 1) { slideIndex = slides.length }
+        //     for (i = 0; i < slides.length; i++) {
+        //         slides[i].style.display = "none";
+        //     }
+        //     slides[slideIndex - 1].style.display = "block";
+        // }
+
+        let slideIndex = 0;
+        showSlides();
+
+        function showSlides() {
+        let i;
+        let slides = document.getElementsByClassName("mySlides");
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        slideIndex++;
+        if (slideIndex > slides.length) {slideIndex = 1}
+        slides[slideIndex-1].style.display = "block";
+        setTimeout(showSlides, 3000); // Change image every 2 seconds
+        }
+
+        window.addEventListener('scroll', function () {
+            const header = document.getElementById("navbar");
+            header.classList.toggle('backdrop-blur-md', window.scrollY > 0);
+        });
+
+        // Set interval
+        
+        function DelayloadingImages() {
+            let profImg = document.getElementById('profile-image');
+            let profImgMobile = document.getElementById('profile-image-mobile');
+            profImg.innerHTML = "<img src='./static/event-images/2.jpg' alt='' class='w-full h-full rounded-full object-cover' onclick='toggleProfileDropdown()'>";
+            profImgMobile.innerHTML = "<img src='./static/event-images/2.jpg' alt='' class='w-full h-full rounded-full object-cover' onclick='toggleProfileDropdown()'>";
+        }
+        setTimeout("DelayloadingImages()", 500);
+    </script>
+
+    <script>
+
+        // Menu Dropdown Code
+        let mobileMenu = document.querySelector('#mobile-menu');
+        function toggleMobileMenu() {
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        // Profile Dropdown Code
+        let profileDropdownMobile = document.querySelector('#profile-dropdown-mobile');
+        let profileDropdown = document.querySelector('#profile-dropdown');
+        function toggleProfileDropdown() {
+            // Dropdown for Mobile
+            profileDropdownMobile.classList.toggle('h-none')
+            profileDropdownMobile.classList.toggle('h-auto')
+            profileDropdownMobile.classList.toggle('border')
+            profileDropdownMobile.classList.toggle('py-3')
+            // Dropdown for Laptop - Tablet
+            profileDropdown.classList.toggle('h-none')
+            profileDropdown.classList.toggle('h-auto')
+            profileDropdown.classList.toggle('border')
+            profileDropdown.classList.toggle('py-3')
+        }
+    </script>
+</body>
+
+</html>
