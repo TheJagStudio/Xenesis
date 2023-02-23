@@ -14,7 +14,8 @@ class Profile(models.Model):
     isVolunteer = models.BooleanField(default=False)
     isOrganiser = models.BooleanField(default=False)
     isAccountSetup = models.BooleanField(default=False)
-    isVerified = models.BooleanField(default=False)
+    isCampainVolunteer = models.BooleanField(default=False)
+    isVerified = models.BooleanField(default=False)    
     college = models.CharField(max_length=500, blank=True)
 
     def __str__(self):
