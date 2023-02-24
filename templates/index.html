@@ -144,7 +144,7 @@
 								</div>
 								<div class="" id="blurOverlay{{event.0}}">
 									<div class="w-full rounded-t-lg overflow-hidden relative group">
-										<img src="{{event.4}}" alt="1" class="group-hover:scale-110 h-48 w-full object-cover overflow-hidden transition-all duration-300" />
+										<img src="{%if event.4 != '-'%}{{event.4}}{%else%}/static/logoCus.png{%endif%}" alt="1" class="group-hover:scale-110 h-48 w-full object-cover overflow-hidden transition-all duration-300" />
 									</div>
 									<div class="my-3 px-4">
 										<h1 class="text-white font-bold text-2xl capitalize eventName title-truncate">{{event.0}}</h1>
@@ -331,7 +331,7 @@
 							</div>
 							<div class="" id="blurOverlay{{event.0}}2">
 								<div class="w-full rounded-t-lg overflow-hidden relative group">
-									<img src="{{event.4}}" alt="1" class="group-hover:scale-110 h-48 w-full object-cover overflow-hidden transition-all duration-300" />
+									<img src="{%if event.4 != '-'%}{{event.4}}{%else%}/static/logoCus.png{%endif%}" alt="1" class="group-hover:scale-110 h-48 w-full object-cover overflow-hidden transition-all duration-300" />
 								</div>
 								<div class="my-3 px-4">
 									<h1 class="text-white font-bold text-2xl capitalize eventName title-truncate">{{event.0}}</h1>
