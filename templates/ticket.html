@@ -73,7 +73,7 @@
 							</div> -->
 							<div class="my-4 px-4">
 								<h1 class="text-white font-bold text-xl title-truncate">{{ticket.eventName}}</h1>
-								<p class="text-white">₹ {{ticket.price}}</p>
+								<p class="text-white text-xl font-bold bg-[#221e60] text-center rounded-md mt-1">₹ {{ticket.price}}  {% if ticket.userCount != 1%}X {{ticket.userCount}} = ₹ {{ticket.total}}{%endif%}</p>
 							</div>
 							<div class="bg-[#2F1D69] text-white text-center rounded-b-lg font-semibold">
 								{% if ticket.isPaid == True%}
@@ -167,78 +167,34 @@
 						<h2 class="text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">Tickets</h2>
 					</div>
 					<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6 xl:grid-cols-4">
-						<div class="flex grow flex-col pt-5 border rounded-lg bg-red-500/60">
-							<div class="flex items-center justify-between gap-5 w-full px-4">
-								<div class="avatar h-20 w-20">
-									<img class="rounded-full ring ring-[#ffffff]" src="/static/avatars/0001.png" alt="avatar" />
+						{% for ticket in data%}
+						<div id="ticket_{{ticket.id}}" class="flex grow flex-col justify-between pt-5 border rounded-lg {% if ticket.isPaid == True%}bg-green-500/60{%else%}bg-red-500/60{%endif%} transition-all duration-300">
+							<div class="flex items-center gap-5 w-full px-4">
+								<div class="avatar w-[20%] min-w-[20%]">
+									<img class="rounded-full ring ring-[#ffffff] w-full h-full object-cover bg-slate-500" src="/static/avatars/{{ticket.profilePic}}.png" alt="avatar" />
 								</div>
-								<div>
-									<h3 class="text-lg font-medium text-white dark:text-navy-100">Konnor Guzman</h3>
-									<p class="text-gray-400">Konnor@gmail.com</p>
+								<div class="overflow-hidden">
+									<h3 class="text-lg font-medium text-white dark:text-navy-100">{{ticket.username}}</h3>
+									<p class="text-gray-300 truncate">{{ticket.email}}</p>
+									<p class="capitalize text-white">Ticket id : T{{ticket.id}}</p>
 								</div>
 							</div>
+							<!-- <div>
+								<p class="capitalize text-[#221e60] bg-white rounded-full">Team id : T0123</p>
+							</div> -->
 							<div class="my-4 px-4">
-								<h1 class="text-white font-bold text-xl title-truncate">X-Motion game mania</h1>
-								<p class="text-white">₹ 100</p>
+								<h1 class="text-white font-bold text-xl title-truncate">{{ticket.eventName}}</h1>
+								<p class="text-white text-xl font-bold bg-[#221e60] text-center rounded-md mt-1">₹ {{ticket.price}}  {% if ticket.userCount != 1%}X {{ticket.userCount}} = ₹ {{ticket.total}}{%endif%}</p>
 							</div>
-							<div class="bg-[#2F1D69] text-white text-center p-2 rounded-b-lg font-semibold">
-								<button>Accept</button>
+							<div class="bg-[#2F1D69] text-white text-center rounded-b-lg font-semibold">
+								{% if ticket.isPaid == True%}
+								<button disabled class="outline-none focus:outline-none w-full p-2">Accepted</button>
+								{%else%}
+								<button onclick="acceptTicket('{{ticket.id}}',this)" class="outline-none focus:outline-none w-full p-2">Accept</button>
+								{%endif%}
 							</div>
 						</div>
-                        <div class="flex grow flex-col pt-5 border rounded-lg bg-green-500/60">
-							<div class="flex items-center justify-between gap-5 w-full px-4">
-								<div class="avatar h-20 w-20">
-									<img class="rounded-full ring ring-[#ffffff]" src="/static/avatars/0002.png" alt="avatar" />
-								</div>
-								<div>
-									<h3 class="text-lg font-medium text-white dark:text-navy-100">Konnor Guzman</h3>
-									<p class="text-gray-400">Konnor@gmail.com</p>
-								</div>
-							</div>
-							<div class="my-4 px-4">
-								<h1 class="text-white font-bold text-xl title-truncate">X-Motion game mania</h1>
-								<p class="text-white">₹ 100</p>
-							</div>
-							<div class="bg-[#2F1D69] text-white text-center p-2 rounded-b-lg font-semibold">
-								<button>Accept</button>
-							</div>
-						</div>
-                        <div class="flex grow flex-col pt-5 border rounded-lg bg-red-500/60">
-							<div class="flex items-center justify-between gap-5 w-full px-4">
-								<div class="avatar h-20 w-20">
-									<img class="rounded-full ring ring-[#ffffff]" src="/static/avatars/0001.png" alt="avatar" />
-								</div>
-								<div>
-									<h3 class="text-lg font-medium text-white dark:text-navy-100">Konnor Guzman</h3>
-									<p class="text-gray-400">Konnor@gmail.com</p>
-								</div>
-							</div>
-							<div class="my-4 px-4">
-								<h1 class="text-white font-bold text-xl title-truncate">X-Motion game mania</h1>
-								<p class="text-white">₹ 100</p>
-							</div>
-							<div class="bg-[#2F1D69] text-white text-center p-2 rounded-b-lg font-semibold">
-								<button>Accept</button>
-							</div>
-						</div>
-                        <div class="flex grow flex-col pt-5 border rounded-lg bg-green-500/60">
-							<div class="flex items-center justify-between gap-5 w-full px-4">
-								<div class="avatar h-20 w-20">
-									<img class="rounded-full ring ring-[#ffffff]" src="/static/avatars/0001.png" alt="avatar" />
-								</div>
-								<div>
-									<h3 class="text-lg font-medium text-white dark:text-navy-100">Konnor Guzman</h3>
-									<p class="text-gray-400">Konnor@gmail.com</p>
-								</div>
-							</div>
-							<div class="my-4 px-4">
-								<h1 class="text-white font-bold text-xl title-truncate">X-Motion game mania</h1>
-								<p class="text-white">₹ 100</p>
-							</div>
-							<div class="bg-[#2F1D69] text-white text-center p-2 rounded-b-lg font-semibold">
-								<button>Accept</button>
-							</div>
-						</div>
+						{%endfor%}
 					</div>
 				</div>
 			</section>

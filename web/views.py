@@ -457,6 +457,15 @@ def ticketVerifer(request):
         tickets = Ticket.objects.all()
         dataTemp = []
         for ticket in tickets:
+            count = 1
+            if ticket.owner1 != None:
+                count=count+1
+            if ticket.owner2 != None:
+                count=count+1
+            if ticket.owner3 != None:
+                count=count+1
+            if ticket.owner4 != None:
+                count=count+1
             temp = {}
             temp["id"] = ticket.id
             temp["profilePic"] = ticket.owner.profilePic
@@ -465,6 +474,9 @@ def ticketVerifer(request):
             temp["price"] = ticket.event.price
             temp["eventName"] = ticket.event.name
             temp["isPaid"] = ticket.isPaid
+            temp["userCount"] = count
+            if count != 1:
+                temp["total"] = count*int(ticket.event.price)
             dataTemp.append(temp)
         data = []
         data2 = []
