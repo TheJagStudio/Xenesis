@@ -474,9 +474,13 @@ def ticketVerifer(request):
             temp["price"] = ticket.event.price
             temp["eventName"] = ticket.event.name
             temp["isPaid"] = ticket.isPaid
-            temp["userCount"] = count
-            if count != 1:
-                temp["total"] = count*int(ticket.event.price)
+            try:
+                temp["userCount"] = count
+                if count != 1:
+                    temp["total"] = count*int(ticket.event.price)
+            except:
+                temp["userCount"] = 1
+                temp["total"] = 0
             dataTemp.append(temp)
         data = []
         data2 = []
@@ -538,9 +542,13 @@ def myTicket(request):
             temp["eventName"] = ticket.event.name
             temp["isPaid"] = ticket.isPaid
             temp["qrCodeData"] = ticket.qrCodeData
-            temp["userCount"] = count
-            if count != 1:
-                temp["total"] = count*int(ticket.event.price)
+            try:
+                temp["userCount"] = count
+                if count != 1:
+                    temp["total"] = count*int(ticket.event.price)
+            except:
+                temp["userCount"] = 1
+                temp["total"] = 0
             dataTemp.append(temp)
         data = []
         data2 = []
