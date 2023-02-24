@@ -479,8 +479,8 @@ def ticketVerifer(request):
                 if count != 1:
                     temp["total"] = count*int(ticket.event.price)
             except:
-                temp["userCount"] = 1
-                temp["total"] = 0
+                temp["userCount"] = count
+                temp["total"] = ticket.event.price
             dataTemp.append(temp)
         data = []
         data2 = []
@@ -632,7 +632,6 @@ def addTeamMebers(request):
         else:
             users = request.POST.get('user')
             emailArr = users.split(",")
-            print(emailArr)
             request.session['team'] = []
             try:
                 for i in range(len(emailArr)):
@@ -685,7 +684,6 @@ def ticketGenrator(request):
                 return HttpResponse(json.dumps({"msg": "You are successfully registered. Your registration will get confirmed and you will also see the ticket in your account once you make the payment."}), content_type="application/json")
             else:
                 eventName = body['event']
-                print(eventName)
                 event = Event.objects.filter(name=eventName).first()
                 email = request.session['team'][0]['email']
                 user = User.objects.filter(email=email).first()
@@ -718,7 +716,6 @@ def ticketGenrator(request):
                     newTicket.owner4 = teamMember4Profile 
                 except:
                     newTicket.owner4 = None
-                print("ran")
                 newTicket.qrCodeData = qrCodeData
                 newTicket.userCount = len(request.session['team'])
                 newTicket.save()
