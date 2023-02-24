@@ -40,9 +40,9 @@ def home(request):
     impEvent = []
     for event in events:
         if event.name != "X - Motion Game Mania":
-            eventArr.append([event.name, event.price, event.description, event.tagline,event.posterImage, (event.name).replace(" ", "-").replace("---", ":")])
+            eventArr.append([event.name, (event.price).strip(), event.description, event.tagline,event.posterImage, (event.name).replace(" ", "-").replace("---", ":"),event.isTeamEvent,event.teamPrice])
         else:
-            impEvent = [[event.name, event.price, event.description, event.tagline,event.posterImage, (event.name).replace(" ", "-").replace("---", ":")]]
+            impEvent = [[event.name, (event.price).strip(), event.description, event.tagline,event.posterImage, (event.name).replace(" ", "-").replace("---", ":"),event.isTeamEvent,event.teamPrice]]
     impEvent.extend(eventArr[:10])
     context = {
         "departmentArr": departmentArr[:10],
@@ -81,9 +81,9 @@ def events(request):
         flag = 0
         for event in events:
             if event.name != "X - Motion Game Mania":
-                eventArr.append([event.name, event.price, event.description, event.tagline, event.posterImage, (event.name).replace(" ", "-").replace("---", ":")])
+                eventArr.append([event.name, event.price, event.description, event.tagline, event.posterImage, (event.name).replace(" ", "-").replace("---", ":"),event.isTeamEvent,event.teamPrice])
             else:
-                impEvent = [[event.name, event.price, event.description, event.tagline, event.posterImage, (event.name).replace(" ", "-").replace("---", ":")]]
+                impEvent = [[event.name, event.price, event.description, event.tagline, event.posterImage, (event.name).replace(" ", "-").replace("---", ":"),event.isTeamEvent,event.teamPrice]]
                 flag = 1
         if flag == 1:
             impEvent.extend(eventArr)
@@ -508,9 +508,17 @@ def myTicket(request):
         tickets = Ticket.objects.filter(Q(owner=profile)|Q(owner1=profile)|Q(owner2=profile)|Q(owner3=profile)|Q(owner4=profile)).all()
         dataTemp = []
         for ticket in tickets:
+            count = 1
+            if ticket.owner1 != None:
+                count=count+1
+            if ticket.owner2 != None:
+                count=count+1
+            if ticket.owner3 != None:
+                count=count+1
+            if ticket.owner4 != None:
+                count=count+1
             temp = {}
             temp["id"] = ticket.id
-            print(ticket.id)
             temp["profilePic"] = ticket.owner.profilePic
             temp["username"] = ticket.owner.user.first_name
             temp["email"] = ticket.owner.user.email
@@ -518,6 +526,9 @@ def myTicket(request):
             temp["eventName"] = ticket.event.name
             temp["isPaid"] = ticket.isPaid
             temp["qrCodeData"] = ticket.qrCodeData
+            temp["userCount"] = count
+            if count != 1:
+                temp["total"] = count*int(ticket.event.price)
             dataTemp.append(temp)
         data = []
         data2 = []

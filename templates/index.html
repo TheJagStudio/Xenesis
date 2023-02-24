@@ -66,7 +66,8 @@
 						<q>&nbsp;कौशल&nbsp;भारत&nbsp;कुशल&nbsp;भारत&nbsp;</q>
 					</p>
 					<p class="text-xl my-2 font-bold bg-gradient-to-r from-orange-500 via-white to-green-500 w-fit bg-clip-text text-transparent" data-aos="fade-up" data-aos-delay="200">14th-15th March, 2023</p>
-					<p class="text-[calc(2.5vh)] text-white" data-aos="fade-up" data-aos-delay="300">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis, quidem sunt repellendus culpa vitae unde reprehenderit sed nostrum aliquid fuga cumque quisquam natus reiciendis illo quia accusamus vero praesentium placeat?</p>
+					<p class="text-[calc(2.5vh)] text-white" data-aos="fade-up" data-aos-delay="300">
+						The term Xenesis has been derived from "genesis" which means commencement, commencement of anything</p>
 				</div>
 			</div>
 
@@ -74,11 +75,11 @@
 			<section class="radial-gradient-container w-full py-[calc(3vh)]">
 				<div class="w-full text-center">
 					<h3 class="uppercase text-white font-semibold">Departments</h3>
-					<p class="text-gray-500 text-center my-3 mx-auto w-[500px]">Check out various events from various engineering departments.</p>
+					<p class="text-gray-500 text-center my-3 mx-auto w-[500px]">Check out the various events from different engineering departments.</p>
 				</div>
 				<div class="grid grid-cols-5 gap-5 px-[calc(3vh)]">
 					{%for department in departmentArr%}
-					<div onclick="javascript:window.location.href = '/events#{{department.0}}'" data-aos="zoom-in" class="w-full rounded-lg bg-white/10 backdrop-blur-md mx-2">
+					<div onclick="javascript:window.location.href = '/events#{{department.0}}'" data-aos="zoom-in" class="cursor-pointer w-full rounded-lg bg-white/10 backdrop-blur-md mx-2">
 						<div class="overflow-hidden rounded-t-lg">
 							<img src="{{department.1}}" alt="" class="h-32 w-full object-cover hover:scale-110 transition-all duration-300" />
 						</div>
@@ -114,7 +115,18 @@
 										<hr class="my-3" />
 										<h2 class="discription-truncate text-white">{{event.2}}</h2>
 										<div class="my-1 flex items-center justify-between">
-											<p class="text-white my-1 capitalize text-green-500">₹{{event.1}} per head</p>
+											<div class="flex flex-col">
+												{%if event.1 != "-"%}
+												<p class="text-white my-1 capitalize text-green-500">₹{{event.1}} per head</p>
+												{%else%}
+												<p class="text-white my-1 capitalize text-green-500">Individual Not Allowed</p>
+												{%endif%} 
+												{%if event.6 == True%}
+												<p class="text-white my-1 capitalize text-green-500">₹{{event.7}} per Team</p>
+												{%else%}
+												<p class="text-white my-1 capitalize text-green-500">Team Not Allowed</p>
+												{%endif%}
+											</div>
 											<div class="flex items-center gap-2">
 												<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ffffff" class="bi bi-heart cursor-pointer" viewBox="0 0 16 16" id="likeSVG{{event.0}}" onclick="handleLike('{{event.0}}')">
 													<path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
@@ -137,7 +149,17 @@
 									<div class="my-3 px-4">
 										<h1 class="text-white font-bold text-2xl capitalize eventName title-truncate">{{event.0}}</h1>
 										<div class="flex items-center justify-between my-4">
-											<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">₹{{event.1}} per head</p>
+											<div class="flex flex-col">
+												{%if event.1 != "-"%}
+												<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">₹{{event.1}} per head</p>
+												{%else%}
+												<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">Individual Not Allowed</p>
+												{%endif%} {%if event.6 == True%}
+												<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">₹{{event.7}} per Team</p>
+												{%else%}
+												<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">Team Not Allowed</p>
+												{%endif%}
+											</div>
 											<a class="bg-[#2F1D69] text-white font-semibold px-2 py-1 rounded-lg cursor-pointer" onclick="cardOverlayHandle('{{event.0}}')">View more</a>
 										</div>
 									</div>
@@ -238,7 +260,7 @@
 						<q>&nbsp;कौशल&nbsp;भारत&nbsp;कुशल&nbsp;भारत&nbsp;</q>
 					</p>
 					<p class="text-[calc(2vh)] my-2 font-bold bg-gradient-to-r from-orange-500 via-white to-green-500 w-fit bg-clip-text text-transparent" data-aos="fade-up" data-aos-delay="200">14th-15th March, 2023</p>
-					<p class="text-[calc(2.5vh)] text-white text-justify" data-aos="fade-up" data-aos-delay="300">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis, quidem sunt repellendus culpa vitae unde reprehenderit sed nostrum aliquid fuga cumque quisquam natus reiciendis illo quia accusamus vero praesentium placeat?</p>
+					<p class="text-[calc(2.5vh)] text-white text-justify" data-aos="fade-up" data-aos-delay="300">The term Xenesis has been derived from "genesis" which means commencement, commencement of anything</p>
 				</div>
 				<div class="absolute w-full h-full top-0 bg-gradient-to-t from-[#240A35] via-transparent to-transparent lg:z-10 z-30"></div>
 			</section>
@@ -248,7 +270,7 @@
 					<h1 class="mb-5 text-3xl font-semibold">Departments</h1>
 					<div class="flex items-center gap-5 overflow-x-scroll snap-x snap-mandatory customScrollbar">
 						{%for department in departmentArr%}
-						<div class="w-full rounded-lg bg-white/10 backdrop-blur-md min-w-[250px] max-w-[250px] snap-center" data-aos="zoom-in">
+						<div onclick="javascript:window.location.href = '/events#{{department.0}}'" class="w-full rounded-lg bg-white/10 backdrop-blur-md min-w-[250px] max-w-[250px] snap-center" data-aos="zoom-in">
 							<div class="overflow-hidden rounded-t-lg">
 								<img src="{{department.1}}" alt="" class="h-44 w-full object-cover hover:scale-110 transition-all duration-300" />
 							</div>
@@ -274,7 +296,18 @@
 									<hr class="my-3" />
 									<h2 class="discription-truncate text-white">{{event.2}}</h2>
 									<div class="my-1 flex items-center justify-between">
-										<p class="text-white my-1 capitalize text-green-500">₹{{event.1}} per head</p>
+										<div class="flex flex-col">
+											{%if event.1 != "-"%}
+											<p class="text-white my-1 capitalize text-green-500">₹{{event.1}} per head</p>
+											{%else%}
+											<p class="text-white my-1 capitalize text-green-500">Individual Not Allowed</p>
+											{%endif%} 
+											{%if event.6 == True%}
+											<p class="text-white my-1 capitalize text-green-500">₹{{event.7}} per Team</p>
+											{%else%}
+											<p class="text-white my-1 capitalize text-green-500">Team Not Allowed</p>
+											{%endif%}
+										</div>
 										<div class="flex items-center gap-2">
 											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ffffff" class="bi bi-heart cursor-pointer" viewBox="0 0 16 16" id="likeSVG{{event.0}}2" onclick="handleLike('{{event.0}}')">
 												<path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
@@ -297,7 +330,15 @@
 								<div class="my-3 px-4">
 									<h1 class="text-white font-bold text-2xl capitalize eventName title-truncate">{{event.0}}</h1>
 									<div class="flex items-center justify-between my-4">
+										{%if event.1 != "-"%}
 										<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">₹{{event.1}} per head</p>
+										{%else%}
+										<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">Individual Not Allowed</p>
+										{%endif%} {%if event.6 == True%}
+										<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">₹{{event.7}} per Team</p>
+										{%else%}
+										<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">Team Not Allowed</p>
+										{%endif%}
 										<a class="bg-[#2F1D69] text-white font-semibold px-2 py-1 rounded-lg cursor-pointer" onclick="cardOverlayHandle('{{event.0}}')">View more</a>
 									</div>
 								</div>
