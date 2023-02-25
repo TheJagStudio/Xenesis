@@ -471,9 +471,13 @@ def ticketVerifer(request):
             temp["profilePic"] = ticket.owner.profilePic
             temp["username"] = ticket.owner.user.first_name
             temp["email"] = ticket.owner.user.email
-            temp["price"] = ticket.event.price
+            if ticket.event.isTeamEvent != True:
+                temp["price"] = ticket.event.price
+            else: 
+                temp["price"] = ticket.event.teamPrice
             temp["eventName"] = ticket.event.name
             temp["isPaid"] = ticket.isPaid
+            temp["isTeamPriceFull"] = ticket.event.isTeamPriceFull
             try:
                 temp["userCount"] = count
                 if count != 1:
@@ -496,7 +500,8 @@ def ticketVerifer(request):
             "isUser" : isUser,
             "isVolunteer" : isVolunteer,
             "userName" : userName,
-            "profilePic" : profilePic
+            "profilePic" : profilePic,
+            "isTeamPriceFull" :isTeamPriceFull,
         }
         return render(request, "ticket.html",context)
     else:
@@ -510,6 +515,7 @@ def myTicket(request):
             isUser = True
             isVolunteer = profile.isCampainVolunteer
             profilePic = profile.profilePic
+            
         except:
             userName = "Anonymous"
             isUser = False
@@ -522,6 +528,7 @@ def myTicket(request):
         profilePic = "0001"
     if isUser == True:
         tickets = Ticket.objects.filter(Q(owner=profile)|Q(owner1=profile)|Q(owner2=profile)|Q(owner3=profile)|Q(owner4=profile)).all()
+        
         dataTemp = []
         for ticket in tickets:
             count = 1
@@ -538,10 +545,14 @@ def myTicket(request):
             temp["profilePic"] = ticket.owner.profilePic
             temp["username"] = ticket.owner.user.first_name
             temp["email"] = ticket.owner.user.email
-            temp["price"] = ticket.event.price
+            if ticket.event.isTeamEvent != True:
+                temp["price"] = ticket.event.price
+            else: 
+                temp["price"] = ticket.event.teamPrice
             temp["eventName"] = ticket.event.name
             temp["isPaid"] = ticket.isPaid
             temp["qrCodeData"] = ticket.qrCodeData
+            temp["isTeamPriceFull"] = ticket.event.isTeamPriceFull
             try:
                 temp["userCount"] = count
                 if count != 1:
@@ -565,7 +576,8 @@ def myTicket(request):
             "isUser" : isUser,
             "isVolunteer" : isVolunteer,
             "userName" : userName,
-            "profilePic" : profilePic
+            "profilePic" : profilePic,
+            "isTeamPriceFull" :isTeamPriceFull,
         }
         return render(request, "myTicket.html",context)
     else:

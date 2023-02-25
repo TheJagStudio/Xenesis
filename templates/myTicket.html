@@ -79,7 +79,7 @@
 							{%endif%}
 							<div class="my-4 px-4">
 								<h1 class="text-white font-bold text-xl title-truncate">{{ticket.eventName}}</h1>
-								<p class="text-white text-xl font-bold bg-[#221e60] text-center rounded-md mt-1">₹ {{ticket.price}} {% if ticket.userCount != 1%}X {{ticket.userCount}} = ₹ {{ticket.total}}{%endif%}</p>
+								<p class="text-white text-xl font-bold bg-[#221e60] text-center rounded-md mt-1">{%if isTeamPriceFull == True%}₹ {{ticket.price}}{%else%}₹ {{ticket.price}} {% if ticket.userCount != 1%}X {{ticket.userCount}} = ₹ {{ticket.total}}{%endif%}{%endif%}</p>
 							</div>
 						</div>
 						{%endfor%}

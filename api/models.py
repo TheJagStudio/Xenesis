@@ -73,7 +73,7 @@ class Event(models.Model):
     teamParticapantCount = models.PositiveIntegerField(default=1)
     teamParticapantCountMin = models.PositiveIntegerField(default=1)
     isTeamEvent = models.BooleanField()
-    isTeamPriceFull = models.BooleanField(default=False)
+    isTeamPriceFull  = models.BooleanField(default=False)
     isClosed = models.BooleanField()
     status = models.CharField(max_length=100)
 
