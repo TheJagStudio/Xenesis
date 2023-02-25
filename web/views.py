@@ -500,8 +500,7 @@ def ticketVerifer(request):
             "isUser" : isUser,
             "isVolunteer" : isVolunteer,
             "userName" : userName,
-            "profilePic" : profilePic,
-            "isTeamPriceFull" :isTeamPriceFull,
+            "profilePic" : profilePic
         }
         return render(request, "ticket.html",context)
     else:
@@ -576,8 +575,7 @@ def myTicket(request):
             "isUser" : isUser,
             "isVolunteer" : isVolunteer,
             "userName" : userName,
-            "profilePic" : profilePic,
-            "isTeamPriceFull" :isTeamPriceFull,
+            "profilePic" : profilePic
         }
         return render(request, "myTicket.html",context)
     else:
