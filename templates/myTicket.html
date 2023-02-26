@@ -57,7 +57,7 @@
 					</div>
 					<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6 xl:grid-cols-4">
 						{% for ticket in data%}
-						<div id="ticket_{{ticket.id}}" class="flex grow flex-col justify-between pt-5 border rounded-lg {% if ticket.isPaid == True%}bg-green-500/60{%else%}bg-red-500/60{%endif%} transition-all duration-300">
+						<div id="ticket_{{ticket.id}}" class="flex grow flex-col justify-between pt-5 border rounded-lg {% if ticket.isPaid == True%}{%if ticket.isScanned == False%}bg-green-500/60{%else%}bg-slate-500/60{%endif%}{%else%}bg-red-500/60{%endif%} transition-all duration-300">
 							<div class="flex items-center gap-5 w-full px-4">
 								<div class="avatar w-[20%] min-w-[20%]">
 									<img class="rounded-full ring ring-[#ffffff] w-full h-full object-cover bg-slate-500" src="/static/avatars/{{ticket.profilePic}}.png" alt="avatar" />
@@ -165,7 +165,7 @@
 					</div>
 					<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6 xl:grid-cols-4">
 						{% for ticket in data%}
-						<div id="ticket_{{ticket.id}}" class="flex grow flex-col justify-between pt-5 border rounded-lg {% if ticket.isPaid == True%}bg-green-500/60{%else%}bg-red-500/60{%endif%} transition-all duration-300">
+						<div id="ticket_{{ticket.id}}" class="flex grow flex-col justify-between pt-5 border rounded-lg {% if ticket.isPaid == True%}{%if ticket.isScanned == False%}bg-green-500/60{%else%}bg-slate-500/60{%endif%}{%else%}bg-red-500/60{%endif%} transition-all duration-300">
 							<div class="flex items-center gap-5 w-full px-4">
 								<div class="avatar w-[20%] min-w-[20%]">
 									<img class="rounded-full ring ring-[#ffffff] w-full h-full object-cover bg-slate-500" src="/static/avatars/{{ticket.profilePic}}.png" alt="avatar" />

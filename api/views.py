@@ -356,3 +356,63 @@ def eventDetailFetcherApp(request):
         except Exception as error:
             return HttpResponse(json.dumps({"error": error}), content_type="application/json")
     return HttpResponse(json.dumps({"error": "You were not suppose be here."}), content_type="application/json")
+
+@csrf_exempt
+def QRScanner(request):
+    if request.method == "POST":
+        try:
+            body = json.loads(request.body)
+            if "uuid" in body.keys():
+                uuid = body['uuid']
+                ticket = Ticket.objects.filter(qrCodeData=uuid).first()
+                if ticket is not None:
+                    if ticket.userCount >0:
+                        count = 1
+                        if ticket.owner1 != None:
+                            count=count+1
+                        if ticket.owner2 != None:
+                            count=count+1
+                        if ticket.owner3 != None:
+                            count=count+1
+                        if ticket.owner4 != None:
+                            count=count+1
+                        temp = {}
+                        temp["id"] = ticket.id
+                        temp["profilePic"] = ticket.owner.profilePic
+                        temp["username"] = ticket.owner.user.first_name
+                        temp["email"] = ticket.owner.user.email
+                        if ticket.event.isTeamEvent != True:
+                            temp["price"] = ticket.event.price
+                        else: 
+                            temp["price"] = ticket.event.teamPrice
+                        temp["eventName"] = ticket.event.name
+                        temp["isPaid"] = ticket.isPaid
+                        temp["qrCodeData"] = ticket.qrCodeData
+                        temp["isTeamPriceFull"] = ticket.event.isTeamPriceFull
+                        try:
+                            temp["userCount"] = count
+                            if count != 1:
+                                temp["total"] = count*int(ticket.event.price)
+                        except:
+                            temp["userCount"] = 1
+                            temp["total"] = 0
+                        return HttpResponse(json.dumps({"data":temp}),content_type="application/json")
+                    else:
+                        return HttpResponse(json.dumps({"error":"Ticket Has already been used."}),content_type="application/json")
+                else:
+                    return HttpResponse(json.dumps({"error":"Ticket Does Not Exist."}),content_type="application/json")
+            elif "ticketId" in body.keys():
+                ticketId = body['ticketId']
+                ticket = Ticket.objects.filter(id=ticketId).first()
+                if ticket.userCount >0:
+                    ticket.userCount = ticket.userCount - 1
+                    ticket.save()
+                    return HttpResponse(json.dumps({"msg":"Ticket Has Been Confirmed."}),content_type="application/json")
+                else:
+                    return HttpResponse(json.dumps({"error":"Ticket Has already been used."}),content_type="application/json")
+            else:
+                return HttpResponse(json.dumps({"error":"Server Didnot Recieve QR code. Please Rescan the code."}),content_type="application/json")
+        except Exception as error:
+            return HttpResponse(json.dumps({"error": error}), content_type="application/json")
+    return HttpResponse(json.dumps({"error":"You were not supposed to be here"}),content_type="application/json")
+        

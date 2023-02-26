@@ -552,6 +552,10 @@ def myTicket(request):
             temp["isPaid"] = ticket.isPaid
             temp["qrCodeData"] = ticket.qrCodeData
             temp["isTeamPriceFull"] = ticket.event.isTeamPriceFull
+            if ticket.userCount >0:
+                temp["isScanned"] = False
+            else:
+                temp["isScanned"] = True
             try:
                 temp["userCount"] = count
                 if count != 1:

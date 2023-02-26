@@ -17,4 +17,5 @@ urlpatterns = [
     path('app/eventDetailFetcher', views.eventDetailFetcherApp, name="eventDetailFetcherApp"),
     path('app/galleryList', views.galleryListApp, name="galleryListApp"),
     path('app/eventList', views.eventListApp, name="eventListApp"),
+    path('app/QRScanner', views.QRScanner, name="QRScanner"),
 ]
