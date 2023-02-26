@@ -91,28 +91,30 @@
 		<script>
 			function acceptTicket(id,element)
 			{
-				fetch("/ticketVerifer/", {
-					method: "POST",
-					body: JSON.stringify({
-						id: id
-					}),
-					headers: {
-						"Content-type": "application/json; charset=UTF-8"
-					}
-				})
-				.then(response => response.json())
-				.then(json => {
-					console.log(json)
-					if(json.hasOwnProperty("msg")){
-						document.getElementById("ticket_"+id).classList.remove("bg-red-500/60")
-						document.getElementById("ticket_"+id).classList.add("bg-green-500/60")
-						element.disabled =true
-						element.innerHTML = "Accepted"
-					}
-					else{
-						alert(json.error)
-					}
-				});
+				if (confirm("Are you sure you want accept the Payment?") == true) {
+					fetch("/ticketVerifer/", {
+						method: "POST",
+						body: JSON.stringify({
+							id: id
+						}),
+						headers: {
+							"Content-type": "application/json; charset=UTF-8"
+						}
+					})
+					.then(response => response.json())
+					.then(json => {
+						console.log(json)
+						if(json.hasOwnProperty("msg")){
+							document.getElementById("ticket_"+id).classList.remove("bg-red-500/60")
+							document.getElementById("ticket_"+id).classList.add("bg-green-500/60")
+							element.disabled =true
+							element.innerHTML = "Accepted"
+						}
+						else{
+							alert(json.error)
+						}
+					});
+				} 
 			}
 		</script>
 		<!-- Mobile Screen -->
