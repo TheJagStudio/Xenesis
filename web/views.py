@@ -81,9 +81,9 @@ def events(request):
         flag = 0
         for event in events:
             if event.name != "X - Motion Game Mania":
-                eventArr.append([event.name, event.price, event.description, event.tagline, event.posterImage, (event.name).replace(" ", "-").replace("---", ":"),event.isTeamEvent,event.teamPrice])
+                eventArr.append([event.name, event.price, event.description, event.tagline, event.posterImage, (event.name).replace(" ", "-").replace("---", ":"),event.isTeamEvent,event.teamPrice,event.isTeamPriceFull])
             else:
-                impEvent = [[event.name, event.price, event.description, event.tagline, event.posterImage, (event.name).replace(" ", "-").replace("---", ":"),event.isTeamEvent,event.teamPrice]]
+                impEvent = [[event.name, event.price, event.description, event.tagline, event.posterImage, (event.name).replace(" ", "-").replace("---", ":"),event.isTeamEvent,event.teamPrice,event.isTeamPriceFull]]
                 flag = 1
         if flag == 1:
             impEvent.extend(eventArr)
@@ -449,11 +449,14 @@ def ticketVerifer(request):
             id = body['id']
             ticket = Ticket.objects.filter(id=id).first()
             if ticket != None:
+                
+                ticket.acceptedBy = profile
                 ticket.isPaid = True
+                
                 ticket.save()
                 return  HttpResponse(json.dumps({"msg": "Ticket has been Paid."}), content_type="application/json")
             else:
-                return HttpResponse(json.dumps({"error": error}), content_type="application/json")
+                return HttpResponse(json.dumps({"error": "error"}), content_type="application/json")
         tickets = Ticket.objects.all()
         dataTemp = []
         for ticket in tickets:

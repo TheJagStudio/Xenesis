@@ -84,7 +84,7 @@
 						<div class="w-full">
 							<div class="flex items-center">
 								<div class="relative w-full">
-									<input onkeyup="Search()" id="search" placeholder="Search for a component..." class="bg-transparent w-full border border-brand-500 focus:outline-none p-3 pl-10 rounded-md text-sm text-white focus:backdrop-blur" /> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" class="w-4 h-4 text-gray-200 absolute inset-4"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+									<input onkeyup="Search()" id="search" placeholder="Search for an Event ..." class="bg-transparent w-full border border-brand-500 focus:outline-none p-3 pl-10 rounded-md text-sm text-white focus:backdrop-blur" /> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" class="w-4 h-4 text-gray-200 absolute inset-4"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
 									<button onclick="Search()" aria-label="Primary Button" type="button" class="flex content-center items-center justify-center text-center px-4 py-2 text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-[#240A35] absolute right-1.5 top-1.5" style="flex-shrink: 0">Search</button>
 								</div>
 							</div>
@@ -100,8 +100,8 @@
 				{%for department in departmentArr%} {%if department.2 > 0 %}
 				<!-- Computer Events -->
 				<div class="py-6 px-4" id="{{department.0}}">
-					<h1 class="mb-4 text-white font-bold text-2xl">{{department.0}}</h1>
-					<div class="grid grid-cols-4 gap-5 mx-2">
+					<h1 class="mb-4 pl-2 text-white font-bold text-2xl">{{department.0}}</h1>
+					<div class="grid grid-cols-4 gap-3 gap-y-6 mx-2">
 						{%for event in department.1 %}
 						<div data-event="{{event.0}}" class="event bg-[#AAABE2]/50 backdrop-blur-md rounded-lg group min-w-[22vw] max-w-[22vw] overflow-hidden">
 							<div class="bg-[#2F1D69]/50 w-full h-full absolute top-full z-30 rounded-lg flex flex-col justify-between transition-all duration-300" id="cardOverlay{{event.0}}">
@@ -117,14 +117,18 @@
 									<div class="my-1 flex items-center justify-between">
 										<div class="flex flex-col">
 											{%if event.1 != "-"%}
-											<p class="text-white my-1 capitalize text-green-500">₹{{event.1}} per head</p>
+											<p class="text-white my-1 capitalize text-green-500 text-sm">₹{{event.1}} per head</p>
 											{%else%}
-											<p class="text-white my-1 capitalize text-green-500">Individual Not Allowed</p>
+											<p class="text-white my-1 capitalize text-green-500 text-sm">Individual Not Allowed</p>
 											{%endif%} 
 											{%if event.6 == True%}
-											<p class="text-white my-1 capitalize text-green-500">₹{{event.7}} per Team</p>
+												{%if event.8 == True%}
+													<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">₹{{event.7}} per Team</p>
+												{%else%}
+													<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">₹{{event.7}} per person in  Team</p>
+												{%endif%}
 											{%else%}
-											<p class="text-white my-1 capitalize text-green-500">Team Not Allowed</p>
+											<p class="text-white my-1 capitalize text-green-500 text-sm">Team Not Allowed</p>
 											{%endif%}
 										</div>
 										<div class="flex items-center gap-2">
@@ -154,8 +158,13 @@
 											<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">₹{{event.1}} per head</p>
 											{%else%}
 											<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">Individual Not Allowed</p>
-											{%endif%} {%if event.6 == True%}
-											<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">₹{{event.7}} per Team</p>
+											{%endif%} 
+											{%if event.6 == True%}
+												{%if event.8 == True%}
+													<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">₹{{event.7}} per Team</p>
+												{%else%}
+													<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">₹{{event.7}} per person in  Team</p>
+												{%endif%}
 											{%else%}
 											<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">Team Not Allowed</p>
 											{%endif%}
@@ -181,6 +190,7 @@
 				{%endif%} {%endfor%}
 			</section>
 		</div>
+		
 		<div class="block md:hidden">
 			<!-- Navbar -->
 			<nav class="flex items-center justify-between text-white fixed w-full top-0 py-[calc(3vh)] px-[calc(3vh)] z-50 transition-all duration-300" id="mobile-navbar">
@@ -227,13 +237,13 @@
 
 			<section class="w-full h-[60vh] p-6 pb-20 text-white flex items-center justify-center bg-[url('/static/event-images/eventHerolandingPage2.png')] bg-center bg-no-repeat bg-cover relative">
 				<div class="absolute left-0 top-0 w-full h-[60vh] bg-[rgba(0,0,0,0.5)] z-20"></div>
-				<div class="z-30">
-					<h1 class="text-[calc(6vh)] text-white uppercase font-bold">Events</h1>
-					<div class=" h-[65px] p-2 px-2 mx-auto md:px-4">
+				<div class="z-30 w-full">
+					<h1 class="text-[calc(6vh)] text-white text-center uppercase font-bold">Events</h1>
+					<div class="w-full h-[65px] p-2 px-2 mx-auto md:px-4">
 						<div class="w-full">
 							<div class="flex items-center">
 								<div class="relative w-full">
-									<input onkeyup="Search()" id="search" placeholder="Search for a component..." class="bg-transparent w-full border border-brand-500 focus:outline-none p-3 pl-10 rounded-md text-sm text-white focus:backdrop-blur" /> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" class="w-4 h-4 text-gray-200 absolute inset-4"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+									<input onkeyup="Search()" id="search" placeholder="Search for an Event ..." class="bg-transparent w-full border border-brand-500 focus:outline-none p-3 pl-10 rounded-md text-sm text-white focus:backdrop-blur" /> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" class="w-4 h-4 text-gray-200 absolute inset-4"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
 									<button onclick="Search()" aria-label="Primary Button" type="button" class="flex content-center items-center justify-center text-center px-4 py-2 text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-[#240A35] absolute right-1.5 top-1.5" style="flex-shrink: 0">Search</button>
 								</div>
 							</div>
@@ -244,12 +254,12 @@
 			</section>
 
 			<section class="pb-20 pt-6 sm:py-16 lg:py-20 xl:py-24 tails-selected-element outline-none bg-[#240A35]">
-				<div class="px-5 mx-auto sm:px-6 lg:px-8 max-w-7xl">
+				<div class="px-8 mx-auto sm:px-10 lg:px-8 max-w-7xl">
 					<div class="max-w-5xl mx-auto overflow-hidden divide-y divide-gray-200 sm:mt-16 rounded-xl">
 						{%for department in departmentArr%} {%if department.2 > 0 %}
 						<div class="faq" id="{{department.0}}">
 							<h3>
-								<button onclick="faqUpdater(this,'{{department.0}}')" class="flex items-center justify-between outline-none focus:outline-none w-full py-5 text-lg font-semibold text-left text-white sm:p-6" aria-expanded="false">
+								<button onclick="faqUpdater(this,'{{department.0}}')" class="flex items-center justify-between outline-none focus:outline-none w-full py-5 px-2 pr-5 text-lg font-semibold text-left text-white" aria-expanded="false">
 									<span>{{department.0}}</span>
 									<span aria-hidden="true" class="ml-4" style="display: none">
 										<svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -262,90 +272,93 @@
 								</button>
 							</h3>
 							<div class="overflow-y-hidden transition-all duration-300 scale-y-0 origin-top h-0" id="{{department.0}}Content">
-								<div class="pb-6">
-									<swiper-container class="mySwiper h-fit" space-between="30">
+								<div class="pb-6 flex items-center gap-4">
 										{%for event in department.1 %} {%if event.2 != "NA" %}
-										<swiper-slide class="h-fit">
-											<div data-aos="zoom-in" class="bg-[#AAABE2]/50 backdrop-blur-md rounded-lg group min-w-full max-w-full md:min-w-[32%] md:max-w-[32%] lg:min-w-[24%] lg:max-w-[24%] snap-center">
-												<div class="bg-[#2F1D69]/50 w-full h-full absolute top-full z-30 rounded-lg flex flex-col justify-between transition-all duration-300" id="cardOverlay{{event.0}}2">
-													<div class="px-4 pt-5">
-														<div class="flex items-center justify-between">
-															<h1 class="text-white font-bold text-xl capitalize eventName title-truncate max-w-[85%]">{{event.0}}</h1>
-															<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ffffff" class="bi bi-x-lg cursor-pointer" viewBox="0 0 16 16" onclick="cardOverlayHandleClose('{{event.0}}')">
-																<path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
-															</svg>
-														</div>
-														<hr class="my-3" />
-														<h2 class="discription-truncate text-white">{{event.2}}</h2>
-														<div class="my-1 flex items-center justify-between">
-															<div class="flex flex-col">
-																{%if event.1 != "-"%}
-																<p class="text-white my-1 capitalize text-green-500">₹{{event.1}} per head</p>
-																{%else%}
-																<p class="text-white my-1 capitalize text-green-500">Individual Not Allowed</p>
-																{%endif%} 
-																{%if event.6 == True%}
-																<p class="text-white my-1 capitalize text-green-500">₹{{event.7}} per Team</p>
-																{%else%}
-																<p class="text-white my-1 capitalize text-green-500">Team Not Allowed</p>
-																{%endif%}
-															</div>
-															<div class="flex items-center gap-2">
-																<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ffffff" class="bi bi-heart cursor-pointer" viewBox="0 0 16 16" id="likeSVG{{event.0}}2" onclick="handleLike('{{event.0}}')">
-																	<path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
-																</svg>
-																<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ff0000" class="bi bi-heart-fill hidden opacity-0 cursor-pointer eventName" viewBox="0 0 16 16" id="likeFillSVG{{event.0}}2" onclick="handleLike('{{event.0}}')">
-																	<path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
-																</svg>
-																<p class="text-white">9123</p>
-															</div>
-														</div>
+										
+										<div data-aos="zoom-in" class="bg-[#AAABE2]/50 backdrop-blur-md rounded-lg group min-w-full max-w-full md:min-w-[32%] md:max-w-[32%] lg:min-w-[24%] lg:max-w-[24%] snap-center">
+											<div class="bg-[#2F1D69]/50 w-full h-full absolute top-full z-30 rounded-lg flex flex-col justify-between transition-all duration-300" id="cardOverlay{{event.0}}2">
+												<div class="px-4 pt-5">
+													<div class="flex items-center justify-between">
+														<h1 class="text-white font-bold text-xl capitalize eventName title-truncate max-w-[85%]">{{event.0}}</h1>
+														<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ffffff" class="bi bi-x-lg cursor-pointer" viewBox="0 0 16 16" onclick="cardOverlayHandleClose('{{event.0}}')">
+															<path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+														</svg>
 													</div>
-													<div class="bg-[#2F1D69] px-4 py-2 text-center cursor-pointer" onclick="javascript:location.href='/event/{{event.5}}'">
-														<a class="text-white capitalize text-lg font-bold">register</a>
+													<hr class="my-3" />
+													<h2 class="discription-truncate text-white">{{event.2}}</h2>
+													<div class="my-1 flex items-center justify-between">
+														<div class="flex flex-col">
+															{%if event.1 != "-"%}
+															<p class="text-white my-1 capitalize text-green-500">₹{{event.1}} per head</p>
+															{%else%}
+															<p class="text-white my-1 capitalize text-green-500">Individual Not Allowed</p>
+															{%endif%} 
+															{%if event.6 == True%}
+																{%if event.8 == True%}
+																	<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">₹{{event.7}} per Team</p>
+																{%else%}
+																	<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">₹{{event.7}} per person in  Team</p>
+																{%endif%}
+															{%else%}
+															<p class="text-white my-1 capitalize text-green-500">Team Not Allowed</p>
+															{%endif%}
+														</div>
+														<div class="flex items-center gap-2">
+															<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ffffff" class="bi bi-heart cursor-pointer" viewBox="0 0 16 16" id="likeSVG{{event.0}}2" onclick="handleLike('{{event.0}}')">
+																<path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+															</svg>
+															<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ff0000" class="bi bi-heart-fill hidden opacity-0 cursor-pointer eventName" viewBox="0 0 16 16" id="likeFillSVG{{event.0}}2" onclick="handleLike('{{event.0}}')">
+																<path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
+															</svg>
+															<p class="text-white">9123</p>
+														</div>
 													</div>
 												</div>
-												<div class="" id="blurOverlay{{event.0}}2">
-													<div class="w-full rounded-t-lg overflow-hidden relative group">
-														<img src="{%if event.4 != '-'%}{{event.4}}{%else%}/static/logoCus.png{%endif%}" alt="1" class="group-hover:scale-110 h-48 w-full object-cover overflow-hidden transition-all duration-300" />
-													</div>
-													<div class="my-3 px-4">
-														<h1 class="text-white font-bold text-2xl capitalize eventName title-truncate">{{event.0}}</h1>
-														<div class="flex items-center justify-between my-4">
-															<div class="flex flex-col">
-																{%if event.1 != "-"%}
-																<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">₹{{event.1}} per head</p>
+												<div class="bg-[#2F1D69] px-4 py-2 text-center cursor-pointer" onclick="javascript:location.href='/event/{{event.5}}'">
+													<a class="text-white capitalize text-lg font-bold">register</a>
+												</div>
+											</div>
+											<div class="" id="blurOverlay{{event.0}}2">
+												<div class="w-full rounded-t-lg overflow-hidden relative group">
+													<img src="{%if event.4 != '-'%}{{event.4}}{%else%}/static/logoCus.png{%endif%}" alt="1" class="group-hover:scale-110 h-48 w-full object-cover overflow-hidden transition-all duration-300" />
+												</div>
+												<div class="my-3 px-4">
+													<h1 class="text-white font-bold text-2xl capitalize eventName title-truncate">{{event.0}}</h1>
+													<div class="flex items-center justify-between my-4">
+														<div class="flex flex-col">
+															{%if event.1 != "-"%}
+															<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">₹{{event.1}} per head</p>
+															{%else%}
+															<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">Individual Not Allowed</p>
+															{%endif%} 
+															{%if event.6 == True%}
+																{%if event.8 == True%}
+																	<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">₹{{event.7}} per Team</p>
 																{%else%}
-																<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">Individual Not Allowed</p>
-																{%endif%} {%if event.6 == True%}
-																<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">₹{{event.7}} per Team</p>
-																{%else%}
-																<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">Team Not Allowed</p>
+																	<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">₹{{event.7}} per person in  Team</p>
 																{%endif%}
-															</div>
-															<a class="bg-[#2F1D69] text-white font-semibold px-2 py-1 rounded-lg cursor-pointer" onclick="cardOverlayHandle('{{event.0}}')">View more</a>
+															{%else%}
+															<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">Team Not Allowed</p>
+															{%endif%}
 														</div>
+														<a class="bg-[#2F1D69] text-white font-semibold px-2 py-1 rounded-lg cursor-pointer" onclick="cardOverlayHandle('{{event.0}}')">View more</a>
 													</div>
-													<div class="flex items-center justify-center bg-[#2F1D69] h-14 px-2 -pt-10 pb-0 rounded-b-lg relative">
-														<div class="flex flex-col items-center absolute bottom-0 z-20 -translate-x-[50%]">
-															<p class="text-[#2F1D69] font-semibold bg-white rounded-full h-5 w-5 flex items-center justify-center mb-1 font-bold">1</p>
-															<p class="bg-yellow-500 px-4 py-2 text-white font-semibold transition-all duration-300 hover:py-4">₹ 1000</p>
-														</div>
-														<div class="flex flex-col items-center absolute bottom-0 translate-x-[50%] z-10">
-															<p class="text-[#2F1D69] font-semibold bg-white rounded-full h-5 w-5 flex items-center justify-center mb-1 font-bold">2</p>
-															<p class="bg-gray-500 px-4 py-[3px] text-white font-semibold transition-all duration-300 hover:py-4">₹ 750</p>
-														</div>
+												</div>
+												<div class="flex items-center justify-center bg-[#2F1D69] h-14 px-2 -pt-10 pb-0 rounded-b-lg relative">
+													<div class="flex flex-col items-center absolute bottom-0 z-20 -translate-x-[50%]">
+														<p class="text-[#2F1D69] font-semibold bg-white rounded-full h-5 w-5 flex items-center justify-center mb-1 font-bold">1</p>
+														<p class="bg-yellow-500 px-4 py-2 text-white font-semibold transition-all duration-300 hover:py-4">₹ 1000</p>
+													</div>
+													<div class="flex flex-col items-center absolute bottom-0 translate-x-[50%] z-10">
+														<p class="text-[#2F1D69] font-semibold bg-white rounded-full h-5 w-5 flex items-center justify-center mb-1 font-bold">2</p>
+														<p class="bg-gray-500 px-4 py-[3px] text-white font-semibold transition-all duration-300 hover:py-4">₹ 750</p>
 													</div>
 												</div>
 											</div>
-										</swiper-slide>
+										</div>
 
 										{%endif%} {%endfor%}
-										
-										<div class="swiper-button-prev"></div>
-										<div class="swiper-button-next"></div>
-									</swiper-container>
-
+									
 								</div>
 							</div>
 						</div>
@@ -435,13 +448,6 @@
 				}
 				document.getElementById(id + "Content").scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
 			}
-
-			var swiper = new Swiper(".mySwiper", {
-				navigation: {
-					nextEl: ".swiper-button-next",
-					prevEl: ".swiper-button-prev",
-				},
-			});
 		</script>
 		<script src="/static/js/eventCardEffects.js"></script>
 		<script src="/static/js/eventSlider.js"></script>

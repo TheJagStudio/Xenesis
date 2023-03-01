@@ -8,6 +8,7 @@
     <title>Xenesis - Account Setup</title>
     <link rel="stylesheet" href="/static/tailwind.css">
     <link rel="stylesheet" href="/static/css/style.css">
+	<link rel="icon" type="image/png" href="/static/logoCus.png" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <style>
         .form {
@@ -38,7 +39,7 @@
 <body>
 
     <!-- Main -->
-    <section class="relative flex items-center justify-center w-full h-full min-h-[100vh] py-10 overflow-y-scroll">
+    <section class="relative flex items-center justify-center w-full h-full min-h-[100vh] md:py-10 py-12 overflow-y-scroll">
 
         <div class="absolute top-0 left-0 w-screen md:h-[calc((797/1463)*100vw)] h-full min-h-[100vh]">
             <canvas id="canvas" class="h-full w-full object-center block"></canvas>
@@ -309,6 +310,7 @@
 			document.getElementById("profilePic").value = imgCount
 		}
 
+		
 		(() => {
 			let t;
 
