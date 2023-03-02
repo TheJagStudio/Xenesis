@@ -81,9 +81,9 @@ def events(request):
         flag = 0
         for event in events:
             if event.name != "X - Motion Game Mania":
-                eventArr.append([event.name, event.price, event.description, event.tagline, event.posterImage, (event.name).replace(" ", "-").replace("---", ":"),event.isTeamEvent,event.teamPrice,event.isTeamPriceFull])
+                eventArr.append([event.name, event.price, event.description, event.tagline, event.posterImage, (event.name).replace(" ", "-").replace("---", ":"),event.isTeamEvent,event.teamPrice,event.isTeamPriceFull,event.winnerPrice1,event.winnerPrice2])
             else:
-                impEvent = [[event.name, event.price, event.description, event.tagline, event.posterImage, (event.name).replace(" ", "-").replace("---", ":"),event.isTeamEvent,event.teamPrice,event.isTeamPriceFull]]
+                impEvent = [[event.name, event.price, event.description, event.tagline, event.posterImage, (event.name).replace(" ", "-").replace("---", ":"),event.isTeamEvent,event.teamPrice,event.isTeamPriceFull,event.winnerPrice1,event.winnerPrice2]]
                 flag = 1
         if flag == 1:
             impEvent.extend(eventArr)
@@ -157,9 +157,13 @@ def signin(request):
             context = {
                 "error": True
             }
+            
             return render(request, "login.html",context)
         else:
-            return render(request, "login.html")
+            context = {
+                "error": True
+            }
+            return render(request, "login.html",context)
     return render(request, "login.html")
 
 def check(email):
@@ -250,6 +254,8 @@ def event(request, event):
     context["teamName"] = eventData.teamName
     context["teamLeader"] = eventData.teamLeader
     context["price"] = eventData.price
+    context["winnerPrice1"] = eventData.winnerPrice1
+    context["winnerPrice2"] = eventData.winnerPrice2
     context["location"] = eventData.location
     context["date"] = eventData.date
     context["description"] = eventData.description
