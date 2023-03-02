@@ -18,14 +18,20 @@ def index(request):
     
     for ticket in tickets:
         event = ticket.event
-        totalAmount = totalAmount + int((event.price).split("-")[0])
+        try:
+            totalAmount = totalAmount + int((event.price).split("-")[0])
+        except:
+            pass
         if event.department.name not in departmentArr.keys():
             departmentArr[event.department.name] = [1, 0]
         else:
             departmentArr[event.department.name] = [
                 departmentArr[event.department.name][0] + 1, 0]
         if event.name not in eventArr:
-            eventArr[event.name] = [1, int((event.price).split("-")[0]),event.name, event.posterImage]
+            try:
+                eventArr[event.name] = [1, int((event.price).split("-")[0]),event.name, event.posterImage]
+            except:
+                eventArr[event.name] = [1, 0,event.name, event.posterImage]
         else:
             eventArr[event.name] = [eventArr[event.name][0] + 1,eventArr[event.name][1],event.name, event.posterImage]
 
@@ -54,7 +60,10 @@ def events(request):
     for ticket in tickets:
         event = ticket.event
         if event.name not in eventArr:
-            eventArr[event.name] = [1, int((event.price).split("-")[0]),event.name, event.posterImage]
+            try:
+                eventArr[event.name] = [1, int((event.price).split("-")[0]),event.name, event.posterImage]
+            except:
+                eventArr[event.name] = [1, 0,event.name, event.posterImage]
         else:
             eventArr[event.name] = [eventArr[event.name][0] + 1,eventArr[event.name][1],event.name, event.posterImage]
 
