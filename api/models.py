@@ -95,6 +95,7 @@ class Ticket(models.Model):
     paymentMethod = models.CharField(max_length=100,null=True,blank=True)
     isScanned = models.BooleanField(default=False)
     isPaid = models.BooleanField(default=False)
+    acceptedBy = models.ForeignKey(Profile, on_delete=models.CASCADE,null=True,blank=True,related_name="name_acceptedBy") 
     def __str__(self):
         return str(self.owner) and str(self.event)
 

@@ -8,6 +8,7 @@
     <title>Xenesis - Event Confirmation</title>
     <link rel="stylesheet" href="/static/tailwind.css">
     <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" type="image/png" href="/static/logoCus.png" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <style>
         * {
@@ -41,41 +42,88 @@
 </head>
 
 <body>
-    <!-- Navbar -->
-    <nav class="flex items-center overflow-visible justify-between text-white fixed w-full top-0 pt-[calc(2vh)] pb-10 px-[calc(3vh)] z-50 transition-all duration-300" id="navbar">
-        <a href="/">
-            <img src="/static/logoCus.png" class="h-16 w-auto" />
-        </a>
-        <ul class="flex items-center">
-            <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/">Home</a></li>
-            <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/events">Events</a></li>
-            <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/aboutus">About Us</a></li>
-            <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/faqs">FAQs</a></li>
-            {% if isUser == False %}
-            <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/login">Login</a></li>
-            <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/register">Register</a></li>
-            {%else%}
-            {% if isVolunteer == True%}
-            <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/ticketVerifer">Verifer</a></li>
-            {%endif%}
-            <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/myTicket">My Tickets</a></li>
-            <li class="mx-[calc(2vh)] py-2 w-14"></li>
-            {%endif%}
-        </ul>
-    </nav>
-    {% if isUser == True %}
-    <div class="fixed right-10 top-6 z-[999] flex items-center justify-center gap-4 px-[calc(2vh)]">
-        <img src="/static/avatars/{{profilePic}}.png" alt="" class="w-[50px] h-[50px] rounded-full object-cover cursor-pointer bg-slate-300" onclick="toggleProfileDropdown()" />
+    <!-- Laptop | Tablet Screen -->
+	<div class="md:block hidden">
+		<nav class="flex items-center overflow-visible justify-between text-white fixed w-full top-0 pt-[calc(2vh)] pb-10 px-[calc(3vh)] z-50 transition-all duration-300" id="navbar">
+			<a href="/">
+				<img src="/static/logoCus.png" class="h-16 w-auto" />
+			</a>
+			<ul class="flex items-center">
+				<li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/">Home</a></li>
+				<li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/events">Events</a></li>
+				<li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/aboutus">About Us</a></li>
+				<li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/faqs">FAQs</a></li>
+				{% if isUser == False %}
+				<li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/login">Login</a></li>
+				<li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/register">Register</a></li>
+				{%else%} {% if isVolunteer == True%}
+				<li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/ticketVerifer">Verifer</a></li>
+				{%endif%}
+				<li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/myTicket">My Tickets</a></li>
+				<li class="mx-[calc(2vh)] py-2 w-14"></li>
+				{%endif%}
+			</ul>
+		</nav>
 
-        <div class="absolute bg-slate-600 top-16 right-0 w-fit min-w-[200px] rounded-md z-[999] h-0 overflow-hidden transition-all duration-300" id="profile-dropdown-mobile">
-            <p class="w-full px-4 text-white truncate capitalize"><i class="bi bi-person mr-2.5"></i>{{userName}}</p>
-            <hr class="w-full my-2" />
-            <a href="/logout" class="">
-                <p class="w-full px-4 text-white"><i class="bi bi-box-arrow-right mr-2.5"></i>Logout</p>
-            </a>
-        </div>
+		{% if isUser == True %}
+		<div class="fixed right-10 top-6 z-[999] flex items-center justify-center gap-4 px-[calc(2vh)]">
+			<img src="/static/avatars/{{profilePic}}.png" alt="" class="w-[50px] h-[50px] rounded-full object-cover cursor-pointer bg-slate-300" onclick="toggleProfileDropdown()" />
+			<div class="absolute bg-slate-600 top-16 right-0 w-full min-w-[200px] rounded-md z-[999] h-0 overflow-hidden transition-all duration-300" id="profile-dropdown">
+				<p class="w-full px-4 text-white truncate capitalize"><i class="bi bi-person mr-2.5"></i>{{userName}}</p>
+				<hr class="w-full my-2" />
+				<a href="/logout" class="">
+					<p class="w-full px-4 text-white"><i class="bi bi-box-arrow-right mr-2.5"></i>Logout</p>
+				</a>
+			</div>
+		</div>
+		{%endif%}
     </div>
-    {%endif%}
+
+    <!-- Mobile Screen -->
+	<div class="block md:hidden">
+		<!-- Navbar -->
+		<nav class="flex items-center justify-between text-white fixed w-full top-0 py-[calc(3vh)] px-[calc(3vh)] z-50 transition-all duration-300" id="mobile-navbar">
+			<a href="/">
+				<img src="/static/logoCus.png" class="h-14 w-auto" />
+			</a>
+
+			<div class="relative flex items-center justify-center gap-4">
+				{% if isUser == True %}
+				<!-- Profile Image -->
+				<img src="/static/avatars/{{profilePic}}.png" alt="" class="w-[45px] h-[45px] rounded-full object-cover bg-slate-300" onclick="toggleProfileDropdown()" />
+				<!-- Profile -->
+				<div class="fixed right-10 top-6 z-[999] overflow-visible flex items-center justify-center gap-4 px-[calc(2vh)]">
+					<div class="absolute bg-slate-600 top-16 right-0 w-full min-w-[200px] rounded-md z-[999] h-0 overflow-hidden transition-all duration-300" id="profile-dropdown-mobile">
+						<p class="w-full px-4 text-white truncate capitalize"><i class="bi bi-person mr-2.5"></i>{{userName}}</p>
+						<hr class="w-full my-2" />
+						<a href="/logout" class="">
+							<p class="w-full px-4 text-white"><i class="bi bi-box-arrow-right mr-2.5"></i>Logout</p>
+						</a>
+					</div>
+				</div>
+				{%endif%}
+				<!-- Menu Toggle Button -->
+				<button class="text-2xl block lg:hidden !outline-none" onclick="toggleMobileMenu()"><i class="bi bi-list"></i></button>
+			</div>
+
+			<!-- Mobile Menu -->
+			<div class="absolute top-0 left-full flex flex-col gap-5 items-center justify-center w-screen h-screen z-[999] bg-slate-900 bg-opacity-95 transition-all duration-300" id="mobile-menu">
+				<button class="absolute top-10 right-10 !outline-none" onclick="toggleMobileMenu()"><i class="bi bi-x-lg"></i></button>
+				<a href="/" class="text-2xl">Home</a>
+				<a href="/events" class="text-2xl">Events</a>
+				<a href="/aboutus" class="text-2xl">About Us</a>
+				<a href="/faqs" class="text-2xl">FAQs</a>
+				{% if isUser == False %}
+				<a href="/login" class="text-2xl">Login</a>
+				<a href="/register" class="text-2xl">Register</a>
+				{%else%} {% if isVolunteer == True%}
+				<a href="/ticketVerifer" class="text-2xl">Verifer</a>
+				{%endif%}
+				<a href="/myTicket" class="text-2xl">My Tickets</a>
+				{%endif%}
+			</div>
+		</nav>
+    </div>
 
     <!-- Registration Details -->
     <section class="w-full h-full bg-gradient-to-b from-[#211e60] to-[#240a34] sm:pb-6 pb-20 relative">
@@ -86,7 +134,7 @@
         </div>
         
         <!-- Participants -->
-        <div class="mt-16 w-full flex flex-col items-center justify-center">
+        <div class="mt-10 w-full flex flex-col items-center justify-center">
             <h1 class="font-bold text-3xl mb-5 text-blue-400">Participants</h1>
             <div class="flex flex-col w-full xl:px-32 lg:px-20 md:px-12 sm:px-10 px-8">
                 <div class="overflow-x-auto sm:-mx-6 lg:-mx-8 rounded-lg">
@@ -120,7 +168,7 @@
 
         <!-- Back | Pay Buttons -->
         <div class="flex items-center justify-center gap-5 z-40 w-full py-5 backdrop-blur">
-            <a href="/" class="lg:px-16 lg:py-4 sm:px-10 sm:py-3 px-6 py-1.5 text-white rounded-md bg-red-500 font-semibold text-xl group"><i class="transition-all duration-200 bi bi-backspace group-hover:mr-1"></i> Back</a>
+            <a href="/addTeamMembers" class="lg:px-16 lg:py-4 sm:px-10 sm:py-3 px-6 py-1.5 text-white rounded-md bg-red-500 font-semibold text-xl group"><i class="transition-all duration-200 bi bi-backspace group-hover:mr-1"></i> Back</a>
             <button onclick="ConfirmationModalToggle()" class="lg:px-16 lg:py-4 sm:px-10 sm:py-3 px-6 py-1.5 text-white rounded-md bg-green-500 font-semibold text-xl group"><i class="transition-all duration-200 bi bi-paypal group-hover:mr-1"></i> Pay</button>
         </div>
     </section>
@@ -234,35 +282,6 @@
         <!-- Copyrights -->
         <div class="bg-[#211e60] bg-opacity-20 md:w-fit w-full md:px-24 px-8 md:pr-36 mb-0 clip-copyrights text-gray-300 font-semibold py-8 md:text-xl text-md">&copy; 2023 Xenesis All Rights Registered</div>
     </footer>
-
-    <script>
-        window.addEventListener('scroll', function () {
-            const header = document.getElementById("navbar");
-            header.classList.toggle('backdrop-blur-md', window.scrollY > 0);
-        });
-
-        // Menu Dropdown Code
-        let mobileMenu = document.querySelector('#mobile-menu');
-        function toggleMobileMenu() {
-            mobileMenu.classList.toggle('hidden');
-        }
-
-        // Profile Dropdown Code
-        let profileDropdownMobile = document.querySelector('#profile-dropdown-mobile');
-        let profileDropdown = document.querySelector('#profile-dropdown');
-        function toggleProfileDropdown() {
-            // Dropdown for Mobile
-            profileDropdownMobile.classList.toggle('h-none')
-            profileDropdownMobile.classList.toggle('h-auto')
-            profileDropdownMobile.classList.toggle('border')
-            profileDropdownMobile.classList.toggle('py-3')
-            // Dropdown for Laptop - Tablet
-            profileDropdown.classList.toggle('h-none')
-            profileDropdown.classList.toggle('h-auto')
-            profileDropdown.classList.toggle('border')
-            profileDropdown.classList.toggle('py-3')
-        }
-    </script>
 
     <!-- Tailwind Js -->
     <script src="/static/tailwind.js"></script>
