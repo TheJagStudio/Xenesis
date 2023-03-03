@@ -257,11 +257,11 @@
      <script type="text/Javascript">
           // Grid JS Script
           let grid = new gridjs.Grid({
-               columns: ["Name", "Email", "Phone Number","Department","Event","Paid", "College"],
+               columns: ["ID","Name", "Email", "Phone Number","Department","Event","Paid", "College"],
                search: true,
                sort: true,
                pagination: {
-                    limit: 10
+                    limit: 100
                },
                data: () => {
                     return new Promise(resolve => {
@@ -331,7 +331,7 @@
                setTimeout(() => {
                     grid.updateConfig({
                          pagination: {
-                              limit: 10
+                              limit: 100
                          },
                     }).forceRender();
                }, 3000);
@@ -350,7 +350,7 @@
                setTimeout(() => {
                     grid.updateConfig({
                          pagination: {
-                              limit: 10
+                              limit: 100
                          },
                     }).forceRender();
                }, 3000);

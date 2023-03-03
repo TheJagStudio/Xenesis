@@ -134,14 +134,11 @@ def tableData(request):
             if dataType == "all": 
                 users = Ticket.objects.all()
                 userArr = []
-                owner = []
                 for i in users:
-                    if i.owner.user.first_name not in owner:
-                        owner.append(i.owner.user.first_name)
-                        paid = "No"
-                        if i.isPaid == True:
-                            paid = "Yes"
-                        userArr.append([i.owner.user.first_name,i.owner.user.username,i.owner.phone,i.event.department.name,i.event.name,paid,i.owner.college])
+                    paid = "No"
+                    if i.isPaid == True:
+                        paid = "Yes"
+                    userArr.append(["T"+str(i.id),i.owner.user.first_name,i.owner.user.username,i.owner.phone,i.event.department.name,i.event.name,paid,i.owner.college])
                 return HttpResponse(json.dumps({"users":userArr}),content_type="application/json")
             if dataType == "event": 
                 departmentName = request.GET.get("department")
@@ -151,27 +148,21 @@ def tableData(request):
                     eventArr.append(i.name)
                 users = Ticket.objects.filter(event__in=events).all()
                 userArr = []
-                owner = []
                 for i in users:
-                    if i.owner.user.first_name not in owner:
-                        owner.append(i.owner.user.first_name)
-                        paid = "No"
-                        if i.isPaid == True:
-                            paid = "Yes"
-                        userArr.append([i.owner.user.first_name,i.owner.user.username,i.owner.phone,i.event.department.name,i.event.name,paid,i.owner.college])
+                    paid = "No"
+                    if i.isPaid == True:
+                        paid = "Yes"
+                    userArr.append(["T"+str(i.id),i.owner.user.first_name,i.owner.user.username,i.owner.phone,i.event.department.name,i.event.name,paid,i.owner.college])
                 return HttpResponse(json.dumps({"events":eventArr,"users":userArr}),content_type="application/json")
             if dataType == "final":
                 eventName = request.GET.get("event")
                 users = Ticket.objects.filter(event=Event.objects.filter(name=eventName).first()).all()
                 userArr = []
-                owner = []
                 for i in users:
-                    if i.owner.user.first_name not in owner:
-                        owner.append(i.owner.user.first_name)
-                        paid = "No"
-                        if i.isPaid == True:
-                            paid = "Yes"
-                        userArr.append([i.owner.user.first_name,i.owner.user.username,i.owner.phone,i.event.department.name,i.event.name,paid,i.owner.college])
+                    paid = "No"
+                    if i.isPaid == True:
+                        paid = "Yes"
+                    userArr.append(["T"+str(i.id),i.owner.user.first_name,i.owner.user.username,i.owner.phone,i.event.department.name,i.event.name,paid,i.owner.college])
                 return HttpResponse(json.dumps({"users":userArr}),content_type="application/json")
             else:
                 return HttpResponse(json.dumps({"data":[]}),content_type="application/json")
