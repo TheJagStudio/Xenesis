@@ -257,7 +257,7 @@
      <script type="text/Javascript">
           // Grid JS Script
           let grid = new gridjs.Grid({
-               columns: ["Name", "Email", "Phone Number", "College"],
+               columns: ["Name", "Email", "Phone Number","Department","Event","Paid", "College"],
                search: true,
                sort: true,
                pagination: {
@@ -265,8 +265,16 @@
                },
                data: () => {
                     return new Promise(resolve => {
-                         setTimeout(() =>
-                              resolve([]), 2000);
+                         setTimeout(() =>{
+                              fetch("/dashboard/tableData?type=all")
+                              .then(res=>res.json())
+                              .then(data=>{
+                                   users = data["users"]
+                                   grid.updateConfig({
+                                   data: users
+                                   }).forceRender();
+                              })
+                         }, 2000);
                     });
                },
                className: {
@@ -301,7 +309,7 @@
                     var tableSelect = document.getElementById('table');
                     var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
                     // Specify file name
-                    filename = filename?filename+'.xls':'excel_data.xls';
+                    filename = filename?filename+'.xlsx':'excel_data.xlsx';
                     
                     // Create download link element
                     downloadLink = document.createElement("a");
@@ -331,7 +339,21 @@
           }
 
           function exportToPDF() {
-               printJS({printable: 'table', type: 'html', css: ['./static/tailwind.css', './static/css/app.css'], targetStyles: ['*']})
+               grid.updateConfig({
+                    pagination: {
+                         limit: 10000
+                    },
+               }).forceRender();
+               setTimeout(() => {
+                    printJS({printable: 'table', type: 'html', css: ['./static/tailwind.css', './static/css/app.css'], targetStyles: ['*']})
+               }, 2000);
+               setTimeout(() => {
+                    grid.updateConfig({
+                         pagination: {
+                              limit: 10
+                         },
+                    }).forceRender();
+               }, 3000);
           }
      </script>
 

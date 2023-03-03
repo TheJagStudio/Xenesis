@@ -11,7 +11,6 @@
      <title>Xenesis | Dashboard</title>
 
      <script src="/static/tailwind.js"></script>
-     <link rel="stylesheet" href="/static/tailwind.css">
      <link rel="icon" type="image/png" href="/static/ldrp.png" />
 
      <!-- CSS Assets -->
@@ -342,7 +341,11 @@
                     <div class="is-scrollbar-hidden col-span-12 flex space-x-4 overflow-x-auto px-[var(--margin-x)] transition-all duration-[.25s] lg:col-span-9 lg:pl-0">
                          {%for value in eventArr%}
                          <div class="card w-72 h-auto shrink-0 rounded-xl">
-                              <img src="{{value.3}}" alt="Event Image" class="rounded-t-lg h-30 min-h-30 max-h-30 object-cover">
+                              {%if value.3 != "-"%}
+                              <img src="{{value.3}}" alt="Event Image" class="rounded-t-lg min-h-32 max-h-32 object-cover">
+                              {%else%}
+                              <img src="/static/logoCus.png" alt="Event Image" class="rounded-t-lg min-h-32 max-h-32 object-cover">
+                              {%endif%}
                               <div class="flex items-center justify-between py-4 sm:px-5">
                                    <div class="">
                                         <p class="font-medium text-xl dark:text-navy-100">{{value.2}}</p>
@@ -364,6 +367,15 @@
                                              <p class="text-xl font-semibold text-slate-700 dark:text-navy-100">78</p>
                                         </div>
                                    </div>
+                                   <div class="flex flex-row justify-between">
+                                        <div>
+                                             <p class="text-xs+">Not Paid</p>
+                                             <p class="text-xl font-semibold text-slate-700 dark:text-navy-100">{{value.5}}</p>
+                                        </div>
+                                        <div class="">
+                                             
+                                        </div>
+                                   </div>
                               </div>
                          </div>
                          {%endfor%}
@@ -380,7 +392,10 @@
                                    {%for key,value in departmentArr %}
                                    <div class="rounded-lg bg-slate-150 p-4 dark:bg-navy-700">
                                         <p class="text-xl font-semibold z-20 relative text-slate-700 dark:text-navy-100">{{key}}</p>
-                                        <p class="sm:mt-1 mt-2 text-[1rem] relative z-20 font-light">Tickets : {{value.0}}</p>
+                                        <div class="flex flex-row gap-5">
+                                             <p class="sm:mt-1 mt-2 text-[1rem] relative z-20 font-light">Tickets : {{value.0}}</p>
+                                             <p class="sm:mt-1 mt-2 text-[1rem] relative z-20 font-light">Not Paid : {{value.2}}</p>
+                                        </div>
                                         <p class="sm:mt-1 mt-2 text-[1rem] relative z-20 font-light">Event : {{value.1}}</p>
                                    </div>
                                    {%endfor%}

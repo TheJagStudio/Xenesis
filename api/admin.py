@@ -19,8 +19,8 @@ class EventAdmin(ExportActionMixin, admin.ModelAdmin):
 
 
 class TicketAdmin(ExportActionMixin, admin.ModelAdmin):
-    list_display = ('id','owner','qrCodeData',  'date')
-    search_fields = ['id','owner__user__email', 'qrCodeData', 'date']
+    list_display = ('id','owner','event','qrCodeData',  'date')
+    search_fields = ['id','owner__user__email', 'event__name','qrCodeData', 'date']
 
 
 class NotificationsAdmin(ExportActionMixin, admin.ModelAdmin):

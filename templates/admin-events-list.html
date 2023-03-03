@@ -177,7 +177,11 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
                 {%for value in eventArr%}
                 <div id="{{value.2}}" class="event card w-auto h-auto shrink-0 rounded-xl">
-                    <img src="{{value.3}}" alt="Event Image" class="rounded-t-lg h-30 min-h-30 max-h-30 object-cover">
+                    {%if value.3 != "-"%}
+                    <img src="{{value.3}}" alt="Event Image" class="rounded-t-lg w-full min-h-32 max-h-32 object-cover">
+                    {%else%}
+                    <img src="/static/logoCus.png" alt="Event Image" class="rounded-t-lg min-h-32 max-h-32 object-cover">
+                    {%endif%}
                     <div class="flex items-center justify-between py-4 sm:px-5">
                         <div class="">
                             <p class="font-medium text-xl dark:text-navy-100">{{value.2}}</p>
@@ -197,6 +201,15 @@
                             <div class="">
                                     <p class="text-xs+">Likes</p>
                                     <p class="text-xl font-semibold text-slate-700 dark:text-navy-100">78</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-row justify-between">
+                            <div>
+                                <p class="text-xs+">Not Paid</p>
+                                <p class="text-xl font-semibold text-slate-700 dark:text-navy-100">{{value.5}}</p>
+                            </div>
+                            <div class="">
+                                
                             </div>
                         </div>
                     </div>
