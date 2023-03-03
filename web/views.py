@@ -292,6 +292,7 @@ def event(request, event):
     context["teamParticapantCount"] = eventData.teamParticapantCount
     context["isClosed"] = eventData.isClosed
     context["status"] = eventData.status
+    context["images"] = eventData.images["data"]
     request.session['event'] = eventData.name
     return render(request, "event-details.html", context)
 
