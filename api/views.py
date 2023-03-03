@@ -112,7 +112,8 @@ def registerApp(request):
                     profileForNewUser.isOrganiser = False
                     profileForNewUser.isVerified = False
                     profileForNewUser.save()
-                    r = requests.get('https://script.google.com/macros/s/AKfycbwQ5CjLgEIcVR0D27ALn7dwk6uPcWBbJESuATu18fC9Is3IgCUmjpK-YKNFEGF1IbwfNQ/exec?email=' +
+                    # https://script.google.com/macros/s/AKfycbzW-cQR5jK5dWpfdH7yJ0Rb_gR9dC7YMn0VFnQU9ZCzhCx7wXZgbnTwDcFDsLo6Vn_V/exec?email=barotjaivin244@gmail.com&subject=auto&body=auto&otp=1234
+                    r = requests.get('https://script.google.com/macros/s/AKfycbzW-cQR5jK5dWpfdH7yJ0Rb_gR9dC7YMn0VFnQU9ZCzhCx7wXZgbnTwDcFDsLo6Vn_V/exec?email=' +
                                     email + '&subject=Welcome to Xenesis 2023&body=Hi there&otp='+otp)
                     return HttpResponse(json.dumps({"msg": "OTP sent to "+email}), content_type="application/json")
         except Exception as error:
@@ -179,7 +180,7 @@ def resendotpApp(request):
                     user=User.objects.filter(email=email).first()).first()
                 profile.otp = otp
                 profile.save()
-                r = requests.get('https://script.google.com/macros/s/AKfycbwQ5CjLgEIcVR0D27ALn7dwk6uPcWBbJESuATu18fC9Is3IgCUmjpK-YKNFEGF1IbwfNQ/exec?email=' +email + '&subject=Welcome to Xenesis 2023&body=Hi there&otp='+otp)
+                r = requests.get('https://script.google.com/macros/s/AKfycbzW-cQR5jK5dWpfdH7yJ0Rb_gR9dC7YMn0VFnQU9ZCzhCx7wXZgbnTwDcFDsLo6Vn_V/exec?email=' +email + '&subject=Welcome to Xenesis 2023&body=Hi there&otp='+otp)
                 request.session['isPasswordRecovery'] = True
                 return HttpResponse(json.dumps({"msg": "OTP sent to "+email + " for Password Verification."}), content_type="application/json")
             else:
@@ -187,7 +188,7 @@ def resendotpApp(request):
                 profile = Profile.objects.filter(user=User.objects.filter(email=email).first()).first()
                 profile.otp = otp
                 profile.save()
-                r = requests.get('https://script.google.com/macros/s/AKfycbwQ5CjLgEIcVR0D27ALn7dwk6uPcWBbJESuATu18fC9Is3IgCUmjpK-YKNFEGF1IbwfNQ/exec?email=' +email + '&subject=Welcome to Xenesis 2023&body=Hi there&otp='+otp)
+                r = requests.get('https://script.google.com/macros/s/AKfycbzW-cQR5jK5dWpfdH7yJ0Rb_gR9dC7YMn0VFnQU9ZCzhCx7wXZgbnTwDcFDsLo6Vn_V/exec?email=' +email + '&subject=Welcome to Xenesis 2023&body=Hi there&otp='+otp)
                 return HttpResponse(json.dumps({"msg": "OTP sent to "+email}), content_type="application/json")
         except Exception as error:
                 return HttpResponse(json.dumps({"error": error}), content_type="application/json")
