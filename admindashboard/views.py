@@ -83,7 +83,8 @@ def index(request):
                 "eventCount":eventCount,
                 "ticketCount":ticketCount,
                 "ticketCountNotPaid":ticketCountNotPaid,
-                "totalPaidUsers":totalPaidUsers
+                "totalPaidUsers":totalPaidUsers,
+                "ticketsPaid": ticketCount-ticketCountNotPaid,
             }
             return render(request, "dashboard.html", context)
         else:

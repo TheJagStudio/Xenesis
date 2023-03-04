@@ -172,63 +172,9 @@
                <!-- Sales Overview -->
                <div
                     class="mt-4 grid grid-cols-12 gap-4 px-[var(--margin-x)] transition-all duration-[.25s] sm:mt-5 sm:gap-5 lg:mt-6 lg:gap-6">
-                    <div class="col-span-12 lg:col-span-8">
-                         <div class="flex items-center justify-between space-x-2">
-                              <h2
-                                   class="text-base font-medium tracking-wide text-slate-800 line-clamp-1 dark:text-navy-100">
-                                   Sales Overview
-                              </h2>
-                              <div id="sales-tab"
-                                   class="is-scrollbar-hidden overflow-x-auto rounded-lg bg-slate-200 text-slate-600 dark:bg-navy-800 dark:text-navy-200">
-                                   <div class="tabs-list flex">
-                                        <button class="tab w-0 h-0">
-                                        </button>
-                                        <button class="tab w-0 h-0">
-                                        </button>
-                                   </div>
-                              </div>
-                         </div>
-
-                         <div class="flex flex-col sm:flex-row sm:space-x-7">
-                              <div class="mt-4 flex shrink-0 flex-col items-center sm:items-start">
-                                   <div class="mt-4">
-                                        <div class="flex items-center space-x-1">
-                                             <p class="text-2xl font-semibold text-slate-700 dark:text-navy-100">
-                                                  $6,556.55
-                                             </p>
-                                             <button
-                                                  class="btn h-6 w-6 rounded-full p-0 hover:bg-slate-300/20 focus:bg-slate-300/20 active:bg-slate-300/25 dark:hover:bg-navy-300/20 dark:focus:bg-navy-300/20 dark:active:bg-navy-300/25">
-                                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                                                       viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                                       <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                                                  </svg>
-                                             </button>
-                                        </div>
-                                        <p class="text-xs text-slate-400 dark:text-navy-300">
-                                             this month
-                                        </p>
-                                   </div>
-                                   
-                                   <button
-                                        class="btn mt-8 space-x-2 rounded-full border border-slate-300 px-3 text-xs+ font-medium text-slate-700 hover:bg-slate-150 focus:bg-slate-150 active:bg-slate-150/80 dark:border-navy-450 dark:text-navy-100 dark:hover:bg-navy-500 dark:focus:bg-navy-500 dark:active:bg-navy-500/90">
-                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                             class="h-4.5 w-4.5 text-slate-400 dark:text-navy-300" fill="none"
-                                             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                             <path stroke-linecap="round" stroke-linejoin="round"
-                                                  d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010 18z" />
-                                        </svg>
-                                        <span> Download Report</span>
-                                   </button>
-                              </div>
-
-                              <div class="ax-transparent-gridline grid w-full grid-cols-1">
-                                   <div id="salesOverview"></div>
-                              </div>
-                         </div>
-                    </div>
-                    <div class="col-span-12 lg:col-span-4">
-                         <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5 lg:grid-cols-2">
+                    
+                    <div class="col-span-12 ">
+                         <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5 lg:grid-cols-7">
                               <div class="rounded-lg bg-slate-150 p-4 dark:bg-navy-700">
                                    <div class="flex justify-between space-x-1">
                                         <p class="text-xl font-semibold text-slate-700 dark:text-navy-100">
@@ -246,7 +192,7 @@
                               <div class="rounded-lg bg-slate-150 p-4 dark:bg-navy-700">
                                    <div class="flex justify-between">
                                         <p class="text-xl font-semibold text-slate-700 dark:text-navy-100">
-                                             {{ticketCount}} <p class="">({{ticketCountNotPaid}} not paid)</p>
+                                             {{ticketCount}}
                                         </p>
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-success" fill="none"
                                              viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -254,20 +200,33 @@
                                                   d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
                                         </svg>
                                    </div>
-                                   <p class="mt-1 text-xs+">Tickets Bought</p>
+                                   <p class="mt-1 text-xs+">Tickets Genrated</p>
                               </div>
                               <div class="rounded-lg bg-slate-150 p-4 dark:bg-navy-700">
                                    <div class="flex justify-between">
                                         <p class="text-xl font-semibold text-slate-700 dark:text-navy-100">
-                                             143
+                                             {{ticketsPaid}}
                                         </p>
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-warning" fill="none"
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-success" fill="none"
                                              viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                              <path stroke-linecap="round" stroke-linejoin="round"
-                                                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                  d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
                                         </svg>
                                    </div>
-                                   <p class="mt-1 text-xs+">Likes</p>
+                                   <p class="mt-1 text-xs+">Tickets Paid</p>
+                              </div>
+                              <div class="rounded-lg bg-slate-150 p-4 dark:bg-navy-700">
+                                   <div class="flex justify-between">
+                                        <p class="text-xl font-semibold text-slate-700 dark:text-navy-100">
+                                             {{ticketCountNotPaid}}
+                                        </p>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-success" fill="none"
+                                             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                             <path stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                                        </svg>
+                                   </div>
+                                   <p class="mt-1 text-xs+">Tickets not Paid</p>
                               </div>
                               <div class="rounded-lg bg-slate-150 p-4 dark:bg-navy-700">
                                    <div class="flex justify-between">
