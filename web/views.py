@@ -10,8 +10,33 @@ import requests
 import random
 import json
 import uuid
-# create a function
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
+# create a function
+def emailSender(reciver,template,otp):
+    sender = "xenesis@ldrp.ac.in"
+    password = "Auabs@904"
+
+    msg = MIMEMultipart('alternative')
+    msg['Subject'] = "Link"
+    msg['From'] = sender
+    msg['To'] = reciver
+
+    f = open(template, "r", encoding="utf-8")
+    html = f.read()
+    html = html.replace("%%OTP1%%", otp[0])
+    html = html.replace("%%OTP2%%", otp[1])
+    html = html.replace("%%OTP3%%", otp[2])
+    html = html.replace("%%OTP4%%", otp[3])
+    part = MIMEText(html, 'html')
+    msg.attach(part)
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.starttls()
+    server.login(sender, password)
+    server.sendmail(sender, reciver, msg.as_string())
+    server.quit()
 
 def home(request):
     if request.user != None:
@@ -208,7 +233,7 @@ def register(request):
                 profileForNewUser.isOrganiser = False
                 profileForNewUser.isVerified = False
                 profileForNewUser.save()
-                r = requests.get('https://script.google.com/macros/s/AKfycbzW-cQR5jK5dWpfdH7yJ0Rb_gR9dC7YMn0VFnQU9ZCzhCx7wXZgbnTwDcFDsLo6Vn_V/exec?email=' +email + '&subject=Welcome to Xenesis 2023&body=Hi there&otp='+otp)
+                emailSender(email,"./emailTemplates/welcomeEmail.html",str(otp))
                 request.session['emailVarification'] = email
                 return render(request, "otp-page.html",{"email": request.session['emailVarification']})
             else:
@@ -417,7 +442,7 @@ def resendOtpWeb(request):
             profile = Profile.objects.filter(user=User.objects.filter(email=email).first()).first()
             profile.otp = otp
             profile.save()
-            r = requests.get('https://script.google.com/macros/s/AKfycbzW-cQR5jK5dWpfdH7yJ0Rb_gR9dC7YMn0VFnQU9ZCzhCx7wXZgbnTwDcFDsLo6Vn_V/exec?email=' +email + '&subject=Welcome to Xenesis 2023&body=Hi there&otp='+otp)
+            emailSender(email,"./emailTemplates/forgotPWDEmail.html",str(otp))
             request.session['isPasswordRecovery'] = True
             return HttpResponse(json.dumps({"msg": "OTP sent to "+email + " for Password Verification."}), content_type="application/json")
         else:
@@ -426,7 +451,7 @@ def resendOtpWeb(request):
                 user=User.objects.filter(email=email).first()).first()
             profile.otp = otp
             profile.save()
-            r = requests.get('https://script.google.com/macros/s/AKfycbzW-cQR5jK5dWpfdH7yJ0Rb_gR9dC7YMn0VFnQU9ZCzhCx7wXZgbnTwDcFDsLo6Vn_V/exec?email=' +email + '&subject=Welcome to Xenesis 2023&body=Hi there&otp='+otp)
+            emailSender(email,"./emailTemplates/resendOTPEmail.html",str(otp))
             return HttpResponse(json.dumps({"msg": "OTP sent to "+email}), content_type="application/json")
     except Exception as error:
             return HttpResponse(json.dumps({"error": error}), content_type="application/json")
