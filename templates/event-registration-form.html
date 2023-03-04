@@ -139,7 +139,7 @@
                         </div>
                         <button type="button" class="flex items-center justify-center !outline-none text-slate-200 border-slate-200 rounded-md gap-2 text-2xl" onclick="addMember()"><i class="bi bi-plus-circle"></i></button>
                     </div>
-                    <input type="submit" value="Register" tabIndex="7" class='w-fit bg-gradient-to-tr from-orange-500 to-yellow-300 text-white backdrop-blur-sm outline-none mt-5 xl:px-16 lg:px-12 sm:px-10 px-9 py-1.5 xl:text-lg lg:text-md font-semibold cursor-pointer transition-all duration-200 focus:-translate-y-1 hover:ring-[#211d5e] rounded-md' />
+                    <input type="submit" id="formSubmit" name="formSubmit" value="Register" tabIndex="7" class='w-fit bg-gradient-to-tr from-orange-500 to-yellow-300 text-white backdrop-blur-sm outline-none mt-5 xl:px-16 lg:px-12 sm:px-10 px-9 py-1.5 xl:text-lg lg:text-md font-semibold cursor-pointer transition-all duration-200 focus:-translate-y-1 hover:ring-[#211d5e] rounded-md' />
                 </div>           
                 <!-- bg-gradient-to-tr from-orange-500 to-yellow-300 -->
             </form>
@@ -329,9 +329,23 @@
         let approvedMembersDiv = document.getElementById('approved-members')
         let membersCount = approvedMembersDiv.children.length
         let users = {"data":["{{email}}"]}
+
+        document.getElementById("formSubmit").addEventListener("click", function(event){
+            if(membersCount > (parseInt('{{max}}'))){
+                alert('You have reached the maximum number of members')
+                event.preventDefault()
+            }
+            else if(membersCount < parseInt('{{min}}')){
+                alert('You have reached the minimum number of members')
+                event.preventDefault()
+            }
+            else{
+                return true
+            }
+        })
         function addMember() {
             let inputEmail = document.getElementById('email')
-            if(inputEmail.value !== '' && membersCount <= 4) {
+            if(inputEmail.value !== '' && membersCount <= (parseInt('{{max}}')-1)) {
                 fetch("/addTeamMembers/", {
 					method: "POST",
 					body: JSON.stringify({
@@ -374,6 +388,12 @@
 						alert(json.error)
 					}
 				});
+            }
+            else if (inputEmail.value !== ''){
+                alert('You have reached the maximum number of members')
+            }
+            else{
+                alert('Please enter a valid email')
             }
         }
 

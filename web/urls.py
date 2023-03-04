@@ -21,4 +21,5 @@ urlpatterns = [
     path('ticketGenrator/', views.ticketGenrator, name='ticketGenrator'),
     path('addTeamMembers/', views.addTeamMebers, name='addTeamMebers'),
     path('eventConfirmation/', views.eventConfirmation, name='eventConfirmation'),
+    path('deleteIT/', views.deleteIT, name='deleteIT'),
 ]
