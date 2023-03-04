@@ -17,7 +17,14 @@ def index(request):
             userCount = Profile.objects.all().count()
             eventCount = events.count()
             ticketCount = tickets.count()
-            
+            ticketCountNotPaid = tickets.filter(isPaid=False).count()
+            totalPaidUsers = 0
+            for ticket in tickets:
+                if ticket.isPaid == True:
+                    if ticket.userCount > 1:
+                        totalPaidUsers = totalPaidUsers + int(ticket.userCount)
+                    else:
+                        totalPaidUsers = totalPaidUsers + 1
             for ticket in tickets:
                 event = ticket.event
                 try:
@@ -68,7 +75,16 @@ def index(request):
                     departmentArr[event.department.name] = [0, 1, 0]
                 else:
                     departmentArr[event.department.name] = [departmentArr[event.department.name][0], departmentArr[event.department.name][1]+1,departmentArr[event.department.name][2]]
-            context = {"departmentArr": zip(departmentArr.keys(), departmentArr.values()), "eventArr":  eventArrValue[:10], "totalAmount": totalAmount , "userCount":userCount,"eventCount":eventCount,"ticketCount":ticketCount}
+            context = {
+                "departmentArr": zip(departmentArr.keys(), departmentArr.values()), 
+                "eventArr":  eventArrValue[:10], 
+                "totalAmount": totalAmount , 
+                "userCount":userCount,
+                "eventCount":eventCount,
+                "ticketCount":ticketCount,
+                "ticketCountNotPaid":ticketCountNotPaid,
+                "totalPaidUsers":totalPaidUsers
+            }
             return render(request, "dashboard.html", context)
         else:
             return render(request, "404.html")

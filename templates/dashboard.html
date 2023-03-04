@@ -246,7 +246,7 @@
                               <div class="rounded-lg bg-slate-150 p-4 dark:bg-navy-700">
                                    <div class="flex justify-between">
                                         <p class="text-xl font-semibold text-slate-700 dark:text-navy-100">
-                                             {{ticketCount}}
+                                             {{ticketCount}} <p class="">({{ticketCountNotPaid}} not paid)</p>
                                         </p>
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-success" fill="none"
                                              viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -272,7 +272,7 @@
                               <div class="rounded-lg bg-slate-150 p-4 dark:bg-navy-700">
                                    <div class="flex justify-between">
                                         <p class="text-xl font-semibold text-slate-700 dark:text-navy-100">
-                                             651
+                                             {{totalPaidUsers}}
                                         </p>
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-info" fill="none"
                                              viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -282,7 +282,7 @@
                                                   d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" />
                                         </svg>
                                    </div>
-                                   <p class="mt-1 text-xs+">Food Coupon</p>
+                                   <p class="mt-1 text-xs+">Participated Users</p>
                               </div>
                               <div class="rounded-lg bg-slate-150 p-4 dark:bg-navy-700">
                                    <div class="flex justify-between space-x-1">
@@ -353,7 +353,7 @@
                               </div>
                               <div class="flex flex-col justify-center gap-2 pb-2 px-4 sm:px-5">
                                    <div>
-                                        <p class="text-xs+">Total Registrations</p>
+                                        <p class="text-xs+">Total Paid</p>
                                         <p class="text-xl font-semibold text-slate-700 dark:text-navy-100">{{value.0}}</p>
                                         <div class="w-full h-[5px] bg-slate-300 rounded relative"><div class="absolute left-0 top-0 h-full w-[{{value.4}}%] bg-[#6667eb] rounded"></div></div>
                                    </div>
