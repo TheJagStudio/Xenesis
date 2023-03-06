@@ -19,12 +19,29 @@ def index(request):
             ticketCount = tickets.count()
             ticketCountNotPaid = tickets.filter(isPaid=False).count()
             totalPaidUsers = 0
+            users = []
             for ticket in tickets:
                 if ticket.isPaid == True:
                     if ticket.userCount > 1:
-                        totalPaidUsers = totalPaidUsers + int(ticket.userCount)
+                        if ticket.owner not in users:
+                            users.append(ticket.owner)
+                            totalPaidUsers = totalPaidUsers + 1
+                        if ticket.owner1 not in users:
+                            users.append(ticket.owner1)
+                            totalPaidUsers = totalPaidUsers + 1
+                        if ticket.owner2 not in users:
+                            users.append(ticket.owner2)
+                            totalPaidUsers = totalPaidUsers + 1
+                        if ticket.owner3 not in users:
+                            users.append(ticket.owner3)
+                            totalPaidUsers = totalPaidUsers + 1
+                        if ticket.owner4 not in users:
+                            users.append(ticket.owner4)
+                            totalPaidUsers = totalPaidUsers + 1
                     else:
-                        totalPaidUsers = totalPaidUsers + 1
+                        if ticket.owner not in users:
+                            users.append(ticket.owner)
+                            totalPaidUsers = totalPaidUsers + 1
             for ticket in tickets:
                 event = ticket.event
                 try:
