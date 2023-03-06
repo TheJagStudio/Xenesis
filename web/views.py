@@ -13,29 +13,31 @@ import uuid
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-sender = "xenesis@ldrp.ac.in"
-password = "Auabs@904"
-server = smtplib.SMTP('smtp.gmail.com', 587)
-server.starttls()
-server.login(sender, password)
+
+# sender = "tempmailpatel@gmail.com"
+# password = "Patel@99"
+# server = smtplib.SMTP('smtp.gmail.com', 587)
+# server.starttls()
+# server.login(sender, password)
 # create a function
 def emailSender(reciver,template,otp):
     global server
 
-    msg = MIMEMultipart('alternative')
-    msg['Subject'] = "Link"
-    msg['From'] = sender
-    msg['To'] = reciver
+    # msg = MIMEMultipart('alternative')
+    # msg['Subject'] = "Link"
+    # msg['From'] = sender
+    # msg['To'] = reciver
 
-    f = open(template, "r", encoding="utf-8")
-    html = f.read()
-    html = html.replace("%%OTP1%%", otp[0])
-    html = html.replace("%%OTP2%%", otp[1])
-    html = html.replace("%%OTP3%%", otp[2])
-    html = html.replace("%%OTP4%%", otp[3])
-    part = MIMEText(html, 'html')
-    msg.attach(part)
-    server.sendmail(sender, reciver, msg.as_string())
+    # f = open(template, "r", encoding="utf-8")
+    # html = f.read()
+    # html = html.replace("%%OTP1%%", otp[0])
+    # html = html.replace("%%OTP2%%", otp[1])
+    # html = html.replace("%%OTP3%%", otp[2])
+    # html = html.replace("%%OTP4%%", otp[3])
+    # part = MIMEText(html, 'html')
+    # msg.attach(part)
+    # server.sendmail(sender, reciver, msg.as_string())
+    pass
 
 def home(request):
     if request.user != None:
@@ -425,33 +427,18 @@ def accountSetUp(request):
         except Exception as error: 
             print(error)
             return render(request, "account-setup.html")
-            
-            
-            #return HttpResponse(json.dumps({"error": error}), content_type="application/json")
     return render(request, "account-setup.html")
-
-    #return render(request, 'account-setup.html')
 
 @csrf_exempt
 def resendOtpWeb(request):
     try: 
-        email =  request.session['email']
-        if "passwordRecovery" in body.keys():
-            otp = str(random.randint(1000, 9999))
-            profile = Profile.objects.filter(user=User.objects.filter(email=email).first()).first()
-            profile.otp = otp
-            profile.save()
-            emailSender(email,"./emailTemplates/forgotPWDEmail.html",str(otp))
-            request.session['isPasswordRecovery'] = True
-            return HttpResponse(json.dumps({"msg": "OTP sent to "+email + " for Password Verification."}), content_type="application/json")
-        else:
-            otp = str(random.randint(1000, 9999))
-            profile = Profile.objects.filter(
-                user=User.objects.filter(email=email).first()).first()
-            profile.otp = otp
-            profile.save()
-            emailSender(email,"./emailTemplates/resendOTPEmail.html",str(otp))
-            return HttpResponse(json.dumps({"msg": "OTP sent to "+email}), content_type="application/json")
+        email =  request.session['emailVarification']
+        otp = str(random.randint(1000, 9999))
+        profile = Profile.objects.filter(user=User.objects.filter(email=email).first()).first()
+        profile.otp = otp
+        profile.save()
+        emailSender(email,"./emailTemplates/resendOTPEmail.html",str(otp))
+        return HttpResponse(json.dumps({"msg": "OTP sent to "+email}), content_type="application/json")
     except Exception as error:
             return HttpResponse(json.dumps({"error": error}), content_type="application/json")
 
