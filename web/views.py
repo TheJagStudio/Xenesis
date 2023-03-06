@@ -233,11 +233,11 @@ def register(request):
                 profileForNewUser.isAccountSetup = False
                 profileForNewUser.isVolunteer = False
                 profileForNewUser.isOrganiser = False
-                profileForNewUser.isVerified = False
+                profileForNewUser.isVerified = True
                 profileForNewUser.save()
                 emailSender(email,"./emailTemplates/welcomeEmail.html",str(otp))
                 request.session['emailVarification'] = email
-                return render(request, "otp-page.html",{"email": request.session['emailVarification']})
+                return redirect("/accountSetUp/")
             else:
                 context = {
                     "error" : "User Already Exists."
