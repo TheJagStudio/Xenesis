@@ -13,11 +13,14 @@ import uuid
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-
+sender = "xenesis@ldrp.ac.in"
+password = "Auabs@904"
+server = smtplib.SMTP('smtp.gmail.com', 587)
+server.starttls()
+server.login(sender, password)
 # create a function
 def emailSender(reciver,template,otp):
-    sender = "xenesis@ldrp.ac.in"
-    password = "Auabs@904"
+    global server
 
     msg = MIMEMultipart('alternative')
     msg['Subject'] = "Link"
@@ -32,11 +35,7 @@ def emailSender(reciver,template,otp):
     html = html.replace("%%OTP4%%", otp[3])
     part = MIMEText(html, 'html')
     msg.attach(part)
-    server = smtplib.SMTP('smtp.gmail.com', 587)
-    server.starttls()
-    server.login(sender, password)
     server.sendmail(sender, reciver, msg.as_string())
-    server.quit()
 
 def home(request):
     if request.user != None:
