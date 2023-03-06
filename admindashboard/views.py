@@ -52,7 +52,7 @@ def index(request):
                                 if event.isTeamPriceFull == True:
                                     eventArr[event.name] = [1, int((event.teamPrice).split("-")[1]),event.name, event.posterImage,0]
                                 else:
-                                    eventArr[event.name] = [1, int((event.teamPrice).split("-")[0])*int(ticket.userCount),event.name, event.posterImage,0]
+                                    eventArr[event.name] = [1, int((event.teamPrice).split("-")[0]),event.name, event.posterImage,0]
                             else:
                                 eventArr[event.name] = [1, int((event.price).split("-")[0]),event.name, event.posterImage,0]
                         except:
@@ -67,7 +67,7 @@ def index(request):
                             eventArr[event.name] = [0, int(event.price),event.name, event.posterImage,1]
                 else:
                     if ticket.isPaid == True:
-                        eventArr[event.name] = [eventArr[event.name][0] + 1,eventArr[event.name][1],event.name, event.posterImage,eventArr[event.name][4]]
+                        eventArr[event.name] = [eventArr[event.name][0] + 1*int(ticket.userCount),eventArr[event.name][1],event.name, event.posterImage,eventArr[event.name][4]]
                     else:
                         eventArr[event.name] = [eventArr[event.name][0],eventArr[event.name][1],event.name, event.posterImage,eventArr[event.name][4]+1]
 
@@ -123,7 +123,7 @@ def events(request):
                                 if event.isTeamPriceFull == True:
                                     eventArr[event.name] = [1, int((event.teamPrice).split("-")[1]),event.name, event.posterImage,0]
                                 else:
-                                    eventArr[event.name] = [1, int((event.teamPrice).split("-")[0])*int(ticket.userCount),event.name, event.posterImage,0]
+                                    eventArr[event.name] = [1, int((event.teamPrice).split("-")[0]),event.name, event.posterImage,0]
                             else:
                                 eventArr[event.name] = [1, int((event.price).split("-")[0]),event.name, event.posterImage,0]
                         except:
@@ -138,7 +138,7 @@ def events(request):
                             eventArr[event.name] = [0, int(event.price),event.name, event.posterImage,1]
                 else:
                     if ticket.isPaid == True:
-                        eventArr[event.name] = [eventArr[event.name][0] + 1,eventArr[event.name][1],event.name, event.posterImage,eventArr[event.name][4]]
+                        eventArr[event.name] = [eventArr[event.name][0] + 1*int(ticket.userCount),eventArr[event.name][1],event.name, event.posterImage,eventArr[event.name][4]]
                     else:
                         eventArr[event.name] = [eventArr[event.name][0],eventArr[event.name][1],event.name, event.posterImage,eventArr[event.name][4]+1]
 
