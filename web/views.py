@@ -162,24 +162,15 @@ def signin(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 profile = Profile.objects.filter(user=user).first()
-                isVerified = profile.isVerified
+                isVerified = True
                 isAccountSetup = profile.isAccountSetup
-                
-                if isVerified == True:
-                    if isAccountSetup == True:
-                        login(request, user)
-                        return redirect("/")
-                    else:
-                        context = {'email' : email}
-                        return redirect("/accountSetUp",context)
+                profile.save()
+                if isAccountSetup == True:
+                    login(request, user)
+                    return redirect("/")
                 else:
-                    email = user.email
-                    request.session['emailVarification'] = email
-                    resendOtpWeb(request)
-                    context ={
-                        "success" : "OTP Has Been Sent To Your Mail"
-                    }
-                    return render(request, "otp-page.html" , context)
+                    context = {'email' : email}
+                    return redirect("/accountSetUp",context)
         except:
             context = {
                 "error": True
@@ -325,9 +316,7 @@ def event(request, event):
 
 def otpvalidationWeb(request):
     if request.method == "POST":
-        isresendOtp = request.POST.get('resendotp')
         email = request.session['emailVarification']
-        userOtp = str(request.POST.get('otp1')) + str(request.POST.get('otp2')) + str(request.POST.get('otp3')) + str(request.POST.get('otp4'))
         user = Profile.objects.filter(user=User.objects.filter(email=email).first()).first()
         if userOtp == user.otp:
             profile = Profile.objects.filter(user=User.objects.filter(email=email).first()).first()

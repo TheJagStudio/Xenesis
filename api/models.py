@@ -19,7 +19,7 @@ class Profile(models.Model):
     college = models.CharField(max_length=500, blank=True)
 
     def __str__(self):
-        return str(self.user.username)
+        return str(self.user.username + " | " + self.phone)
 
 
 class Department(models.Model):
