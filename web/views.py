@@ -14,30 +14,29 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-# sender = "tempmailpatel@gmail.com"
-# password = "Patel@99"
-# server = smtplib.SMTP('smtp.gmail.com', 587)
-# server.starttls()
-# server.login(sender, password)
+sender = "xenesis232K@ldrp.ac.in"
+password = "Auabs@904"
+server = smtplib.SMTP('smtp.gmail.com', 587)
+server.starttls()
+server.login(sender, password)
 # create a function
 def emailSender(reciver,template,otp):
     global server
 
-    # msg = MIMEMultipart('alternative')
-    # msg['Subject'] = "Link"
-    # msg['From'] = sender
-    # msg['To'] = reciver
+    msg = MIMEMultipart('alternative')
+    msg['Subject'] = "Link"
+    msg['From'] = sender
+    msg['To'] = reciver
 
-    # f = open(template, "r", encoding="utf-8")
-    # html = f.read()
-    # html = html.replace("%%OTP1%%", otp[0])
-    # html = html.replace("%%OTP2%%", otp[1])
-    # html = html.replace("%%OTP3%%", otp[2])
-    # html = html.replace("%%OTP4%%", otp[3])
-    # part = MIMEText(html, 'html')
-    # msg.attach(part)
-    # server.sendmail(sender, reciver, msg.as_string())
-    pass
+    f = open(template, "r", encoding="utf-8")
+    html = f.read()
+    html = html.replace("%%OTP1%%", otp[0])
+    html = html.replace("%%OTP2%%", otp[1])
+    html = html.replace("%%OTP3%%", otp[2])
+    html = html.replace("%%OTP4%%", otp[3])
+    part = MIMEText(html, 'html')
+    msg.attach(part)
+    server.sendmail(sender, reciver, msg.as_string())
 
 def home(request):
     if request.user != None:
