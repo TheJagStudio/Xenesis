@@ -172,8 +172,9 @@ def signin(request):
                         context = {'email' : email}
                         return redirect("/accountSetUp",context)
                 else:
-                    print("ran6")
                     email = user.email
+                    request.session['emailVarification'] = email
+                    resendOtpWeb(request)
                     context ={
                         "success" : "OTP Has Been Sent To Your Mail"
                     }
@@ -324,14 +325,10 @@ def event(request, event):
 def otpvalidationWeb(request):
     if request.method == "POST":
         isresendOtp = request.POST.get('resendotp')
-        email = request.session['emailVarification'] 
-        print(email)
+        email = request.session['emailVarification']
         userOtp = str(request.POST.get('otp1')) + str(request.POST.get('otp2')) + str(request.POST.get('otp3')) + str(request.POST.get('otp4'))
-        print('userotp:- ',userOtp)
         user = Profile.objects.filter(user=User.objects.filter(email=email).first()).first()
-        print('User :- ',user)
         if userOtp == user.otp:
-            print(user,user.otp)
             profile = Profile.objects.filter(user=User.objects.filter(email=email).first()).first()
             profile.isVerified = True
             profile.save()

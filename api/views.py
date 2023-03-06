@@ -10,7 +10,6 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 def index(request):
-    print(request.user)
     objects = Profile.objects.all().first()
     name = objects.user.get_full_name()
     profilePic = objects.profilePic
