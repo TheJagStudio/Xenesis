@@ -116,6 +116,7 @@
 									<h2 class="discription-truncate text-white">{{event.2}}</h2>
 									<div class="my-1 flex items-center justify-between">
 										<div class="flex flex-col">
+											{%if event.11 == False%}
 											{%if event.1 != "-"%}
 											<p class="text-white my-1 capitalize text-green-500 text-sm">₹{{event.1}} per head</p>
 											{%else%}
@@ -129,6 +130,10 @@
 												{%endif%}
 											{%else%}
 											<p class="text-white my-1 capitalize text-green-500 text-sm">Team Not Allowed</p>
+											{%endif%}
+											{%else%}
+											<p class="text-[#2F1D69] my-1 capitalize font-bold">Registration Are Closed</p>
+											<p></p>
 											{%endif%}
 										</div>
 										<div class="flex items-center gap-2">
@@ -154,6 +159,7 @@
 									<h1 class="text-white font-bold text-2xl capitalize eventName title-truncate" data-title="{{event.0}}">{{event.0}}</h1>
 									<div class="flex items-center justify-between my-4">
 										<div class="flex flex-col">
+											{%if event.11 == False%}
 											{%if event.1 != "-"%}
 											<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">₹{{event.1}} per head</p>
 											{%else%}
@@ -167,6 +173,10 @@
 												{%endif%}
 											{%else%}
 											<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">Team Not Allowed</p>
+											{%endif%}
+											{%else%}
+											<p class="text-[#2F1D69] my-1 capitalize font-bold">Registration Are Closed</p>
+											<br>
 											{%endif%}
 										</div>
 										<a class="bg-[#2F1D69] text-white font-semibold px-2 py-1 rounded-lg cursor-pointer" onclick="cardOverlayHandle('{{event.0}}')">View more</a>
@@ -288,6 +298,7 @@
 													<h2 class="discription-truncate text-white">{{event.2}}</h2>
 													<div class="my-1 flex items-center justify-between">
 														<div class="flex flex-col">
+															{%if event.11 == False%}
 															{%if event.1 != "-"%}
 															<p class="text-white my-1 capitalize text-green-500">₹{{event.1}} per head</p>
 															{%else%}
@@ -301,6 +312,10 @@
 																{%endif%}
 															{%else%}
 															<p class="text-white my-1 capitalize text-green-500">Team Not Allowed</p>
+															{%endif%}
+															{%else%}
+															<p class="text-[#2F1D69] my-1 capitalize font-bold">Registration Are Closed</p>
+															<p></p>
 															{%endif%}
 														</div>
 														<div class="flex items-center gap-2">
@@ -326,19 +341,23 @@
 													<h1 class="text-white font-bold text-2xl capitalize eventName title-truncate">{{event.0}}</h1>
 													<div class="flex items-center justify-between my-4">
 														<div class="flex flex-col">
-															{%if event.1 != "-"%}
-															<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">₹{{event.1}} per head</p>
-															{%else%}
-															<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">Individual Not Allowed</p>
-															{%endif%} 
-															{%if event.6 == True%}
-																{%if event.8 == True%}
-																	<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">₹{{event.7}} per Team</p>
+															{%if event.11 == False%}
+																{%if event.1 != "-"%}
+																	<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">₹{{event.1}} per head</p>
 																{%else%}
-																	<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">₹{{event.7}} per person in  Team</p>
+																	<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">Individual Not Allowed</p>
+																{%endif%} 
+																{%if event.6 == True%}
+																	{%if event.8 == True%}
+																		<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">₹{{event.7}} per Team</p>
+																	{%else%}
+																		<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">₹{{event.7}} per person in  Team</p>
+																	{%endif%}
+																{%else%}
+																<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">Team Not Allowed</p>
 																{%endif%}
 															{%else%}
-															<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">Team Not Allowed</p>
+															<p class="text-[#2F1D69] text-lg font-semibold rounded-lg capitalize w-fit">Registration Are Closed</p>
 															{%endif%}
 														</div>
 														<a class="bg-[#2F1D69] text-white font-semibold px-2 py-1 rounded-lg cursor-pointer" onclick="cardOverlayHandle('{{event.0}}')">View more</a>

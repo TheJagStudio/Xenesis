@@ -273,23 +273,29 @@
                 </div>
             </div>
         </div>
-
-        <!-- Add Event to Cart Div -->
-        {% if isUser == True %}
-            {% if isTeamEvent == True %}
-            <a class="w-full h-full relative z-50" href="/addTeamMembers">
-                <button class="fixed bottom-5 right-5 group !outline-none z-50 px-10 py-3 border rounded-lg bg-[#221144] text-white text-lg add-to-cart-btn animate-bounce">
-                    <span class=" flex items-center gap-1">Register Team </span>
-                </button>
-            </a>
-            {%else%}
-                <button onclick="ConfirmationModalToggle()" class="fixed bottom-5 right-5 group !outline-none z-50 px-10 py-3 border rounded-lg bg-[#221144] text-white text-lg add-to-cart-btn animate-bounce bg-green-500">
-                    <i class="transition-all duration-200 bi bi-paypal group-hover:mr-1"></i> Pay
-                </button>
+        {%if isClosed == True%}
+            <script>
+                alert("Registration Closed")
+            </script>
+        {%else%}
+            <!-- Add Event to Cart Div -->
+            {% if isUser == True %}
+                {% if isTeamEvent == True %}
+                <a class="w-full h-full relative z-50" href="/addTeamMembers">
+                    <button class="fixed bottom-5 right-5 group !outline-none z-50 px-10 py-3 border rounded-lg bg-[#221144] text-white text-lg add-to-cart-btn animate-bounce">
+                        <span class=" flex items-center gap-1">Register Team </span>
+                    </button>
+                </a>
+                {%else%}
+                    <button onclick="ConfirmationModalToggle()" class="fixed bottom-5 right-5 group !outline-none z-50 px-10 py-3 border rounded-lg bg-[#221144] text-white text-lg add-to-cart-btn animate-bounce bg-green-500">
+                        <i class="transition-all duration-200 bi bi-paypal group-hover:mr-1"></i> Pay
+                    </button>
+                {%endif%}
             {%endif%}
         {%endif%}
 
     </section>
+    {% if isClosed != True %}
     {% if isUser == True %}
     <div id="ConfirmationModal" class="fixed inset-0 z-[100] flex flex-col opacity-0 h-0 py-0 items-center justify-center overflow-hidden px-4  sm:px-5" >
         <div class="absolute inset-0 bg-slate-900/60 transition-opacity duration-300"></div>
@@ -344,6 +350,7 @@
             alert("You are successfully registered. Your registration will get confirmed and you will also see the ticket in your account once you make the payment.")
         }
     </script>
+    {%endif%}
     {%endif%}
     <!-- Footer -->
 	<footer class="bg-[#240a34] pt-20">

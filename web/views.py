@@ -107,9 +107,9 @@ def events(request):
         flag = 0
         for event in events:
             if event.name != "X - Motion Game Mania":
-                eventArr.append([event.name, event.price, event.description, event.tagline, event.posterImage, (event.name).replace(" ", "-").replace("---", ":"),event.isTeamEvent,event.teamPrice,event.isTeamPriceFull,event.winnerPrice1,event.winnerPrice2])
+                eventArr.append([event.name, event.price, event.description, event.tagline, event.posterImage, (event.name).replace(" ", "-").replace("---", ":"),event.isTeamEvent,event.teamPrice,event.isTeamPriceFull,event.winnerPrice1,event.winnerPrice2,event.isClosed])
             else:
-                impEvent = [[event.name, event.price, event.description, event.tagline, event.posterImage, (event.name).replace(" ", "-").replace("---", ":"),event.isTeamEvent,event.teamPrice,event.isTeamPriceFull,event.winnerPrice1,event.winnerPrice2]]
+                impEvent = [[event.name, event.price, event.description, event.tagline, event.posterImage, (event.name).replace(" ", "-").replace("---", ":"),event.isTeamEvent,event.teamPrice,event.isTeamPriceFull,event.winnerPrice1,event.winnerPrice2,event.isClosed]]
                 flag = 1
         if flag == 1:
             impEvent.extend(eventArr)
@@ -311,6 +311,7 @@ def event(request, event):
     context["isClosed"] = eventData.isClosed
     context["status"] = eventData.status
     context["images"] = eventData.images["data"]
+    context["isClosed"] = eventData.isClosed
     request.session['event'] = eventData.name
     return render(request, "event-details.html", context)
 
@@ -695,57 +696,63 @@ def ticketGenrator(request):
             if 'isTeam' not in body.keys():
                 eventName = body['event']
                 event = Event.objects.filter(name=eventName).first()
-                email = body['email']
-                user = User.objects.filter(email=email).first()
-                owner = Profile.objects.filter(user=user).first()
-                qrCodeData = uuid.uuid1()
-                userCount = body['userCount']
-                newTicket = Ticket()
-                newTicket.event = event
-                newTicket.owner = owner
-                newTicket.qrCodeData = qrCodeData
-                newTicket.userCount = userCount
-                newTicket.save()
-                return HttpResponse(json.dumps({"msg": "You are successfully registered. Your registration will get confirmed and you will also see the ticket in your account once you make the payment."}), content_type="application/json")
+                if event.isClosed == True:
+                    return HttpResponse(json.dumps({"error": "Registration for this event is closed."}), content_type="application/json")
+                else:
+                    email = body['email']
+                    user = User.objects.filter(email=email).first()
+                    owner = Profile.objects.filter(user=user).first()
+                    qrCodeData = uuid.uuid1()
+                    userCount = body['userCount']
+                    newTicket = Ticket()
+                    newTicket.event = event
+                    newTicket.owner = owner
+                    newTicket.qrCodeData = qrCodeData
+                    newTicket.userCount = userCount
+                    newTicket.save()
+                    return HttpResponse(json.dumps({"msg": "You are successfully registered. Your registration will get confirmed and you will also see the ticket in your account once you make the payment."}), content_type="application/json")
             else:
                 eventName = body['event']
                 event = Event.objects.filter(name=eventName).first()
-                email = request.session['team'][0]['email']
-                user = User.objects.filter(email=email).first()
-                owner = Profile.objects.filter(user=user).first()
-                qrCodeData = uuid.uuid1()
-                newTicket = Ticket()
-                newTicket.event = event
-                newTicket.owner = owner
-                try:
-                    teamMember1= User.objects.filter(email=request.session['team'][1]["email"]).first()
-                    teamMember1Profile = Profile.objects.filter(user=teamMember1).first()
-                    newTicket.owner1 = teamMember1Profile 
-                except:
-                    newTicket.owner1 = None
-                try:
-                    teamMember2= User.objects.filter(email=request.session['team'][2]["email"]).first()
-                    teamMember2Profile = Profile.objects.filter(user=teamMember2).first()
-                    newTicket.owner2 = teamMember2Profile 
-                except:
-                    newTicket.owner2 = None
-                try:
-                    teamMember3= User.objects.filter(email=request.session['team'][3]["email"]).first()
-                    teamMember3Profile = Profile.objects.filter(user=teamMember3).first()
-                    newTicket.owner3 = teamMember3Profile 
-                except:
-                    newTicket.owner3 = None
-                try:
-                    teamMember4= User.objects.filter(email=request.session['team'][4]["email"]).first()
-                    teamMember4Profile = Profile.objects.filter(user=teamMember4).first()
-                    newTicket.owner4 = teamMember4Profile 
-                except:
-                    newTicket.owner4 = None
-                newTicket.qrCodeData = qrCodeData
-                newTicket.userCount = len(request.session['team'])
-                newTicket.save()
-                request.session['team'] = []
-                return HttpResponse(json.dumps({"msg": "You are successfully registered. Your registration will get confirmed and you will also see the ticket in your account once you make the payment."}), content_type="application/json")
+                if event.isClosed == True:
+                    return HttpResponse(json.dumps({"error": "Registration for this event is closed."}), content_type="application/json")
+                else:
+                    email = request.session['team'][0]['email']
+                    user = User.objects.filter(email=email).first()
+                    owner = Profile.objects.filter(user=user).first()
+                    qrCodeData = uuid.uuid1()
+                    newTicket = Ticket()
+                    newTicket.event = event
+                    newTicket.owner = owner
+                    try:
+                        teamMember1= User.objects.filter(email=request.session['team'][1]["email"]).first()
+                        teamMember1Profile = Profile.objects.filter(user=teamMember1).first()
+                        newTicket.owner1 = teamMember1Profile 
+                    except:
+                        newTicket.owner1 = None
+                    try:
+                        teamMember2= User.objects.filter(email=request.session['team'][2]["email"]).first()
+                        teamMember2Profile = Profile.objects.filter(user=teamMember2).first()
+                        newTicket.owner2 = teamMember2Profile 
+                    except:
+                        newTicket.owner2 = None
+                    try:
+                        teamMember3= User.objects.filter(email=request.session['team'][3]["email"]).first()
+                        teamMember3Profile = Profile.objects.filter(user=teamMember3).first()
+                        newTicket.owner3 = teamMember3Profile 
+                    except:
+                        newTicket.owner3 = None
+                    try:
+                        teamMember4= User.objects.filter(email=request.session['team'][4]["email"]).first()
+                        teamMember4Profile = Profile.objects.filter(user=teamMember4).first()
+                        newTicket.owner4 = teamMember4Profile 
+                    except:
+                        newTicket.owner4 = None
+                    newTicket.qrCodeData = qrCodeData
+                    newTicket.userCount = len(request.session['team'])
+                    newTicket.save()
+                    request.session['team'] = []
+                    return HttpResponse(json.dumps({"msg": "You are successfully registered. Your registration will get confirmed and you will also see the ticket in your account once you make the payment."}), content_type="application/json")
         except Exception as error:
             return HttpResponse(json.dumps({"error": str(error)}), content_type="application/json")
     else:
@@ -761,31 +768,15 @@ def dataOutper(request):
         unpaid = 0
         for ticket in tickets:
             if ticket.event.isTeamEvent:
-                paid += 1
-                if ticket.owner1 is not None:
-                    if ticket.isPaid:
-                        paid += 1
-                    else:
-                        unpaid += 1
-                if ticket.owner2 is not None:
-                    if ticket.isPaid:
-                        paid += 1
-                    else:
-                        unpaid += 1
-                if ticket.owner3 is not None:
-                    if ticket.isPaid:
-                        paid += 1
-                    else:
-                        unpaid += 1
-                if ticket.owner4 is not None:
-                    if ticket.isPaid:
-                        paid += 1
-                    else:
-                        unpaid += 1
+                if ticket.isPaid:
+                    paid += ticket.userCount
+                else:
+                    unpaid += ticket.userCount
             else:
                 if ticket.isPaid:
                     paid += 1
                 else:
                     unpaid += 1
+        print(department,",",eventName,",",paid,",",unpaid)
 
     return HttpResponse("Done")
