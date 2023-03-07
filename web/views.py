@@ -751,3 +751,41 @@ def ticketGenrator(request):
     else:
         return render(request, "404.html")
 
+@csrf_exempt
+def dataOutper(request):
+    for event in Event.objects.all():
+        eventName = event.name
+        department = event.department.name
+        tickets = Ticket.objects.filter(event=event).all()
+        paid = 0
+        unpaid = 0
+        for ticket in tickets:
+            if ticket.event.isTeamEvent:
+                paid += 1
+                if ticket.owner1 is not None:
+                    if ticket.isPaid:
+                        paid += 1
+                    else:
+                        unpaid += 1
+                if ticket.owner2 is not None:
+                    if ticket.isPaid:
+                        paid += 1
+                    else:
+                        unpaid += 1
+                if ticket.owner3 is not None:
+                    if ticket.isPaid:
+                        paid += 1
+                    else:
+                        unpaid += 1
+                if ticket.owner4 is not None:
+                    if ticket.isPaid:
+                        paid += 1
+                    else:
+                        unpaid += 1
+            else:
+                if ticket.isPaid:
+                    paid += 1
+                else:
+                    unpaid += 1
+
+    return HttpResponse("Done")
