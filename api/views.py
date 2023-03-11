@@ -13,28 +13,20 @@ def index(request):
     objects = Profile.objects.all().first()
     name = objects.user.get_full_name()
     profilePic = objects.profilePic
-    bio = objects.bio
     location = objects.location
-    birth_date = str(objects.birth_date)
     phone = objects.phone
     otp = objects.otp
-    events = objects.events
     isVolunteer = objects.isVolunteer
     isOrganiser = objects.isOrganiser
-    notification = objects.notification
     isAccountSetup = objects.isAccountSetup
     data = {
         "name": name,
         "profilePic": profilePic,
-        "bio": bio,
         "location": location,
-        "birth_date": birth_date,
         "phone": phone,
         "otp": otp,
-        "events": events,
         "isVolunteer": isVolunteer,
         "isOrganiser": isOrganiser,
-        "notification": notification,
         "isAccountSetup": isAccountSetup
     }
     return HttpResponse(json.dumps(data), content_type="application/json")

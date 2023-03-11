@@ -22,4 +22,5 @@ urlpatterns = [
     path('addTeamMembers/', views.addTeamMebers, name='addTeamMebers'),
     path('eventConfirmation/', views.eventConfirmation, name='eventConfirmation'),
     path('dataOutper/', views.dataOutper, name='dataOutper'),
+    path('closeEvents/', views.closeEvents, name='closeEvents'),
 ]

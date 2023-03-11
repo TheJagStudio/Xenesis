@@ -778,5 +778,11 @@ def dataOutper(request):
                 else:
                     unpaid += 1
         print(department,",",eventName,",",paid,",",unpaid)
+    return HttpResponse("Done")
 
+@csrf_exempt
+def closeEvents(request):
+    for event in Event.objects.all():
+        event.isClosed = True
+        event.save()
     return HttpResponse("Done")
