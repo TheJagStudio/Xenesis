@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt    
-from api.models import Profile, Department, Event, Ticket, Notifications
+from api.models import Profile, Department, Event, Ticket
 import re
 import requests
 import random

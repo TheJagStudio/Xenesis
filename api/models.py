@@ -8,7 +8,6 @@ class Profile(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="User")
     profilePic = models.CharField(max_length=100, default="0001")
-    location = models.CharField(max_length=100, blank=True)
     phone = models.CharField(max_length=10, blank=True)
     otp = models.CharField(max_length=6, blank=True)
     isVolunteer = models.BooleanField(default=False)
@@ -39,6 +38,7 @@ class Event(models.Model):
     def default_images():
         return {"data": ["/static/event-images/1.jpg","/static/event-images/2.jpg","/static/event-images/3.jpg","/static/event-images/4.jpg"]}
     name = models.CharField(max_length=500, unique=True)
+    link = models.CharField(max_length=500, unique=True)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
     teamName = models.CharField(max_length=100)
     teamLeader = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="event_teamLeader")
@@ -46,8 +46,9 @@ class Event(models.Model):
     teamPrice = models.CharField(max_length=10, default="-")
     winnerPrice1 = models.CharField(max_length=10, null=True, blank=True)
     winnerPrice2 = models.CharField(max_length=10, null=True, blank=True)
+    winnerPrice3 = models.CharField(max_length=10, null=True, blank=True)
     location = models.CharField(max_length=100)
-    date = models.DateField()
+    date = models.CharField(max_length=100)
     description = models.CharField(max_length=10000)
     rules = models.CharField(max_length=10000, null=True, blank=True)
     round1Title = models.CharField(max_length=200, null=True, blank=True)
@@ -62,11 +63,6 @@ class Event(models.Model):
     round5 = models.CharField(max_length=10000, null=True, blank=True)
     tagline = models.CharField(max_length=2000)
     posterImage = models.CharField(max_length=1000)
-    winner1 = models.ForeignKey(Profile, on_delete=models.CASCADE, blank=True, null=True, related_name="event_winner1")
-    winner2 = models.ForeignKey(Profile, on_delete=models.CASCADE, blank=True, null=True, related_name="event_winner2")
-    winner3 = models.ForeignKey(Profile, on_delete=models.CASCADE, blank=True, null=True, related_name="event_winner3")
-    organisers = models.JSONField()
-    volunteer = models.JSONField()
     organiser1 = models.ForeignKey(Profile, on_delete=models.CASCADE, blank=True,null=True, related_name='organiser1_event')
     organiser2 = models.ForeignKey(Profile, on_delete=models.CASCADE, blank=True,null=True, related_name='organiser2_event')
     organiser3 = models.ForeignKey(Profile, on_delete=models.CASCADE, blank=True,null=True, related_name='organiser3_event')
@@ -101,13 +97,3 @@ class Ticket(models.Model):
     acceptedBy = models.ForeignKey(Profile, on_delete=models.CASCADE,null=True,blank=True,related_name="name_acceptedBy") 
     def __str__(self):
         return str(self.owner) and str(self.event)
-
-
-class Notifications(models.Model):
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="notification_user")
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
-    dateTime = models.DateTimeField()
-    isRead = models.BooleanField()
-
-class Gallery(models.Model):
-    path = models.CharField(max_length=1000)

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Profile, Department, Event, Ticket, Notifications,Gallery
+from .models import Profile, Department, Event, Ticket
 from import_export.admin import ExportActionMixin
 
 
@@ -14,8 +14,11 @@ class DepartmentAdmin(ExportActionMixin, admin.ModelAdmin):
 
 
 class EventAdmin(ExportActionMixin, admin.ModelAdmin):
-    list_display = ('name', 'price', 'location')
-    search_fields = ['name',  'price', 'location']
+    list_display = ('name','link', 'price', 'location')
+    search_fields = ['name','link',  'price', 'location']
+    # list_editable = ('name',)
+    # list_display_links = ('price',)
+    
 
 
 class TicketAdmin(ExportActionMixin, admin.ModelAdmin):
@@ -23,13 +26,7 @@ class TicketAdmin(ExportActionMixin, admin.ModelAdmin):
     search_fields = ['id','owner__user__email', 'event__name','isPaid','qrCodeData', 'date']
 
 
-class NotificationsAdmin(ExportActionMixin, admin.ModelAdmin):
-    list_display = ('user',  'dateTime')
-    search_fields = ['user__email',  'dateTime']
 
-class GalleryAdmin(ExportActionMixin, admin.ModelAdmin):
-    list_display = ('path',)
-    search_fields = ['path']
 
 
 
@@ -37,5 +34,3 @@ admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Department, DepartmentAdmin)
 admin.site.register(Event, EventAdmin)
 admin.site.register(Ticket, TicketAdmin)
-admin.site.register(Notifications, NotificationsAdmin)
-admin.site.register(Gallery, GalleryAdmin)

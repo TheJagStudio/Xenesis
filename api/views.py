@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from .models import Profile, Department, Event, Ticket, Notifications, Gallery
+from .models import Profile, Department, Event, Ticket
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 import json
@@ -7,7 +7,149 @@ import re
 import requests
 import random
 from django.views.decorators.csrf import csrf_exempt
+import pandas as pd
 
+def addData(request):
+    if request.user.is_superuser:
+        data = pd.read_excel("Xenesis Event Registration 2024 (Responses).xlsx")
+        # covert to array of rows
+        data = data.values.tolist()
+        for row in data:
+            # create new user
+            leader = User.objects.filter(username=row[25]).first()
+            if  leader != None:
+                leaderProfile = Profile.objects.filter(user=leader).first()
+            else:
+                leader = User.objects.create_user(username=row[25], email=row[25], password="Ldrp@123", first_name=row[24], last_name="")
+                leaderProfile = Profile.objects.create(user=leader, profilePic="0007", phone=row[36], otp="", isVolunteer=False, isOrganiser=True, isAccountSetup=False, isCampainVolunteer=False, isVerified=False, college="LDRP-ITR")
+                leader.save()
+                leaderProfile.save()
+            # create new event
+            department = Department.objects.filter(name=row[2]).first()
+            newEvent = Event()
+            if row[27] != None:
+                try:
+                    print(row[27])
+                    tm1 = User.objects.filter(username=row[27]).first()
+                    if tm1 != None:
+                        tm1Profile = Profile.objects.filter(user=tm1).first()
+                    else:
+                        tm1 = User.objects.create_user(username=row[27], email=row[27], password="Ldrp@123", first_name=row[26], last_name="")
+                        tm1Profile = Profile.objects.create(user=tm1, profilePic="0001", phone=row[37], otp="", isVolunteer=False, isOrganiser=True, isAccountSetup=False, isCampainVolunteer=False, isVerified=False, college="LDRP-ITR")
+                        tm1.save()
+                        tm1Profile.save()
+                    newEvent.organiser1 = tm1Profile
+                except:
+                    pass
+            if row[29] != None:
+                try:
+                    print(row[29])
+                    tm2 = User.objects.filter(username=row[29]).first()
+                    if tm2 != None:
+                        tm2Profile = Profile.objects.filter(user=tm2).first()
+                    else:
+                        tm2 = User.objects.create_user(username=row[29], email=row[29], password="Ldrp@123", first_name=row[28], last_name="")
+                        tm2Profile = Profile.objects.create(user=tm2, profilePic="0002", phone=row[38], otp="", isVolunteer=False, isOrganiser=True, isAccountSetup=False, isCampainVolunteer=False, isVerified=False, college="LDRP-ITR")
+                        tm2.save()
+                        tm2Profile.save()
+                    newEvent.organiser2 = tm2Profile
+                except:
+                    pass
+            if row[31] != None:
+                try:
+                    print(row[31])
+                    t3 = User.objects.filter(username=row[31]).first()
+                    if t3 != None:
+                        tm3Profile = Profile.objects.filter(user=t3).first()
+                    else:
+                        tm3 = User.objects.create_user(username=row[31], email=row[31], password="Ldrp@123", first_name=row[30], last_name="")
+                        tm3Profile = Profile.objects.create(user=tm3, profilePic="0003", phone=row[39], otp="", isVolunteer=False, isOrganiser=True, isAccountSetup=False, isCampainVolunteer=False, isVerified=False, college="LDRP-ITR")
+                        tm3.save()
+                        tm3Profile.save()
+                    newEvent.organiser3 = tm3Profile
+                except:
+                    pass
+            if row[33] != None:
+                try:
+                    print(row[33])
+                    t4 = User.objects.filter(username=row[33]).first()
+                    if t4 != None:
+                        tm4Profile = Profile.objects.filter(user=t4).first()
+                    else:
+                        tm4 = User.objects.create_user(username=row[33], email=row[33], password="Ldrp@123", first_name=row[32], last_name="")
+                        tm4Profile = Profile.objects.create(user=tm4, profilePic="0004", phone=row[40], otp="", isVolunteer=False, isOrganiser=True, isAccountSetup=False, isCampainVolunteer=False, isVerified=False, college="LDRP-ITR")
+                        tm4.save()
+                        tm4Profile.save()
+                    newEvent.organiser4 = tm4Profile
+                except:
+                    pass
+            if row[35] != None:
+                try:
+                    print(row[35])
+                    tm5 = User.objects.filter(username=row[35]).first()
+                    if tm5 != None:
+                        tm5Profile = Profile.objects.filter(user=tm5).first()
+                    else:
+                        tm5 = User.objects.create_user(username=row[35], email=row[35], password="Ldrp@123", first_name=row[34], last_name="")
+                        tm5Profile = Profile.objects.create(user=tm5, profilePic="0005", phone=row[41], otp="", isVolunteer=False, isOrganiser=True, isAccountSetup=False, isCampainVolunteer=False, isVerified=False, college="LDRP-ITR")
+                        tm5.save()
+                        tm5Profile.save()
+                    newEvent.organiser5 = tm5Profile
+                except:
+                    pass
+            try:
+                if str(row[23]) == "nan":
+                    images = []
+                else:
+                    images = row[23].split(", ")
+                    images = [image.strip() for image in images]
+                    images = ["https://drive.google.com/thumbnail?&id=" + image.split("id=")[-1] + "&sz=w1000" if str(image) != "nan" else "" for image in images]
+                    images = [image for image in images if image != ""]
+                imagesData = {"data": images}
+            except Exception as e:
+                print(e)
+                imagesData = {"data": []}
+            
+            
+            newEvent.name = row[0]
+            newEvent.link = row[0].replace(" ", "-").replace("---", ":").replace("--", ":").replace(":", "-")
+            newEvent.tagline = row[1]
+            newEvent.department = department
+            newEvent.teamName = row[3]
+            newEvent.teamLeader = leaderProfile
+            newEvent.price = "" if str(row[4]) == "nan" else row[4]
+            newEvent.teamPrice = "" if str(row[5]) == "nan" else row[5]
+            newEvent.winnerPrice1 = "" if str(row[7]) == "nan" else row[7]
+            newEvent.winnerPrice2 = "" if str(row[8]) == "nan" else row[8]
+            newEvent.winnerPrice3 = "" if str(row[42]) == "nan" else row[42]
+            newEvent.location = "" if str(row[9]) == "nan" else row[9]
+            newEvent.date = row[10]
+            newEvent.description = "" if str(row[11]) == "nan" else row[11]
+            newEvent.rules = "" if str(row[12]) == "nan" else row[12]
+            newEvent.round1Title = "" if str(row[13]) == "nan" else row[13]
+            newEvent.round1 = "" if str(row[14]) == "nan" else row[14]
+            newEvent.round2Title = row[15]
+            newEvent.round2 = "" if str(row[16]) == "nan" else row[16]
+            newEvent.round3Title = "" if str(row[17]) == "nan" else row[17]
+            newEvent.round3 = "" if str(row[18]) == "nan" else row[18]
+            newEvent.round4Title = "" if str(row[19]) == "nan" else row[19]
+            newEvent.round4 = "" if str(row[20]) == "nan" else row[20]
+            newEvent.round5Title = "" if str(row[21]) == "nan" else row[21]
+            newEvent.round5 = "" if str(row[22]) == "nan" else row[22]
+            newEvent.posterImage = imagesData["data"][0] if len(images) > 0 else ""
+            newEvent.teamParticapantCount = row[6] if type(row[6]) == int else int(str(row[6]).split("-")[1])
+            newEvent.teamParticapantCountMin = row[6] if type(row[6]) == int else int(str(row[6]).split("-")[0])
+            newEvent.isTeamEvent = True if row[6] != 0 else False
+            newEvent.isTeamPriceFull = True
+            newEvent.isClosed = False
+            newEvent.status = 1
+            newEvent.images = imagesData
+            newEvent.save()
+            print(row[0])
+        
+        return HttpResponse(data, content_type="application/json")
+    else:
+        return HttpResponse("Nikal Laude, Admin access karega<br/> <br/>░░░░░░░░░░░░░░░▄▄░░░░░░░░░░░<br/>░░░░░░░░░░░░░░█░░█░░░░░░░░░░<br/>░░░░░░░░░░░░░░█░░█░░░░░░░░░░<br/>░░░░░░░░░░░░░░█░░█░░░░░░░░░░<br/>░░░░░░░░░░░░░░█░░█░░░░░░░░░░<br/>██████▄███▄████░░███▄░░░░░░░<br/>▓▓▓▓▓▓█░░░█░░░█░░█░░░███░░░░<br/>▓▓▓▓▓▓█░░░█░░░█░░█░░░█░░█░░░<br/>▓▓▓▓▓▓█░░░░░░░░░░░░░░█░░█░░░<br/>▓▓▓▓▓▓█░░░░░░░░░░░░░░░░█░░░░<br/>▓▓▓▓▓▓█░░░░░░░░░░░░░░██░░░░░<br/>▓▓▓▓▓▓█████░░░░░░░░░██░░░░░<br/>█████▀░░░░▀▀████████░░░░░░")
 
 def events(request):
     departments = Department.objects.all()
@@ -26,7 +168,7 @@ def events(request):
                 "eventDescription" : event.description,
                 "eventTagline" : event.tagline,
                 "eventPosterImage" : event.posterImage,
-                "eventLink" : (event.name).replace(" ", "-").replace("---", ":"),
+                "eventLink" : event.link,
                 "isTeamEvent" : event.isTeamEvent,
                 "teamPrice" : event.teamPrice,
                 "isTeamPriceFull" : event.isTeamPriceFull,
@@ -56,7 +198,7 @@ def eventsHome(request):
                 "eventDescription" : event.description,
                 "eventTagline" : event.tagline,
                 "eventPosterImage" : event.posterImage,
-                "eventLink" : (event.name).replace(" ", "-").replace("---", ":"),
+                "eventLink" : event.link,
                 "isTeamEvent" : event.isTeamEvent,
                 "teamPrice" : event.teamPrice,
                 "isTeamPriceFull" : event.isTeamPriceFull,
@@ -100,7 +242,7 @@ def event(request, event):
         "profilePic" : profilePic,
         "email" : email
     }
-    eventData = Event.objects.filter(name=event.replace("-", " ").replace(":", " - ")).first()
+    eventData = Event.objects.filter(link=event).first()
     context["isTeamEvent"] = eventData.isTeamEvent
     context["name"] = eventData.name
     context["department"] = eventData.department.name
@@ -136,9 +278,6 @@ def event(request, event):
         context["rounds"].append({"title": round5Title,"description": round5})
     context["tagline"] = eventData.tagline
     context["posterImage"] = eventData.posterImage
-    context["winner1"] =  eventData.winner1.user.get_full_name() if eventData.winner1 != None  else ""
-    context["winner2"] =  eventData.winner2.user.get_full_name() if eventData.winner2 != None  else ""
-    context["winner3"] =  eventData.winner3.user.get_full_name() if eventData.winner3 != None  else ""
     context["organiser1"] = eventData.organiser1.user.get_full_name() if eventData.organiser1 != None else ""
     context["organiser1Phone"] = Profile.objects.filter(user=eventData.organiser1.user).first().phone if eventData.organiser1 != None else ""
     context["organiser2"] = eventData.organiser2.user.get_full_name() if eventData.organiser2 != None else ""

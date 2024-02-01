@@ -3,3 +3,4 @@ whitenoise
 django-import-export
 requests
 django-cors-headers
+pandas
