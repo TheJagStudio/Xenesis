@@ -255,11 +255,6 @@ def event(request, event):
     context["date"] = str(eventData.date)
     context["description"] = eventData.description
     context["rules"] = (eventData.rules).split("•")[1:] if eventData.rules != None and eventData.rules != "" else ""
-    round1 = (eventData.round1).split("•")[1:] if "•" in eventData.round1 else [eventData.round1]  if eventData.round1 != None else []
-    round2 = (eventData.round2).split("•")[1:] if "•" in eventData.round2 else [eventData.round2]  if eventData.round2 != None else []
-    round3 = (eventData.round3).split("•")[1:] if "•" in eventData.round3 else [eventData.round3]  if eventData.round3 != None else []
-    round4 = (eventData.round4).split("•")[1:] if "•" in eventData.round4 else [eventData.round4]  if eventData.round4 != None else []
-    round5 = (eventData.round5).split("•")[1:] if "•" in eventData.round5 else [eventData.round5]  if eventData.round5 != None else []
     round1Title = eventData.round1Title if eventData.round1Title != None else ""
     round2Title = eventData.round2Title if eventData.round2Title != None else ""
     round3Title = eventData.round3Title if eventData.round3Title != None else ""
@@ -267,15 +262,35 @@ def event(request, event):
     round5Title = eventData.round5Title if eventData.round5Title != None else ""
     context["rounds"] = []
     if round1Title != "":
-        context["rounds"].append({"title": round1Title,"description": round1})
+        try:
+            round1 = (eventData.round1).split("•")[1:] if "•" in eventData.round1 else [eventData.round1]  if eventData.round1 != None else []
+            context["rounds"].append({"title": round1Title,"description": round1})
+        except:
+            pass
     if round2Title != "":
-        context["rounds"].append({"title": round2Title,"description": round2})
+        try:
+            round2 = (eventData.round2).split("•")[1:] if "•" in eventData.round2 else [eventData.round2]  if eventData.round2 != None else []
+            context["rounds"].append({"title": round2Title,"description": round2})
+        except:
+            pass
     if round3Title != "":
-        context["rounds"].append({"title": round3Title,"description": round3})
+        try:
+            round3 = (eventData.round3).split("•")[1:] if "•" in eventData.round3 else [eventData.round3]  if eventData.round3 != None else []
+            context["rounds"].append({"title": round3Title,"description": round3})
+        except:
+            pass
     if round4Title != "":
-        context["rounds"].append({"title": round4Title,"description": round4})
+        try:
+            round4 = (eventData.round4).split("•")[1:] if "•" in eventData.round4 else [eventData.round4]  if eventData.round4 != None else []
+            context["rounds"].append({"title": round4Title,"description": round4})
+        except:
+            pass
     if round5Title != "":
-        context["rounds"].append({"title": round5Title,"description": round5})
+        try:
+            round5 = (eventData.round5).split("•")[1:] if "•" in eventData.round5 else [eventData.round5]  if eventData.round5 != None else []
+            context["rounds"].append({"title": round5Title,"description": round5})
+        except:
+            pass
     context["tagline"] = eventData.tagline
     context["posterImage"] = eventData.posterImage
     context["organiser1"] = eventData.organiser1.user.get_full_name() if eventData.organiser1 != None else ""
