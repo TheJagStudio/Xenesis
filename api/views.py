@@ -255,11 +255,11 @@ def event(request, event):
     context["date"] = str(eventData.date)
     context["description"] = eventData.description
     context["rules"] = (eventData.rules).split("•")[1:] if eventData.rules != None and eventData.rules != "" else ""
-    round1 = (eventData.round1).split("•")[1:] if eventData.round1 != None else []
-    round2 = (eventData.round2).split("•")[1:] if eventData.round2 != None else []
-    round3 = (eventData.round3).split("•")[1:] if eventData.round3 != None else []
-    round4 = (eventData.round4).split("•")[1:] if eventData.round4 != None else []
-    round5 = (eventData.round5).split("•")[1:] if eventData.round5 != None else []
+    round1 = (eventData.round1).split("•")[1:] if "•" in eventData.round1 else eventData.round1  if eventData.round1 != None else []
+    round2 = (eventData.round2).split("•")[1:] if "•" in eventData.round2 else eventData.round2  if eventData.round2 != None else []
+    round3 = (eventData.round3).split("•")[1:] if "•" in eventData.round3 else eventData.round3  if eventData.round3 != None else []
+    round4 = (eventData.round4).split("•")[1:] if "•" in eventData.round4 else eventData.round4  if eventData.round4 != None else []
+    round5 = (eventData.round5).split("•")[1:] if "•" in eventData.round5 else eventData.round5  if eventData.round5 != None else []
     round1Title = eventData.round1Title if eventData.round1Title != None else ""
     round2Title = eventData.round2Title if eventData.round2Title != None else ""
     round3Title = eventData.round3Title if eventData.round3Title != None else ""
