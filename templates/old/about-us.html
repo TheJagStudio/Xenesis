@@ -1,0 +1,331 @@
+{% load static %}
+<html lang="en">
+
+<head>
+     <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, minimum-scale=1.0">
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+     <script src="/static/tailwind.js"></script>
+     <link rel="stylesheet" href="/static/tailwind.css">
+     <title>Xenesis - About Us</title>
+     <link rel="icon" type="image/png" href="/static/logoCus.png" />
+     <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body class="bg-[#240a34] overflow-x-hidden">
+     <div class="md:block hidden">
+          <!-- Navbar -->
+          <nav class="flex items-center overflow-visible justify-between text-white fixed w-full top-0 pt-[calc(2vh)] pb-10 px-[calc(3vh)] z-50 transition-all duration-300" id="navbar">
+               <a href="/">
+               <img src="/static/logoCus.png" class="h-16 w-auto" />
+               </a>
+               <ul class="md:flex items-center hidden">
+               <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/">Home</a></li>
+               <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/events">Events</a></li>
+               <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/aboutus">About Us</a></li>
+               <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/faqs">FAQs</a></li>
+               {% if isUser == False %}
+                    <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/login">Login</a></li>
+                    <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/register">Register</a></li>
+               {%else%}
+               {% if isVolunteer == True%}
+                    <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/ticketVerifer">Verifer</a></li>
+               {%endif%}
+                    <li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/myTicket">My Tickets</a></li>
+<li class="mx-[calc(2vh)] py-2 w-14"></li>
+               {%endif%}
+               </ul>
+          </nav>
+          {% if isUser == True %}
+          <div class="fixed right-10 top-6 z-[999] overflow-visible flex items-center justify-center gap-4 px-[calc(2vh)]">
+               <img src="/static/avatars/{{profilePic}}.png" alt="" class="w-[50px] h-[50px] rounded-full object-cover cursor-pointer bg-slate-300" onclick="toggleProfileDropdown()">
+
+               <div class="absolute bg-slate-600 top-16 right-0 w-full min-w-[200px] rounded-md z-[999] h-0 overflow-hidden transition-all duration-300" id="profile-dropdown">
+               <p class="w-full px-4 text-white truncate capitalize"><i class="bi bi-person mr-2.5"></i>{{userName}}</p>
+               <hr class="w-full my-2" />
+               <a href="/logout" class="">
+                    <p class="w-full px-4 text-white"><i class="bi bi-box-arrow-right mr-2.5"></i>Logout</p>
+               </a>
+               </div>
+          </div>
+          {%endif%}
+
+          <section class="w-full h-screen overflow-hidden customScrollbar relative">
+               <canvas id="canvas" class="w-screen h-[calc((1024/1536)*100vw)] absolute top-0 z-0"></canvas>
+               <div class="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 px-[calc(3vh)] text-center z-20">
+                    <h1 class="text-[calc(12vh)] text-white uppercase font-bold z-20">
+                         About Us
+                    </h1>
+               </div>
+               <div class="w-full h-full bg-[rgba(0,0,0,0.4)] absolute top-0 left-0 z-10"></div>
+          </section>
+
+          <section class="w-full bg-[#240A35]">
+               <div class="absolute w-full h-full top-0 bg-gradient-to-t from-[#240A35] via-transparent to-transparent z-10">
+               </div>
+
+               <div class="py-8 px-20">
+                    <h1 class="text-white text-3xl capitalize font-bold mb-5">About us</h1>
+                    <p class="text-white my-5">Xenesis is an annual technical festival organized by LDRP-ITR, providing a platform for students to showcase their technical skills and compete with their peers. The festival brings together a diverse range of participants from different engineering colleges across the country.</p>
+                    <p class="text-white my-5">With a plethora of events, workshops, and technical talks, Xenesis aims to create an atmosphere that fosters learning, creativity, and innovation. The festival provides an opportunity for students to engage in hands-on technical activities, gain practical experience, and enhance their problem-solving abilities.</p>
+                    <p class="text-white my-5">At Xenesis, we strive to inspire and encourage the next generation of engineers and technologists. We believe that the festival is not just about competition but also about creating a sense of community and sparking a passion for technology.</p>
+                    <p class="text-white my-5">Our team comprises enthusiastic students who work tirelessly to organize and execute the festival. We aim to create a memorable experience for all participants and ensure that everyone has an enjoyable and rewarding time.</p>
+                    <p class="text-white my-5">Xenesis has been a resounding success over the years, attracting participants from far and wide. We are committed to making each edition of the festival better than the last, by incorporating feedback and improving the overall experience.</p>
+                    <p class="text-white my-5">Come be a part of the Xenesis family and join us in celebrating technology and innovation!</p>
+               </div>
+          </section>
+     </div>
+     <div class="block md:hidden">
+          <!-- Navbar -->
+          <nav class="flex items-center justify-between text-white fixed w-full top-0 py-[calc(3vh)] px-[calc(3vh)] z-50 transition-all duration-300" id="mobile-navbar">
+               <a href="/">
+                    <img src="/static/logoCus.png" class="h-14 w-auto" />
+               </a>
+
+               <div class="relative flex items-center justify-center gap-4">
+                    <!-- Profile Image -->
+                    {% if isUser == True %}
+                    <img src="/static/avatars/{{profilePic}}.png" alt="" class="w-[45px] h-[45px] rounded-full object-cover bg-slate-300" onclick="toggleProfileDropdown()" />
+                    <!-- Profile -->
+                    <div class="fixed right-10 top-6 z-[999] overflow-visible flex items-center justify-center gap-4 px-[calc(2vh)]">
+                         <div class="absolute bg-slate-600 top-16 right-0 w-full min-w-[200px] rounded-md z-[999] h-0 overflow-hidden transition-all duration-300" id="profile-dropdown-mobile">
+                              <p class="w-full px-4 text-white truncate capitalize"><i class="bi bi-person mr-2.5"></i>{{userName}}</p>
+                              <hr class="w-full my-2" />
+                              <a href="/logout" class="">
+                                   <p class="w-full px-4 text-white"><i class="bi bi-box-arrow-right mr-2.5"></i>Logout</p>
+                              </a>
+                         </div>
+                    </div>
+                    {%endif%}
+                    <!-- Menu Toggle Button -->
+                    <button class="text-2xl block lg:hidden !outline-none" onclick="toggleMobileMenu()"><i class="bi bi-list"></i></button>
+               </div>
+
+               <!-- Mobile Menu -->
+			<div class="absolute top-0 left-full flex flex-col gap-5 items-center justify-center w-screen h-screen z-[999] bg-slate-900 bg-opacity-95 transition-all duration-300" id="mobile-menu">
+				<button class="absolute top-10 right-10 !outline-none" onclick="toggleMobileMenu()"><i class="bi bi-x-lg"></i></button>
+				<a href="/" class="text-2xl">Home</a>
+				<a href="/events" class="text-2xl">Events</a>
+				<a href="/aboutus" class="text-2xl">About Us</a>
+				<a href="/faqs" class="text-2xl">FAQs</a>
+				{% if isUser == False %}
+					<a href="/login" class="text-2xl">Login</a>
+					<a href="/register" class="text-2xl">Register</a>
+					{%else%}
+					{% if isVolunteer == True%}
+						<a href="/ticketVerifer" class="text-2xl">Verifer</a>
+					{%endif%}
+					<a href="/myTicket" class="text-2xl">My Tickets</a>
+				{%endif%}
+			</div>
+          </nav>
+
+          <section
+               class="w-full h-[60vh] p-6 text-white flex items-center justify-center bg-[url('/static/about-us/aboutUsHero.png')] bg-center bg-no-repeat bg-cover relative">
+               <div class="absolute left-0 top-0 w-full h-[60vh] bg-[rgba(0,0,0,0.5)] z-20"></div>
+               <div class="z-30">
+                    <h1 class="text-[calc(6vh)] text-white uppercase font-bold">
+                         About Us
+                    </h1>
+               </div>
+               <div
+                    class="absolute w-full h-full top-0 bg-gradient-to-t from-[#240A35] via-transparent to-transparent lg:z-10 z-30">
+               </div>
+          </section>
+
+          <section class="sm:py-16 lg:py-20 xl:py-24 tails-selected-element outline-none bg-[#240A35]">
+               <div class="py-8 px-6 text-justify">
+                    <h1 class="text-white text-3xl capitalize font-bold mb-5">Something about us</h1>
+                    <p class="text-white my-5">Xenesis is an annual technical festival organized by LDRP-ITR, providing a platform for students to showcase their technical skills and compete with their peers. The festival brings together a diverse range of participants from different engineering colleges across the country.</p>
+                    <p class="text-white my-5">With a plethora of events, workshops, and technical talks, Xenesis aims to create an atmosphere that fosters learning, creativity, and innovation. The festival provides an opportunity for students to engage in hands-on technical activities, gain practical experience, and enhance their problem-solving abilities.</p>
+                    <p class="text-white my-5">At Xenesis, we strive to inspire and encourage the next generation of engineers and technologists. We believe that the festival is not just about competition but also about creating a sense of community and sparking a passion for technology.</p>
+                    <p class="text-white my-5">Our team comprises enthusiastic students who work tirelessly to organize and execute the festival. We aim to create a memorable experience for all participants and ensure that everyone has an enjoyable and rewarding time.</p>
+                    <p class="text-white my-5">Xenesis has been a resounding success over the years, attracting participants from far and wide. We are committed to making each edition of the festival better than the last, by incorporating feedback and improving the overall experience.</p>
+                    <p class="text-white my-5">Come be a part of the Xenesis family and join us in celebrating technology and innovation!</p>
+               </div>
+          </section>
+     </div>
+
+     <!-- Footer -->
+     <footer class="bg-[#240a34] pt-20">
+          <div class="md:flex sm:grid sm:grid-cols-2 flex flex-col md:flex-row lg:justify-around justify-center md:gap-10 gap-3 xl:px-32 lg:px-20 md:px-12 px-8 mb-8">
+               <!-- Social | Logo -->
+               <div class="flex flex-col md:items-center items-start gap-3">
+                    <img src="/static/logoCus.png" alt="Xenesis" class="lg:w-[140px] w-[110px]" />
+                    <p class="lg:max-w-[200px] md:max-w-[140px] md:text-center text-gray-300">Epic Events organized for ultimate students!</p>
+               </div>
+               <!-- Useful Links -->
+               <div class="pt-4">
+                    <h3 class="font-bold text-white lg:text-xl sm:text-[1.05rem] mb-4 pb-2 relative after:content-&quot;&quot; after:absolute lg:after:left-0 after:left-0 after:bottom-0 md:after:w-[50%] after:w-[100px] after:h-[3px] after:bg-[#9704fe]">Useful Links</h3>
+                    <div class="flex flex-col text-left text-gray-400 gap-1 lg:text-base text-sm">
+                         <a href="/" class="hover:translate-x-2 hover:text-[#bc85ff] transition-all duration-300">Home</a>
+                         <a href="/event" class="hover:translate-x-2 hover:text-[#bc85ff] transition-all duration-300">Events</a>
+                         <a href="/aboutus" class="hover:translate-x-2 hover:text-[#bc85ff] transition-all duration-300">About Us</a>
+                         <a href="/faqs" class="hover:translate-x-2 hover:text-[#bc85ff] transition-all duration-300">FAQs</a>
+                    </div>
+               </div>
+               <!-- Join Us -->
+               <div class="pt-4">
+                    <h3 class="font-bold text-white lg:text-xl sm:text-[1.05rem] mb-4 pb-2 relative after:content-&quot;&quot; after:absolute after:left-0 after:bottom-0 md:after:w-[50%] after:w-[100px] after:h-[3px] after:bg-[#9704fe]">Contact Us</h3>
+                    <div class="flex flex-col text-left gap-2 text-gray-400 lg:text-base text-sm">
+                         <div class="flex flex-col group cursor-pointer">
+                              <p class="text-[#9740fe]">Join Us:</p>
+                              <a href="mailto:xenesis@ldrp.ac.in" class="text-gray-300 text-sm group-hover:translate-x-2 transition-all duration-300">xenesis@ldrp.ac.in</a>
+                         </div>
+                         <div class="flex flex-col group cursor-pointer">
+                              <p class="text-[#9740fe]">Phone:</p>
+                              <a href="tel:7863085614" class="text-gray-300 text-sm group-hover:translate-x-2 transition-all duration-300">+91 786 308 5614</a>
+                         </div>
+                    </div>
+               </div>
+               <!-- Social Links -->
+               <div class="md:pt-4 sm:pt-3 pt-4">
+                    <h3 class="font-bold text-white lg:text-xl sm:text-[1.05rem] mb-5 pb-2 relative after:content-&quot;&quot; after:absolute after:left-0 after:bottom-0 md:after:w-[50%] after:w-[100px] after:h-[3px] after:bg-[#9704fe]">Social Links</h3>
+                    <p class="lg:max-w-[250px] md:max-w-[200px] text-gray-300">Get in touch! Find us on any platform.</p>
+                    <div class="flex items-center justify-start lg:gap-5 gap-4 md:mt-4 mt-2">
+                         <a href="https://www.facebook.com/xenesisldrp/" class="text-gray-400 lg:text-xl md:text-lg text-base hover:-translate-y-1.5 hover:text-[#9740fe] transition-all duration-300"><i class="bi bi-facebook"></i></a>
+                         <a href="https://twitter.com/xenesisldrp" class="text-gray-400 lg:text-xl md:text-lg text-base hover:-translate-y-1.5 hover:text-[#9740fe] transition-all duration-300"><i class="bi bi-twitter"></i></a>
+                         <a href="https://www.instagram.com/xenesisldrp/" class="text-gray-400 lg:text-xl md:text-lg text-base hover:-translate-y-1.5 hover:text-[#9740fe] transition-all duration-300"><i class="bi bi-instagram"></i></a>
+                         <a href="#" class="text-gray-400 lg:text-xl md:text-lg text-base hover:-translate-y-1.5 hover:text-[#9740fe] transition-all duration-300"><i class="bi bi-youtube"></i></a>
+                    </div>
+               </div>
+          </div>
+          <!-- Copyrights -->
+          <div class="bg-[#211e60] bg-opacity-20 md:w-fit w-full md:px-24 px-8 md:pr-36 mb-0 clip-copyrights text-gray-300 font-semibold py-8 md:text-xl text-md">&copy; 2023 Xenesis All Rights Registered</div>
+     </footer>
+
+     <script src="/static/js/eventSlider.js"></script>
+     <script src="/static/js/header.js"></script>
+
+     <script id="vs" type="f">
+          attribute vec2 position;
+          attribute vec2 texcoord;
+          
+          uniform mat3 u_matrix;
+          
+          varying vec2 v_texcoord;
+          
+          void main() {
+               gl_Position = vec4(u_matrix * vec3(position, 1), 1);
+               v_texcoord = texcoord;
+          }
+     </script>
+     <!-- fragment shader -->
+     <script id="fs" type="f">
+          precision mediump float;
+          
+          uniform vec2 u_mouse;
+          
+          uniform sampler2D u_originalImage;
+          uniform sampler2D u_mapImage;
+          
+          varying vec2 v_texcoord;
+          
+          void main() {
+               vec4 depthDistortion = texture2D(u_mapImage, v_texcoord);
+               float parallaxMult = depthDistortion.r;
+          
+               vec2 parallax = (u_mouse) * parallaxMult;
+          
+               vec4 original = texture2D(u_originalImage, (v_texcoord + parallax));
+               gl_FragColor = original;
+          }
+     </script>
+     <!-- partial -->
+     <script src='https://cdn.rawgit.com/greggman/twgl.js/master/dist/4.x/twgl-full.min.js'></script>
+     <script src='https://webglfundamentals.org/webgl/resources/m3.js'></script>
+     <script>
+          function main(id, sourceImage, depthMap, parallaxSpeed) {
+               // Get A WebGL context
+               /** @type {HTMLCanvasElement} */
+               const canvas = document.getElementById(id);
+               const gl = canvas.getContext("webgl");
+               if (!gl) {
+                    return;
+               }
+
+               let originalImage = { width: 0, height: 0 }; // replaced after loading
+               const originalTexture = twgl.createTexture(
+                    gl,
+                    {
+                         src: sourceImage,
+                         crossOrigin: "",
+                    },
+                    (err, texture, source) => {
+                         originalImage = source;
+                    }
+               );
+
+               const mapTexture = twgl.createTexture(gl, {
+                    src: depthMap,
+                    crossOrigin: "",
+               });
+
+               // compile shaders, link program, lookup location
+               const programInfo = twgl.createProgramInfo(gl, ["vs", "fs"]);
+
+               // calls gl.createBuffer, gl.bindBuffer, gl.bufferData for a quad
+               const bufferInfo = twgl.primitives.createXYQuadBufferInfo(gl);
+
+               const mouse = [0, 0];
+               document.addEventListener("mousemove", (event) => {
+                    mouse[0] = ((event.clientX / gl.canvas.clientWidth) * 2 - 1) * parallaxSpeed;
+                    mouse[1] = ((event.clientY / gl.canvas.clientHeight) * 2 - 1) * parallaxSpeed;
+               });
+
+               document.addEventListener("touchmove", (event) => {
+                    mouse[0] = ((event.touches[0].clientX / gl.canvas.clientWidth) * 2 - 1) * parallaxSpeed;
+                    mouse[1] = ((event.touches[0].clientY / gl.canvas.clientHeight) * 2 - 1) * parallaxSpeed;
+               });
+
+               document.addEventListener("touchend", (event) => {
+                    mouse[0] = 0;
+                    mouse[1] = 0;
+               });
+
+               var nMouse = [0, 0];
+               var oMouse = [0, 0];
+
+               requestAnimationFrame(render);
+
+               function render() {
+                    twgl.resizeCanvasToDisplaySize(gl.canvas);
+
+                    gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+
+                    gl.clearColor(0, 0, 0, 0);
+                    gl.clear(gl.COLOR_BUFFER_BIT);
+
+                    gl.useProgram(programInfo.program);
+
+                    // calls gl.bindBuffer, gl.enableVertexAttribArray, gl.vertexAttribPointer
+                    twgl.setBuffersAndAttributes(gl, programInfo, bufferInfo);
+
+                    const canvasAspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
+                    const imageAspect = originalImage.width / originalImage.height;
+                    const mat = m3.scaling(imageAspect / canvasAspect, -1);
+
+                    nMouse[0] += (mouse[0] - nMouse[0]) * 0.05;
+                    nMouse[1] += (mouse[1] - nMouse[1]) * 0.05;
+
+                    // calls gl.activeTexture, gl.bindTexture, gl.uniformXXX
+                    twgl.setUniforms(programInfo, {
+                         u_matrix: mat,
+                         u_originalImage: originalTexture,
+                         u_mapImage: mapTexture,
+                         u_mouse: nMouse,
+                    });
+
+                    // calls gl.drawArrays or gl.drawElements
+                    twgl.drawBufferInfo(gl, bufferInfo);
+
+                    requestAnimationFrame(render);
+               }
+          }
+
+          main("canvas", "/static/about-us/aboutUsHero.png", "/static/about-us/aboutUsHeroDepthMap3.jpeg", -0.03);
+     </script>
+</body>
+
+</html>

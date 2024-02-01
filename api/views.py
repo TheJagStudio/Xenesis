@@ -9,402 +9,144 @@ import random
 from django.views.decorators.csrf import csrf_exempt
 
 
-def index(request):
-    objects = Profile.objects.all().first()
-    name = objects.user.get_full_name()
-    profilePic = objects.profilePic
-    location = objects.location
-    phone = objects.phone
-    otp = objects.otp
-    isVolunteer = objects.isVolunteer
-    isOrganiser = objects.isOrganiser
-    isAccountSetup = objects.isAccountSetup
-    data = {
-        "name": name,
-        "profilePic": profilePic,
-        "location": location,
-        "phone": phone,
-        "otp": otp,
-        "isVolunteer": isVolunteer,
-        "isOrganiser": isOrganiser,
-        "isAccountSetup": isAccountSetup
-    }
-    return HttpResponse(json.dumps(data), content_type="application/json")
-
-
-def check(email):
-    regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
-    if(re.fullmatch(regex, email)):
-        return True
+def events(request):
+    if request.user != None:
+        try:
+            profile = Profile.objects.filter(user=request.user).first()
+            userName = request.user.first_name
+            isUser = True
+            isVolunteer = profile.isCampainVolunteer
+            profilePic = profile.profilePic
+        except:
+            userName = "Anonymous"
+            isUser = False
+            isVolunteer = False
+            profilePic = "0001"
     else:
-        return False
-
-
-@csrf_exempt
-def loginApp(request):
-    if request.method == "POST":
-        try:
-            body = json.loads(request.body)
-            email = body['email']
-            password = body['password']
-            try:
-                username = User.objects.filter(email=email).first().username
-                user = authenticate(username=username, password=password)
-                if user is not None:
-                    profile = Profile.objects.filter(user=user).first()
-                    isVerified = profile.isVerified
-                    isAccountSetup = profile.isAccountSetup
-                    if isVerified == True:
-                        login(request, user)
-                        return HttpResponse(json.dumps({"msg": "Logged in successfully.", "accountSetup": isAccountSetup}), content_type="application/json")
-                    else:
-                        email = user.email
-                        return HttpResponse(json.dumps({"msg": "OTP sent to "+email}), content_type="application/json")
-            except:
-                return HttpResponse(json.dumps({"error": "Email or password must be Incorrect."}), content_type="application/json")
-        except Exception as error:
-            return HttpResponse(json.dumps({"error": error}), content_type="application/json")
-
-        else:
-            return HttpResponse(json.dumps({"error": "Email or password must be Incorrect."}), content_type="application/json")
-    return HttpResponse(json.dumps({"error": "You were not suppose be here."}), content_type="application/json")
-
-
-@csrf_exempt
-def registerApp(request):
-    if request.method == "POST":
-        try:
-
-            body = json.loads(request.body)
-            email = body['email']
-            pass1 = body['password1']
-            pass2 = body['password2']
-
-            if not check(email):
-                return HttpResponse(json.dumps({"error": "Invalid Email."}), content_type="application/json")
-            elif pass1 != pass2:
-                return HttpResponse(json.dumps({"error": "Password Does Not Match."}), content_type="application/json")
-            else:
-                users = User.objects.filter(email=email).all().count()
-                if users == 0:
-                    newUser = User.objects.create_user(
-                        username=email, email=email, password=pass1)
-
-                    newUser.save()
-                    otp = str(random.randint(1000, 9999))
-                    profileForNewUser = Profile()
-                    profileForNewUser.user = User.objects.filter(
-                        email=email).first()
-                    profileForNewUser.otp = otp
-                    profileForNewUser.events = {"data": []}
-                    profileForNewUser.notification = {"data": []}
-                    profileForNewUser.isAccountSetup = False
-                    profileForNewUser.isVolunteer = False
-                    profileForNewUser.isOrganiser = False
-                    profileForNewUser.isVerified = False
-                    profileForNewUser.save()
-                    # https://script.google.com/macros/s/AKfycbzW-cQR5jK5dWpfdH7yJ0Rb_gR9dC7YMn0VFnQU9ZCzhCx7wXZgbnTwDcFDsLo6Vn_V/exec?email=barotjaivin244@gmail.com&subject=auto&body=auto&otp=1234
-                    r = requests.get('https://script.google.com/macros/s/AKfycbzW-cQR5jK5dWpfdH7yJ0Rb_gR9dC7YMn0VFnQU9ZCzhCx7wXZgbnTwDcFDsLo6Vn_V/exec?email=' +
-                                    email + '&subject=Welcome to Xenesis 2023&body=Hi there&otp='+otp)
-                    return HttpResponse(json.dumps({"msg": "OTP sent to "+email}), content_type="application/json")
-        except Exception as error:
-                    return HttpResponse(json.dumps({"error": error}), content_type="application/json")
-    else:
-            return HttpResponse(json.dumps({"error": "There already exist a account with this email."}), content_type="application/json")
-    return HttpResponse(json.dumps({"error": "You were not suppose be here."}), content_type="application/json")
-
-
-@csrf_exempt
-def locationSetterApp(request):
-    if request.method == "POST" and request.session['accountSetup'] == True:
-        try: 
-            body = json.loads(request.body)
-            email = body['email']
-            location = body['location']
-            user = User.objects.filter(email=email).first()
-            profile = Profile.objects.filter(user=user).first()
-            profile.location = location
-            profile.isVerified = True
-            profile.isAccountSetup = True
-            profile.save()
-            request.session['accountSetup'] = False
-            return HttpResponse(json.dumps({"msg": "New Location has been saved.", "location": location}), content_type="application/json")
-        except Exception as error:
-                    return HttpResponse(json.dumps({"error": error}), content_type="application/json")
-    return HttpResponse(json.dumps({"error": "You were not suppose be here."}), content_type="application/json")
-
-
-@csrf_exempt
-def accountSetupApp(request):
-    if request.method == "POST":
-        try:
-            body = json.loads(request.body)
-            email = body['email']
-            name = body['name']
-            college = body['college']
-            phone = body['phone']
-            profilePic = body['profilePic']
-            user = User.objects.filter(email=email).first()
-            user.first_name = name
-            user.save()
-            profile = Profile.objects.filter(user=user).first()
-            profile.college = college
-            profile.phone = phone
-            profile.profilePic = profilePic
-            profile.save()
-            request.session['accountSetup'] = True
-            return HttpResponse(json.dumps({"msg": "Account has been setup."}), content_type="application/json")
-        except Exception as error:
-            return HttpResponse(json.dumps({"error": error}), content_type="application/json")
-    return HttpResponse(json.dumps({"error": "You were not suppose be here."}), content_type="application/json")
-
-
-@csrf_exempt
-def resendotpApp(request):
-    if request.method == "POST":
-        try: 
-            body = json.loads(request.body)
-            email = body['email']
-            if "passwordRecovery" in body.keys():
-                otp = str(random.randint(1000, 9999))
-                profile = Profile.objects.filter(
-                    user=User.objects.filter(email=email).first()).first()
-                profile.otp = otp
-                profile.save()
-                r = requests.get('https://script.google.com/macros/s/AKfycbzW-cQR5jK5dWpfdH7yJ0Rb_gR9dC7YMn0VFnQU9ZCzhCx7wXZgbnTwDcFDsLo6Vn_V/exec?email=' +email + '&subject=Welcome to Xenesis 2023&body=Hi there&otp='+otp)
-                request.session['isPasswordRecovery'] = True
-                return HttpResponse(json.dumps({"msg": "OTP sent to "+email + " for Password Verification."}), content_type="application/json")
-            else:
-                otp = str(random.randint(1000, 9999))
-                profile = Profile.objects.filter(user=User.objects.filter(email=email).first()).first()
-                profile.otp = otp
-                profile.save()
-                r = requests.get('https://script.google.com/macros/s/AKfycbzW-cQR5jK5dWpfdH7yJ0Rb_gR9dC7YMn0VFnQU9ZCzhCx7wXZgbnTwDcFDsLo6Vn_V/exec?email=' +email + '&subject=Welcome to Xenesis 2023&body=Hi there&otp='+otp)
-                return HttpResponse(json.dumps({"msg": "OTP sent to "+email}), content_type="application/json")
-        except Exception as error:
-                return HttpResponse(json.dumps({"error": error}), content_type="application/json")
-    return HttpResponse(json.dumps({"error": "You were not suppose be here."}), content_type="application/json")
-
-
-@csrf_exempt
-def forgotpasswordApp(request):
-    if request.method == "POST" and request.session['isPasswordRecovery'] == True:
-        try:
-            body = json.loads(request.body)
-            email = body['email']
-            password1 = body['password1']
-            password2 = body['password2']
-            if password1 == password2:
-                user = User.objects.filter(email=email).first()
-                user.set_password(password1)
-                print(email, password1, password2)
-                request.session['isPasswordRecovery'] = False
-                return HttpResponse(json.dumps({"msg": "OTP sent to "+email}), content_type="application/json")
-            else:
-                return HttpResponse(json.dumps({"error": "Passwords doesn't match."}), content_type="application/json")
-        except Exception as error:
-                    return HttpResponse(json.dumps({"error": error}), content_type="application/json")
-    return HttpResponse(json.dumps({"error": "You were not suppose be here."}), content_type="application/json")
-
-
-@csrf_exempt
-def otpvalidationApp(request):
-    if request.method == "POST":
-        try:      
-            body = json.loads(request.body)
-            userOtp = body['otp']
-            email = body['email']
-            user = Profile.objects.filter(
-                user=User.objects.filter(email=email).first()).first()
-            if userOtp == user.otp:
-                profile = Profile.objects.filter(
-                    user=User.objects.filter(email=email).first()).first()
-                profile.isVerified = True
-                profile.save()
-                return HttpResponse(json.dumps({"msg": "The user has been verified."}), content_type="application/json")
-            else:
-                return HttpResponse(json.dumps({"error": "OTP does not match."}), content_type="application/json")
-        except Exception as error:
-                    return HttpResponse(json.dumps({"error": error}), content_type="application/json")
-    return HttpResponse(json.dumps({"error": "You were not suppose be here."}), content_type="application/json")
-
-
-@csrf_exempt
-def accountsetupApp(request):
-    return HttpResponse(json.dumps({"error": "You were not suppose be here."}), content_type="application/json")
-
-
-@csrf_exempt
-def homeDataFetcherApp(request):
-    data = {"department": [],"event":[],"gallery":[]}
-
-    departmentArr = Department.objects.all()
-    for department in departmentArr:
-        data["department"].append(department.name)
-
-    images = Gallery.objects.all()
-    for image in images:
-        data["gallery"].append(image.path)
-    
-    events = Event.objects.filter(department=Department.objects.filter(name="Computer Engineering").first()).order_by('name').all()
-    eventArr = []
-    impEvent = []
-    for event in events:
-        if event.name != "X - Motion Game Mania":
-            eventArr.append([event.name, event.price, event.description, event.tagline,event.posterImage, (event.name).replace(" ", "-").replace("---", ":")])
-        else:
-            impEvent = [[event.name, event.price, event.description, event.tagline, event.posterImage, (event.name).replace(" ", "-").replace("---", ":")]]
-    impEvent.extend(eventArr[:10])
-    data["event"] = impEvent
-
-    return HttpResponse(json.dumps(data), content_type="application/json")
-
-@csrf_exempt
-def galleryListApp(request):
-    images = Gallery.objects.all()
-    imageArr = []
-    for image in images:
-        imageArr.append(image.path)
-    return HttpResponse(json.dumps({"data":imageArr}), content_type="application/json")
-
-@csrf_exempt
-def eventListApp(request):
-    events = Event.objects.all()
-    eventArr = []
-    impEvent = []
-    for event in events:
-        if event.name != "X - Motion Game Mania":
-            eventArr.append([event.name, event.price, event.description, event.tagline,event.posterImage, (event.name).replace(" ", "-").replace("---", ":")])
-        else:
-            impEvent = [[event.name, event.price, event.description, event.tagline, event.posterImage, (event.name).replace(" ", "-").replace("---", ":")]]
-    impEvent.extend(eventArr[:20])
+        isUser = False
+        isVolunteer = False
+        userName = ""
+        profilePic = "0001"
     departments = Department.objects.all()
     departmentArr = []
+    impEvent = []
     for department in departments:
-        departmentArr.append([department.name,department.abbriviation])
-    return HttpResponse(json.dumps({"event":impEvent,"department":departmentArr}), content_type="application/json")
-
-@csrf_exempt
-def eventsSearchApp(request):
-    if request.method == "POST":
-        try:
-            body = json.loads(request.body)
-            query = body['query']
-            events = Event.objects.filter(name__contains=query).order_by('name').all()
-            eventArr = []
-            impEvent = []
-            departmentTempArr = []
-            for event in events:
-                if event.name != "X - Motion Game Mania":
-                    eventArr.append([event.name, event.price, event.description, event.tagline,event.posterImage, (event.name).replace(" ", "-").replace("---", ":")])
-                    departmentTempArr.append([event.department.name,event.department.abbriviation])
-                else:
-                    impEvent = [[event.name, event.price, event.description, event.tagline, event.posterImage, (event.name).replace(" ", "-").replace("---", ":")]]
-            impEvent.extend(eventArr[:10])
-
-            tempArr = [['Computer Engineering', 'CE']]
-            tempArr.extend(departmentTempArr)
-
-            departmentArr = []
-            for i in range(len(impEvent)):
-                if tempArr[i] not in departmentArr:
-                    departmentArr.append(tempArr[i])
-            
-            data = {
-                "event": impEvent,
-                "department" : departmentArr
+        events = Event.objects.filter(department=department).order_by('-name').all()
+        eventArr = []
+        tempDepartment = {
+            "departmentName" : department.name
+        }
+        for event in events:
+            tempEvent = {
+                "eventName" : event.name,
+                "eventPrice" : event.price,
+                "eventDescription" : event.description,
+                "eventTagline" : event.tagline,
+                "eventPosterImage" : event.posterImage,
+                "eventLink" : (event.name).replace(" ", "-").replace("---", ":"),
+                "isTeamEvent" : event.isTeamEvent,
+                "teamPrice" : event.teamPrice,
+                "isTeamPriceFull" : event.isTeamPriceFull,
+                "winnerPrice1" : event.winnerPrice1 if event.winnerPrice1 != None else 0 ,
+                "winnerPrice2" : event.winnerPrice2 if event.winnerPrice2 != None else 0 ,
+                "isClosed" : event.isClosed
+                
             }
-            return HttpResponse(json.dumps(data), content_type="application/json")
-        except Exception as error:
-            return HttpResponse(json.dumps({"error": error}), content_type="application/json")    
-    return HttpResponse(json.dumps({"error": "You were not suppose be here."}), content_type="application/json")
+            eventArr.append(tempEvent)
+        tempDepartment["events"] = eventArr
+        tempDepartment["eventCount"] = len(eventArr)
+        departmentArr.append(tempDepartment)
+    context = {
+        "departmentArr": departmentArr,
+        "isUser" : isUser,
+        "isVolunteer" : isVolunteer,
+        "userName" : userName,
+        "profilePic" : profilePic
+    }
+    return HttpResponse(json.dumps(context), content_type="application/json")
 
-@csrf_exempt
-def eventDetailFetcherApp(request):
-    if request.method == "POST":
+def event(request, event):
+    if request.user != None:
         try:
-            body = json.loads(request.body)
-            event = body['event']
-            event = Event.objects.filter(name=event).first()
-            eventArr = []
-            eventArr.append(event.name)
-            eventArr.append(event.price)
-            eventArr.append(event.description)
-            eventArr.append(event.posterImage)
-            eventArr.append((event.rules).split("•")[1:] if event.rules != None and event.rules != "" else [])
-            eventArr.append(event.round1Title)
-            eventArr.append((event.round1).split("•")[1:] if event.round1 != None else [])
-            eventArr.append(event.round2Title)
-            eventArr.append((event.round2).split("•")[1:] if event.round2 != None else [])
-            eventArr.append(event.round3Title)
-            eventArr.append((event.round3).split("•")[1:] if event.round3 != None else [])
-            eventArr.append(event.round4Title)
-            eventArr.append((event.round4).split("•")[1:] if event.round4 != None else [])
-            eventArr.append(event.round5Title)
-            eventArr.append((event.round5).split("•")[1:] if event.round5 != None else [])
-            eventArr.append(event.coordinator1.user.first_name)
-            eventArr.append(event.coordinator2.user.first_name)
-            return HttpResponse(json.dumps({"data":eventArr}), content_type="application/json")
-        except Exception as error:
-            return HttpResponse(json.dumps({"error": error}), content_type="application/json")
-    return HttpResponse(json.dumps({"error": "You were not suppose be here."}), content_type="application/json")
-
-@csrf_exempt
-def QRScanner(request):
-    if request.method == "POST":
-        try:
-            body = json.loads(request.body)
-            if "uuid" in body.keys():
-                uuid = body['uuid']
-                ticket = Ticket.objects.filter(qrCodeData=uuid).first()
-                if ticket is not None:
-                    if ticket.userCount >0:
-                        count = 1
-                        if ticket.owner1 != None:
-                            count=count+1
-                        if ticket.owner2 != None:
-                            count=count+1
-                        if ticket.owner3 != None:
-                            count=count+1
-                        if ticket.owner4 != None:
-                            count=count+1
-                        temp = {}
-                        temp["id"] = ticket.id
-                        temp["profilePic"] = ticket.owner.profilePic
-                        temp["username"] = ticket.owner.user.first_name
-                        temp["email"] = ticket.owner.user.email
-                        if ticket.event.isTeamEvent != True:
-                            temp["price"] = ticket.event.price
-                        else: 
-                            temp["price"] = ticket.event.teamPrice
-                        temp["eventName"] = ticket.event.name
-                        temp["isPaid"] = ticket.isPaid
-                        temp["qrCodeData"] = ticket.qrCodeData
-                        temp["isTeamPriceFull"] = ticket.event.isTeamPriceFull
-                        try:
-                            temp["userCount"] = count
-                            if count != 1:
-                                temp["total"] = count*int(ticket.event.price)
-                        except:
-                            temp["userCount"] = 1
-                            temp["total"] = 0
-                        return HttpResponse(json.dumps({"data":temp}),content_type="application/json")
-                    else:
-                        return HttpResponse(json.dumps({"error":"Ticket Has already been used."}),content_type="application/json")
-                else:
-                    return HttpResponse(json.dumps({"error":"Ticket Does Not Exist."}),content_type="application/json")
-            elif "ticketId" in body.keys():
-                ticketId = body['ticketId']
-                ticket = Ticket.objects.filter(id=ticketId).first()
-                if ticket.userCount >0:
-                    ticket.userCount = ticket.userCount - 1
-                    ticket.save()
-                    return HttpResponse(json.dumps({"msg":"Ticket Has Been Confirmed."}),content_type="application/json")
-                else:
-                    return HttpResponse(json.dumps({"error":"Ticket Has already been used."}),content_type="application/json")
-            else:
-                return HttpResponse(json.dumps({"error":"Server Didnot Recieve QR code. Please Rescan the code."}),content_type="application/json")
-        except Exception as error:
-            return HttpResponse(json.dumps({"error": error}), content_type="application/json")
-    return HttpResponse(json.dumps({"error":"You were not supposed to be here"}),content_type="application/json")
-        
+            profile = Profile.objects.filter(user=request.user).first()
+            userName = request.user.first_name
+            email = request.user.email
+            isUser = True
+            isVolunteer = profile.isCampainVolunteer
+            profilePic = profile.profilePic
+        except:
+            userName = "Anonymous"
+            email = ""
+            isUser = False
+            isVolunteer = False
+            profilePic = "0001"
+    else:
+        isUser = False
+        isVolunteer = False
+        email = ""
+        userName = ""
+        profilePic = "0001"
+    context = {
+        "isUser" : isUser,
+        "isVolunteer" : isVolunteer,
+        "userName" : userName,
+        "profilePic" : profilePic,
+        "email" : email
+    }
+    eventData = Event.objects.filter(name=event.replace("-", " ").replace(":", " - ")).first()
+    context["isTeamEvent"] = eventData.isTeamEvent
+    context["name"] = eventData.name
+    context["department"] = eventData.department.name
+    context["teamName"] = eventData.teamName
+    context["teamLeader"] = eventData.teamLeader.user.get_full_name() if eventData.teamLeader != None else ""
+    context["price"] = eventData.price
+    context["winnerPrice1"] = eventData.winnerPrice1
+    context["winnerPrice2"] = eventData.winnerPrice2
+    context["location"] = eventData.location
+    context["date"] = str(eventData.date)
+    context["description"] = eventData.description
+    context["rules"] = (eventData.rules).split("•")[1:] if eventData.rules != None and eventData.rules != "" else ""
+    round1 = (eventData.round1).split("•")[1:] if eventData.round1 != None else []
+    round2 = (eventData.round2).split("•")[1:] if eventData.round2 != None else []
+    round3 = (eventData.round3).split("•")[1:] if eventData.round3 != None else []
+    round4 = (eventData.round4).split("•")[1:] if eventData.round4 != None else []
+    round5 = (eventData.round5).split("•")[1:] if eventData.round5 != None else []
+    round1Title = eventData.round1Title if eventData.round1Title != None else ""
+    round2Title = eventData.round2Title if eventData.round2Title != None else ""
+    round3Title = eventData.round3Title if eventData.round3Title != None else ""
+    round4Title = eventData.round4Title if eventData.round4Title != None else ""
+    round5Title = eventData.round5Title if eventData.round5Title != None else ""
+    context["rounds"] = []
+    if round1Title != "":
+        context["rounds"].append({"title": round1Title,"description": round1})
+    if round2Title != "":
+        context["rounds"].append({"title": round2Title,"description": round2})
+    if round3Title != "":
+        context["rounds"].append({"title": round3Title,"description": round3})
+    if round4Title != "":
+        context["rounds"].append({"title": round4Title,"description": round4})
+    if round5Title != "":
+        context["rounds"].append({"title": round5Title,"description": round5})
+    context["tagline"] = eventData.tagline
+    context["posterImage"] = eventData.posterImage
+    context["winner1"] =  eventData.winner1.user.get_full_name() if eventData.winner1 != None  else ""
+    context["winner2"] =  eventData.winner2.user.get_full_name() if eventData.winner2 != None  else ""
+    context["winner3"] =  eventData.winner3.user.get_full_name() if eventData.winner3 != None  else ""
+    context["organiser1"] = eventData.organiser1.user.get_full_name() if eventData.organiser1 != None else ""
+    context["organiser1Phone"] = Profile.objects.filter(user=eventData.organiser1.user).first().phone if eventData.organiser1 != None else ""
+    context["organiser2"] = eventData.organiser2.user.get_full_name() if eventData.organiser2 != None else ""
+    context["organiser2Phone"] = Profile.objects.filter(user=eventData.organiser2.user).first().phone if eventData.organiser2 != None else ""
+    context["organiser3"] = eventData.organiser3.user.get_full_name() if eventData.organiser3 != None else ""
+    context["organiser3Phone"] = Profile.objects.filter(user=eventData.organiser3.user).first().phone if eventData.organiser3 != None else ""
+    context["organiser4"] = eventData.organiser4.user.get_full_name() if eventData.organiser4 != None else ""
+    context["organiser4Phone"] = Profile.objects.filter(user=eventData.organiser4.user).first().phone if eventData.organiser4 != None else ""
+    context["organiser5"] = eventData.organiser5.user.get_full_name() if eventData.organiser5 != None else ""
+    context["organiser5Phone"] = Profile.objects.filter(user=eventData.organiser5.user).first().phone if eventData.organiser5 != None else ""
+    context["isTeamEvent"] = eventData.isTeamEvent
+    context["teamParticapantCount"] = eventData.teamParticapantCount
+    context["isClosed"] = eventData.isClosed
+    context["status"] = eventData.status
+    context["images"] = eventData.images["data"]
+    context["isClosed"] = eventData.isClosed
+    request.session['event'] = eventData.name
+    return HttpResponse(json.dumps(context), content_type="application/json")

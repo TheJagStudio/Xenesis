@@ -80,50 +80,6 @@ def home(request):
     }
     return render(request, "index.html", context)
 
-def events(request):
-    if request.user != None:
-        try:
-            profile = Profile.objects.filter(user=request.user).first()
-            userName = request.user.first_name
-            isUser = True
-            isVolunteer = profile.isCampainVolunteer
-            profilePic = profile.profilePic
-        except:
-            userName = "Anonymous"
-            isUser = False
-            isVolunteer = False
-            profilePic = "0001"
-    else:
-        isUser = False
-        isVolunteer = False
-        userName = ""
-        profilePic = "0001"
-    departments = Department.objects.all()
-    departmentArr = []
-    impEvent = []
-    for department in departments:
-        events = Event.objects.filter(department=department).order_by('-name').all()
-        eventArr = []
-        flag = 0
-        for event in events:
-            if event.name != "X - Motion Game Mania":
-                eventArr.append([event.name, event.price, event.description, event.tagline, event.posterImage, (event.name).replace(" ", "-").replace("---", ":"),event.isTeamEvent,event.teamPrice,event.isTeamPriceFull,event.winnerPrice1,event.winnerPrice2,event.isClosed])
-            else:
-                impEvent = [[event.name, event.price, event.description, event.tagline, event.posterImage, (event.name).replace(" ", "-").replace("---", ":"),event.isTeamEvent,event.teamPrice,event.isTeamPriceFull,event.winnerPrice1,event.winnerPrice2,event.isClosed]]
-                flag = 1
-        if flag == 1:
-            impEvent.extend(eventArr)
-            departmentArr.append([department.name, impEvent, len(eventArr)])
-        else:
-            departmentArr.append([department.name, eventArr, len(eventArr)])
-    context = {
-        "departmentArr": departmentArr,
-        "isUser" : isUser,
-        "isVolunteer" : isVolunteer,
-        "userName" : userName,
-        "profilePic" : profilePic
-    }
-    return render(request, "event.html", context)
 
 def aboutus(request):
     if request.user != None:
@@ -156,7 +112,7 @@ def signin(request):
     if request.method == "POST":
         email = request.POST['email']
         password = request.POST['password']
-        request.session['emailVarification'] = email
+        request.session['emailVerification'] = email
         try:
             username = User.objects.filter(email=email).first().username
             user = authenticate(username=username, password=password)
@@ -167,22 +123,50 @@ def signin(request):
                 profile.save()
                 if isAccountSetup == True:
                     login(request, user)
-                    return redirect("/")
+                    try:
+                        userName = request.user.first_name
+                        isUser = True
+                        isVolunteer = profile.isCampainVolunteer
+                        profilePic = profile.profilePic
+                    except:
+                        userName = "Anonymous"
+                        isUser = False
+                        isVolunteer = False
+                        profilePic = "0001"
+                    context ={
+                        "isUser" : isUser,
+                        "isVolunteer" : isVolunteer,
+                        "userName" : userName,
+                        "profilePic" : profilePic,
+                        "msg": "Login Successfull.",
+                        "status":"success"
+                    }
+                    return HttpResponse(json.dumps(context), content_type="application/json")
                 else:
-                    context = {'email' : email}
-                    return redirect("/accountSetUp",context)
-        except:
+                    context = {
+                        'email' : email,
+                        'msg' : 'Please Complete Your Account Setup',
+                        'redirect' : 'accountSetUp',
+                        'status': 'error'
+                    }
+                    return HttpResponse(json.dumps(context), content_type="application/json")
+            else:
+                context = {
+                    'email' : email,
+                    'msg' : 'Invalid Credentials',
+                    'status': 'error'
+                }
+                return HttpResponse(json.dumps(context), content_type="application/json")
+        except Exception as error:
             context = {
-                "error": True
-            }
+                    'email' : email,
+                    'msg' : 'Invalid Credentials',
+                    'status':'error'
+                }
             
-            return render(request, "login.html",context)
-        else:
-            context = {
-                "error": True
-            }
-            return render(request, "login.html",context)
-    return render(request, "login.html")
+            return HttpResponse(json.dumps(context), content_type="application/json")
+    else:
+        return HttpResponse(json.dumps({"msg": "Method Not Allowed",'status':'error'}), content_type="application/json",status=405)
 
 def check(email):
     regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
@@ -227,7 +211,7 @@ def register(request):
                 profileForNewUser.isVerified = True
                 profileForNewUser.save()
                 emailSender(email,"./emailTemplates/welcomeEmail.html",str(otp))
-                request.session['emailVarification'] = email
+                request.session['emailVerification'] = email
                 return redirect("/accountSetUp/")
             else:
                 context = {
@@ -237,87 +221,9 @@ def register(request):
     
     return render(request, "register.html")
 
-def event(request, event):
-    if request.user != None:
-        try:
-            profile = Profile.objects.filter(user=request.user).first()
-            userName = request.user.first_name
-            email = request.user.email
-            isUser = True
-            isVolunteer = profile.isCampainVolunteer
-            profilePic = profile.profilePic
-        except:
-            userName = "Anonymous"
-            email = ""
-            isUser = False
-            isVolunteer = False
-            profilePic = "0001"
-    else:
-        isUser = False
-        isVolunteer = False
-        email = ""
-        userName = ""
-        profilePic = "0001"
-    context = {
-        "isUser" : isUser,
-        "isVolunteer" : isVolunteer,
-        "userName" : userName,
-        "profilePic" : profilePic,
-        "email" : email
-    }
-    eventData = Event.objects.filter(name=event.replace("-", " ").replace(":", " - ")).first()
-    context["isTeamEvent"] = eventData.isTeamEvent
-    context["name"] = eventData.name
-    context["department"] = eventData.department
-    context["teamName"] = eventData.teamName
-    context["teamLeader"] = eventData.teamLeader
-    context["price"] = eventData.price
-    context["winnerPrice1"] = eventData.winnerPrice1
-    context["winnerPrice2"] = eventData.winnerPrice2
-    context["location"] = eventData.location
-    context["date"] = eventData.date
-    context["description"] = eventData.description
-    context["rules"] = (eventData.rules).split("•")[1:] if eventData.rules != None and eventData.rules != "" else eventData.rules
-    round1 = (eventData.round1).split("•")[1:] if eventData.round1 != None else eventData.round1
-    round2 = (eventData.round2).split("•")[1:] if eventData.round2 != None else eventData.round2
-    round3 = (eventData.round3).split("•")[1:] if eventData.round3 != None else eventData.round3
-    round4 = (eventData.round4).split("•")[1:] if eventData.round4 != None else eventData.round4
-    round5 = (eventData.round5).split("•")[1:] if eventData.round5 != None else eventData.round5
-    round1Title = eventData.round1Title
-    round2Title = eventData.round2Title
-    round3Title = eventData.round3Title
-    round4Title = eventData.round4Title
-    round5Title = eventData.round5Title
-    context["rounds"] = [[round1Title, round1, len(round1[0]) if round1 != None and round1 != "-" and round1 != " " else 0, 1], [round2Title, round2, len(round2[0]) if round2 != None and round2 != "-" and round2 != " " else 0, 0], [round3Title, round3, len(round3[0]) if round3 != None and round3 != "-" and round3 != " " else 0, 1], [round4Title, round4, len(round4[0]) if round4 != None and round4 != "-" and round4 != " " else 0, 0], [round5Title, round5, len(round5[0]) if round5 != None and round5 != "-" and round5 != " " else 0, 1]]
-    context["tagline"] = eventData.tagline
-    context["posterImage"] = eventData.posterImage
-    context["winner1"] = eventData.winner1
-    context["winner2"] = eventData.winner2
-    context["winner3"] = eventData.winner3
-    context["organisers"] = eventData.organisers
-    context["volunteer"] = eventData.volunteer
-    context["organiser1"] = eventData.organiser1.user.get_full_name() if eventData.organiser1 != None else ""
-    context["organiser1Phone"] = Profile.objects.filter(user=eventData.organiser1.user).first().phone if eventData.organiser1 != None else ""
-    context["organiser2"] = eventData.organiser2.user.get_full_name() if eventData.organiser2 != None else ""
-    context["organiser2Phone"] = Profile.objects.filter(user=eventData.organiser2.user).first().phone if eventData.organiser2 != None else ""
-    context["organiser3"] = eventData.organiser3.user.get_full_name() if eventData.organiser3 != None else ""
-    context["organiser3Phone"] = Profile.objects.filter(user=eventData.organiser3.user).first().phone if eventData.organiser3 != None else ""
-    context["organiser4"] = eventData.organiser4.user.get_full_name() if eventData.organiser4 != None else ""
-    context["organiser4Phone"] = Profile.objects.filter(user=eventData.organiser4.user).first().phone if eventData.organiser4 != None else ""
-    context["organiser5"] = eventData.organiser5.user.get_full_name() if eventData.organiser5 != None else ""
-    context["organiser5Phone"] = Profile.objects.filter(user=eventData.organiser5.user).first().phone if eventData.organiser5 != None else ""
-    context["isTeamEvent"] = eventData.isTeamEvent
-    context["teamParticapantCount"] = eventData.teamParticapantCount
-    context["isClosed"] = eventData.isClosed
-    context["status"] = eventData.status
-    context["images"] = eventData.images["data"]
-    context["isClosed"] = eventData.isClosed
-    request.session['event'] = eventData.name
-    return render(request, "event-details.html", context)
-
 def otpvalidationWeb(request):
     if request.method == "POST":
-        email = request.session['emailVarification']
+        email = request.session['emailVerification']
         user = Profile.objects.filter(user=User.objects.filter(email=email).first()).first()
         if userOtp == user.otp:
             profile = Profile.objects.filter(user=User.objects.filter(email=email).first()).first()
@@ -392,7 +298,7 @@ def faqs(request):
 def accountSetUp(request):
     if request.method == "POST":
         try: 
-            email = request.session['emailVarification']
+            email = request.session['emailVerification']
             
             name = request.POST['firstname']
             #college = body['college']
@@ -410,16 +316,17 @@ def accountSetUp(request):
 
             request.session['accountSetup'] = True
 
-            return redirect('/login')
+            return HttpResponse(json.dumps({"msg": "Account Setup Successfull.","status":"success"}), content_type="application/json")
         except Exception as error: 
             print(error)
-            return render(request, "account-setup.html")
-    return render(request, "account-setup.html")
+            return HttpResponse(json.dumps({"msg": error,"status":"error"}), content_type="application/json")
+    else:
+        return HttpResponse(json.dumps({"msg": "Method Not Allowed",'status':'error'}), content_type="application/json",status=405)
 
 @csrf_exempt
 def resendOtpWeb(request):
     try: 
-        email =  request.session['emailVarification']
+        email =  request.session['emailVerification']
         otp = str(random.randint(1000, 9999))
         profile = Profile.objects.filter(user=User.objects.filter(email=email).first()).first()
         profile.otp = otp

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xenesis - Event Confirmation</title>
+    <link rel="stylesheet" href="/static/tailwind.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" type="image/png" href="/static/logoCus.png" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <style>
+        * {
+            scroll-behavior: smooth;
+        }
+        .clip-copyrights {
+            clip-path: polygon(0 0, 85% 0%, 100% 100%, 0% 100%);
+        }
+        .clip-button {
+            background: linear-gradient(to right, #7815ea, #c595ff) !important;
+            clip-path: polygon(0% 0%, 90% 0, 100% 30%, 100% 100%, 0 100%);
+        }
+        .eventName {
+               text-shadow: -1px 1px 0 #000,
+                    1px 1px 0 #000,
+                    1px -1px 0 #000,
+                    -1px -1px 0 #000;
+        }
+        .customScrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .radial-gradient-container {
+            background: radial-gradient(at top left, #211e60 1%, #240a34 50%);
+        }
+        @media screen and (max-width: 424px) {
+            h1.hero-h1 {
+                font-size: 2.4rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Laptop | Tablet Screen -->
+	<div class="md:block hidden">
+		<nav class="flex items-center overflow-visible justify-between text-white fixed w-full top-0 pt-[calc(2vh)] pb-10 px-[calc(3vh)] z-50 transition-all duration-300" id="navbar">
+			<a href="/">
+				<img src="/static/logoCus.png" class="h-16 w-auto" />
+			</a>
+			<ul class="flex items-center">
+				<li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/">Home</a></li>
+				<li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/events">Events</a></li>
+				<li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/aboutus">About Us</a></li>
+				<li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/faqs">FAQs</a></li>
+				{% if isUser == False %}
+				<li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/login">Login</a></li>
+				<li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/register">Register</a></li>
+				{%else%} {% if isVolunteer == True%}
+				<li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/ticketVerifer">Verifer</a></li>
+				{%endif%}
+				<li class="mx-[calc(2vh)] py-2 font-semibold text-[calc(3vh)] hover:text-[#bc85ff] transition-all duration-300 border-transparent border-4 hover:border-b-[#bc85ff]"><a href="/myTicket">My Tickets</a></li>
+				<li class="mx-[calc(2vh)] py-2 w-14"></li>
+				{%endif%}
+			</ul>
+		</nav>
+
+		{% if isUser == True %}
+		<div class="fixed right-10 top-6 z-[999] flex items-center justify-center gap-4 px-[calc(2vh)]">
+			<img src="/static/avatars/{{profilePic}}.png" alt="" class="w-[50px] h-[50px] rounded-full object-cover cursor-pointer bg-slate-300" onclick="toggleProfileDropdown()" />
+			<div class="absolute bg-slate-600 top-16 right-0 w-full min-w-[200px] rounded-md z-[999] h-0 overflow-hidden transition-all duration-300" id="profile-dropdown">
+				<p class="w-full px-4 text-white truncate capitalize"><i class="bi bi-person mr-2.5"></i>{{userName}}</p>
+				<hr class="w-full my-2" />
+				<a href="/logout" class="">
+					<p class="w-full px-4 text-white"><i class="bi bi-box-arrow-right mr-2.5"></i>Logout</p>
+				</a>
+			</div>
+		</div>
+		{%endif%}
+    </div>
+
+    <!-- Mobile Screen -->
+	<div class="block md:hidden">
+		<!-- Navbar -->
+		<nav class="flex items-center justify-between text-white fixed w-full top-0 py-[calc(3vh)] px-[calc(3vh)] z-50 transition-all duration-300" id="mobile-navbar">
+			<a href="/">
+				<img src="/static/logoCus.png" class="h-14 w-auto" />
+			</a>
+
+			<div class="relative flex items-center justify-center gap-4">
+				{% if isUser == True %}
+				<!-- Profile Image -->
+				<img src="/static/avatars/{{profilePic}}.png" alt="" class="w-[45px] h-[45px] rounded-full object-cover bg-slate-300" onclick="toggleProfileDropdown()" />
+				<!-- Profile -->
+				<div class="fixed right-10 top-6 z-[999] overflow-visible flex items-center justify-center gap-4 px-[calc(2vh)]">
+					<div class="absolute bg-slate-600 top-16 right-0 w-full min-w-[200px] rounded-md z-[999] h-0 overflow-hidden transition-all duration-300" id="profile-dropdown-mobile">
+						<p class="w-full px-4 text-white truncate capitalize"><i class="bi bi-person mr-2.5"></i>{{userName}}</p>
+						<hr class="w-full my-2" />
+						<a href="/logout" class="">
+							<p class="w-full px-4 text-white"><i class="bi bi-box-arrow-right mr-2.5"></i>Logout</p>
+						</a>
+					</div>
+				</div>
+				{%endif%}
+				<!-- Menu Toggle Button -->
+				<button class="text-2xl block lg:hidden !outline-none" onclick="toggleMobileMenu()"><i class="bi bi-list"></i></button>
+			</div>
+
+			<!-- Mobile Menu -->
+			<div class="absolute top-0 left-full flex flex-col gap-5 items-center justify-center w-screen h-screen z-[999] bg-slate-900 bg-opacity-95 transition-all duration-300" id="mobile-menu">
+				<button class="absolute top-10 right-10 !outline-none" onclick="toggleMobileMenu()"><i class="bi bi-x-lg"></i></button>
+				<a href="/" class="text-2xl">Home</a>
+				<a href="/events" class="text-2xl">Events</a>
+				<a href="/aboutus" class="text-2xl">About Us</a>
+				<a href="/faqs" class="text-2xl">FAQs</a>
+				{% if isUser == False %}
+				<a href="/login" class="text-2xl">Login</a>
+				<a href="/register" class="text-2xl">Register</a>
+				{%else%} {% if isVolunteer == True%}
+				<a href="/ticketVerifer" class="text-2xl">Verifer</a>
+				{%endif%}
+				<a href="/myTicket" class="text-2xl">My Tickets</a>
+				{%endif%}
+			</div>
+		</nav>
+    </div>
+
+    <!-- Registration Details -->
+    <section class="w-full h-full bg-gradient-to-b from-[#211e60] to-[#240a34] sm:pb-6 pb-20 relative">
+
+        <!-- Hero Section -->
+        <div class="w-full flex items-center justify-center relative sm:px-16 px-10">
+            <h1 class="lg:text-[5vw] pt-24 sm:text-[3.2rem] text-[3rem] md:leading-loose leading-snug z-30 font-extrabold text-blue-500 text-center hero-h1">{{event}}</h1>
+        </div>
+        
+        <!-- Participants -->
+        <div class="mt-10 w-full flex flex-col items-center justify-center">
+            <h1 class="font-bold text-3xl mb-5 text-blue-400">Participants</h1>
+            <div class="flex flex-col w-full xl:px-32 lg:px-20 md:px-12 sm:px-10 px-8">
+                <div class="overflow-x-auto sm:-mx-6 lg:-mx-8 rounded-lg">
+                    <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8 rounded-lg">
+                        <div class="overflow-hidden border border-slate-500 rounded-lg">
+                            <table class="min-w-full text-white">
+                                <thead class="bg-transparent border-b border-b-slate-500">
+                                    <tr>
+                                        <th scope="col" class="text-lg px-6 py-4 text-left">#</th>
+                                        <th scope="col" class="text-lg px-6 py-4 text-left">Name</th>
+                                        <th scope="col" class="text-lg px-6 py-4 text-left">Email</th>
+                                        <th scope="col" class="text-lg px-6 py-4 text-left">Mobile</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {%for user in team%}
+                                    <tr class="transition duration-300 ease-in-out hover:bg-slate-600">
+                                        <td class="px-6 py-3 whitespace-nowrap text-lg">{{forloop.index}}</td>
+                                        <td class="text-base px-6 py-3 whitespace-nowrap">{{user.name}}</td>
+                                        <td class="text-base px-6 py-3 whitespace-nowrap">{{user.email}}</td>
+                                        <td class="text-base px-6 py-3 whitespace-nowrap">{{user.phone}}</td>
+                                    </tr>
+                                    {%endfor%}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back | Pay Buttons -->
+        <div class="flex items-center justify-center gap-5 z-40 w-full py-5 backdrop-blur">
+            <a href="/addTeamMembers" class="lg:px-16 lg:py-4 sm:px-10 sm:py-3 px-6 py-1.5 text-white rounded-md bg-red-500 font-semibold text-xl group"><i class="transition-all duration-200 bi bi-backspace group-hover:mr-1"></i> Back</a>
+            <button onclick="ConfirmationModalToggle()" class="lg:px-16 lg:py-4 sm:px-10 sm:py-3 px-6 py-1.5 text-white rounded-md bg-green-500 font-semibold text-xl group"><i class="transition-all duration-200 bi bi-paypal group-hover:mr-1"></i> Pay</button>
+        </div>
+    </section>
+    {% if isUser == True %}
+    <div id="ConfirmationModal" class="fixed inset-0 z-[100] flex flex-col opacity-0 h-0 py-0 items-center justify-center overflow-hidden px-4  sm:px-5" >
+        <div class="absolute inset-0 bg-slate-900/60 transition-opacity duration-300"></div>
+        <div class="relative max-w-md rounded-lg bg-white pt-10 pb-4 text-center transition-all duration-300 dark:bg-navy-700">
+        <div class="avatar h-20 w-20 mx-auto">
+            <img class="rounded-full" src="/static/avatars/{{profilePic}}.png" alt="avatar" />
+            
+        </div>
+        <div class="mt-4 px-14 sm:px-4">
+            <h3 class="text-lg text-slate-800 dark:text-navy-50">
+            Are you sure you want to register
+            </h3>
+            <!-- <p class="mt-1 text-slate-500 dark:text-navy-200">
+            On confirming your payment will be processed immediately.
+            </p> -->
+        </div>  
+        <div class="my-4 mt-16 h-px bg-slate-200 dark:bg-navy-500"></div>
+
+        <div class="space-x-3">
+            <button onclick="ConfirmationModalToggle()" class="btn min-w-[7rem] rounded-full border border-slate-300 font-medium text-slate-800 hover:bg-slate-150 focus:bg-slate-150 active:bg-slate-150/80 dark:border-navy-450 dark:text-navy-50 dark:hover:bg-navy-500 dark:focus:bg-navy-500 dark:active:bg-navy-500/90" >
+            Cancel
+            </button>
+            <button onclick="confirmPayment()" class="btn min-w-[7rem] rounded-full bg-green-500 font-medium text-white hover:bg-primary-focus focus:bg-primary-focus active:bg-primary-focus/90 dark:bg-accent dark:hover:bg-accent-focus dark:focus:bg-accent-focus dark:active:bg-accent/90" >
+            Confirm
+            </button>
+        </div>
+        </div>
+    </div>
+    <script>
+        function ConfirmationModalToggle(){
+            document.getElementById('ConfirmationModal').classList.toggle('h-0');
+            document.getElementById('ConfirmationModal').classList.toggle('py-6')
+            document.getElementById('ConfirmationModal').classList.toggle('opacity-0')
+        }
+        function confirmPayment(){
+            document.getElementById('ConfirmationModal').classList.toggle('py-6')
+            document.getElementById('ConfirmationModal').classList.toggle('h-0');
+            document.getElementById('ConfirmationModal').classList.toggle('opacity-0');
+            fetch("/ticketGenrator/", {
+					method: "POST",
+					body: JSON.stringify({
+						email: '{{email}}',
+                        event: '{{event}}',
+                        isTeam:true
+					}),
+					headers: {
+						"Content-type": "application/json; charset=UTF-8"
+					}
+				})
+				.then(response => response.json())
+				.then(json => {
+                    try{
+                        alert(json["msg"])
+                    }
+                    catch(e){
+                        alert(json["error"])
+                    }
+                })
+            
+        }
+    </script>
+    {%endif%}
+
+    <!-- Footer -->
+    <footer class="bg-[#240a34] pt-20">
+        <div class="md:flex sm:grid sm:grid-cols-2 flex flex-col md:flex-row lg:justify-around justify-center md:gap-10 gap-3 xl:px-32 lg:px-20 md:px-12 px-8 mb-8">
+            <!-- Social | Logo -->
+            <div class="flex flex-col md:items-center items-start gap-3">
+                <img src="/static/logoCus.png" alt="Xenesis" class="lg:w-[140px] w-[110px]" />
+                <p class="lg:max-w-[200px] md:max-w-[140px] md:text-center text-gray-300">Epic Events organized for ultimate students!</p>
+            </div>
+            <!-- Useful Links -->
+            <div class="pt-4">
+                <h3 class="font-bold text-white lg:text-xl sm:text-[1.05rem] mb-4 pb-2 relative after:content-&quot;&quot; after:absolute lg:after:left-0 after:left-0 after:bottom-0 md:after:w-[50%] after:w-[100px] after:h-[3px] after:bg-[#9704fe]">Useful Links</h3>
+                <div class="flex flex-col text-left text-gray-400 gap-1 lg:text-base text-sm">
+                    <a href="/" class="hover:translate-x-2 hover:text-[#bc85ff] transition-all duration-300">Home</a>
+                    <a href="/event" class="hover:translate-x-2 hover:text-[#bc85ff] transition-all duration-300">Events</a>
+                    <a href="/aboutus" class="hover:translate-x-2 hover:text-[#bc85ff] transition-all duration-300">About Us</a>
+                    <a href="/faqs" class="hover:translate-x-2 hover:text-[#bc85ff] transition-all duration-300">FAQs</a>
+                </div>
+            </div>
+            <!-- Join Us -->
+            <div class="pt-4">
+                <h3 class="font-bold text-white lg:text-xl sm:text-[1.05rem] mb-4 pb-2 relative after:content-&quot;&quot; after:absolute after:left-0 after:bottom-0 md:after:w-[50%] after:w-[100px] after:h-[3px] after:bg-[#9704fe]">Contact Us</h3>
+                <div class="flex flex-col text-left gap-2 text-gray-400 lg:text-base text-sm">
+                    <div class="flex flex-col group cursor-pointer">
+                        <p class="text-[#9740fe]">Join Us:</p>
+                        <a href="mailto:xenesis@ldrp.ac.in" class="text-gray-300 text-sm group-hover:translate-x-2 transition-all duration-300">xenesis@ldrp.ac.in</a>
+                    </div>
+                    <div class="flex flex-col group cursor-pointer">
+                        <p class="text-[#9740fe]">Phone:</p>
+                        <a href="tel:7863085614" class="text-gray-300 text-sm group-hover:translate-x-2 transition-all duration-300">+91 786 308 5614</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Social Links -->
+            <div class="md:pt-4 sm:pt-3 pt-4">
+                <h3 class="font-bold text-white lg:text-xl sm:text-[1.05rem] mb-5 pb-2 relative after:content-&quot;&quot; after:absolute after:left-0 after:bottom-0 md:after:w-[50%] after:w-[100px] after:h-[3px] after:bg-[#9704fe]">Social Links</h3>
+                <p class="lg:max-w-[250px] md:max-w-[200px] text-gray-300">Get in touch! Find us on any platform.</p>
+                <div class="flex items-center justify-start lg:gap-5 gap-4 md:mt-4 mt-2">
+                    <a href="https://www.facebook.com/xenesisldrp/" class="text-gray-400 lg:text-xl md:text-lg text-base hover:-translate-y-1.5 hover:text-[#9740fe] transition-all duration-300"><i class="bi bi-facebook"></i></a>
+                    <a href="https://twitter.com/xenesisldrp" class="text-gray-400 lg:text-xl md:text-lg text-base hover:-translate-y-1.5 hover:text-[#9740fe] transition-all duration-300"><i class="bi bi-twitter"></i></a>
+                    <a href="https://www.instagram.com/xenesisldrp/" class="text-gray-400 lg:text-xl md:text-lg text-base hover:-translate-y-1.5 hover:text-[#9740fe] transition-all duration-300"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="text-gray-400 lg:text-xl md:text-lg text-base hover:-translate-y-1.5 hover:text-[#9740fe] transition-all duration-300"><i class="bi bi-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <!-- Copyrights -->
+        <div class="bg-[#211e60] bg-opacity-20 md:w-fit w-full md:px-24 px-8 md:pr-36 mb-0 clip-copyrights text-gray-300 font-semibold py-8 md:text-xl text-md">&copy; 2023 Xenesis All Rights Registered</div>
+    </footer>
+
+    <!-- Tailwind Js -->
+    <script src="/static/tailwind.js"></script>
+    <script src="/static/js/header.js"></script>
+</body>
+
+</html>
