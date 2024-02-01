@@ -10,23 +10,6 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 def events(request):
-    if request.user != None:
-        try:
-            profile = Profile.objects.filter(user=request.user).first()
-            userName = request.user.first_name
-            isUser = True
-            isVolunteer = profile.isCampainVolunteer
-            profilePic = profile.profilePic
-        except:
-            userName = "Anonymous"
-            isUser = False
-            isVolunteer = False
-            profilePic = "0001"
-    else:
-        isUser = False
-        isVolunteer = False
-        userName = ""
-        profilePic = "0001"
     departments = Department.objects.all()
     departmentArr = []
     impEvent = []
@@ -57,11 +40,35 @@ def events(request):
         tempDepartment["eventCount"] = len(eventArr)
         departmentArr.append(tempDepartment)
     context = {
-        "departmentArr": departmentArr,
-        "isUser" : isUser,
-        "isVolunteer" : isVolunteer,
-        "userName" : userName,
-        "profilePic" : profilePic
+        "data": departmentArr
+    }
+    return HttpResponse(json.dumps(context), content_type="application/json")
+
+def eventsHome(request):
+    departments = Department.objects.all()
+    departmentArr = []
+    for department in departments:
+        events = Event.objects.filter(department=department).order_by('-name').all()
+        for event in events:
+            tempEvent = {
+                "eventName" : event.name,
+                "eventPrice" : event.price,
+                "eventDescription" : event.description,
+                "eventTagline" : event.tagline,
+                "eventPosterImage" : event.posterImage,
+                "eventLink" : (event.name).replace(" ", "-").replace("---", ":"),
+                "isTeamEvent" : event.isTeamEvent,
+                "teamPrice" : event.teamPrice,
+                "isTeamPriceFull" : event.isTeamPriceFull,
+                "winnerPrice1" : event.winnerPrice1 if event.winnerPrice1 != None else 0 ,
+                "winnerPrice2" : event.winnerPrice2 if event.winnerPrice2 != None else 0 ,
+                "isClosed" : event.isClosed
+            }
+            departmentArr.append(tempEvent)
+    random.shuffle(departmentArr)
+    departmentArr = departmentArr[:20]
+    context = {
+        "data": departmentArr,
     }
     return HttpResponse(json.dumps(context), content_type="application/json")
 
