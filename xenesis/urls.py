@@ -17,5 +17,8 @@ urlpatterns = [
     path('otp/', views.otp, name='otp'),
     path('accountsetup/', views.accountsetup, name='accountsetup'),
     path('verifier/', views.verifier, name='verifier'),
+    path('EventTicketVerifer/', views.EventTicketVerifer, name='EventTicketVerifer'),
+    path('TicketPaymentVerifer/', views.TicketPaymentVerifer, name='TicketPaymentVerifer'),
+    path('FoodCouponVerifer/', views.FoodCouponVerifer, name='FoodCouponVerifer'),
     path('faqs/', views.faqs, name='faqs'),
 ]

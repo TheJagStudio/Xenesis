@@ -22,5 +22,11 @@ def accountsetup(request):
     return render(request, "index.html")
 def verifier(request):
     return render(request, "index.html")
+def EventTicketVerifer(request):
+    return render(request, "index.html")
+def TicketPaymentVerifer(request):
+    return render(request, "index.html")
+def FoodCouponVerifer(request):
+    return render(request, "index.html")
 def faqs(request):
     return render(request, "index.html")
