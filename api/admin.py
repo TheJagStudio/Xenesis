@@ -22,8 +22,9 @@ class EventAdmin(ExportActionMixin, admin.ModelAdmin):
 
 
 class TicketAdmin(ExportActionMixin, admin.ModelAdmin):
-    list_display = ('id','owner','event','isPaid','qrCodeData',  'date')
-    search_fields = ['id','owner__user__email', 'event__name','isPaid','qrCodeData', 'date']
+    list_display = ('id','owner','event','isPaid','isScanned','qrCodeData',  'date')
+    search_fields = ['id','owner__user__email', 'event__name','isPaid','isScanned','qrCodeData', 'date']
+    list_editable = ('isPaid','isScanned')
 
 
 

@@ -16,6 +16,8 @@ class Profile(models.Model):
     isCampainVolunteer = models.BooleanField(default=False)
     isVerified = models.BooleanField(default=False)    
     college = models.CharField(max_length=500, blank=True)
+    foodCoupon = models.CharField(max_length=64, blank=True)
+    isScannedCoupon = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.user.username)

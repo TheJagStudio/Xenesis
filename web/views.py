@@ -80,6 +80,40 @@ def home(request):
     }
     return render(request, "index.html", context)
 
+def userDetail(request):
+    if request.user != None:
+        try:
+            profile = Profile.objects.filter(user=request.user).first()
+            userName = request.user.first_name
+            isUser = True
+            isCampainVolunteer = profile.isCampainVolunteer
+            isVolunteer = profile.isVolunteer
+            isOrganiser = profile.isOrganiser
+            profilePic = profile.profilePic
+        except:
+            userName = "Anonymous"
+            isUser = False
+            isVolunteer = False
+            isCampainVolunteer = False
+            isOrganiser = False
+            profilePic = "0001"
+    else:
+        isUser = False
+        isVolunteer = False
+        isOrganiser = False
+        isCampainVolunteer = False
+        userName = ""
+        profilePic = "0001"
+    context = {
+        "isUser" : isUser,
+        "isVolunteer" : isVolunteer,
+        "isCampainVolunteer" : isCampainVolunteer,
+        "isOrganiser" : isOrganiser,
+        "userName" : userName,
+        "profilePic" : profilePic
+    }
+    return HttpResponse(json.dumps(context), content_type="application/json")
+
 
 def aboutus(request):
     if request.user != None:
@@ -114,8 +148,7 @@ def signin(request):
         password = request.POST['password']
         request.session['emailVerification'] = email
         try:
-            username = User.objects.filter(email=email).first().username
-            user = authenticate(username=username, password=password)
+            user = authenticate(username=email, password=password)
             if user is not None:
                 profile = Profile.objects.filter(user=user).first()
                 isVerified = True
@@ -146,7 +179,7 @@ def signin(request):
                     context = {
                         'email' : email,
                         'msg' : 'Please Complete Your Account Setup',
-                        'redirect' : 'accountSetUp',
+                        'redirect' : 'accountsetup',
                         'status': 'error'
                     }
                     return HttpResponse(json.dumps(context), content_type="application/json")
@@ -267,41 +300,16 @@ def cart(request):
 
 def signOut(request):
     logout(request)
-    return redirect('/')
+    return HttpResponse(json.dumps({"msg": "Logout Successfull."}), content_type="application/json")
 
-def faqs(request):
-    if request.user != None:
-        try:
-            profile = Profile.objects.filter(user=request.user).first()
-            userName = request.user.first_name
-            isUser = True
-            isVolunteer = profile.isCampainVolunteer
-            profilePic = profile.profilePic
-        except:
-            userName = "Anonymous"
-            isUser = False
-            isVolunteer = False
-            profilePic = "0001"
-    else:
-        isUser = False
-        isVolunteer = False
-        userName = ""
-        profilePic = "0001"
-    context = {
-        "isUser" : isUser,
-        "isVolunteer" : isVolunteer,
-        "userName" : userName,
-        "profilePic" : profilePic
-    }
-    return render(request,"faqs.html",context)
-
+@csrf_exempt
 def accountSetUp(request):
     if request.method == "POST":
         try: 
             email = request.session['emailVerification']
             
             name = request.POST['firstname']
-            #college = body['college']
+            college = request.POST['college']
             phone = request.POST['mobileNo']
             profilePic = request.POST['profilePic']
             user = User.objects.filter(email=email).first()
@@ -425,25 +433,26 @@ def myTicket(request):
     if request.user != None:
         try:
             profile = Profile.objects.filter(user=request.user).first()
+            foodCoupon = profile.foodCoupon
+            isScannedCoupon = profile.isScannedCoupon
             userName = request.user.first_name
             isUser = True
-            isVolunteer = profile.isCampainVolunteer
-            profilePic = profile.profilePic
-            
         except:
-            userName = "Anonymous"
             isUser = False
-            isVolunteer = False
-            profilePic = "0001"
-    else:
-        isUser = False
-        isVolunteer = False
-        userName = ""
-        profilePic = "0001"
     if isUser == True:
         tickets = Ticket.objects.filter(Q(owner=profile)|Q(owner1=profile)|Q(owner2=profile)|Q(owner3=profile)|Q(owner4=profile)).all()
         
         dataTemp = []
+        if foodCoupon != "":
+            temp ={}
+            temp["id"] = profile.id
+            temp["isFoodCoupon"] = True
+            temp["qrCodeData"] = foodCoupon
+            temp["isScanned"] = isScannedCoupon
+            temp["profilePic"] = profile.profilePic
+            temp["username"] = profile.user.first_name
+            temp["email"] = profile.user.email
+            dataTemp.append(temp)
         for ticket in tickets:
             count = 1
             if ticket.owner1 != None:
@@ -460,17 +469,14 @@ def myTicket(request):
             temp["username"] = ticket.owner.user.first_name
             temp["email"] = ticket.owner.user.email
             if ticket.event.isTeamEvent != True:
-                temp["price"] = ticket.event.price
+                temp["price"] = int(ticket.event.price)
             else: 
-                temp["price"] = ticket.event.teamPrice
+                temp["price"] = int(ticket.event.teamPrice)
             temp["eventName"] = ticket.event.name
             temp["isPaid"] = ticket.isPaid
             temp["qrCodeData"] = ticket.qrCodeData
-            temp["isTeamPriceFull"] = ticket.event.isTeamPriceFull
-            if ticket.userCount >0:
-                temp["isScanned"] = False
-            else:
-                temp["isScanned"] = True
+            temp["isTeamEvent"] = ticket.event.isTeamPriceFull
+            temp["isScanned"] = ticket.isScanned
             try:
                 temp["userCount"] = count
                 if count != 1:
@@ -478,27 +484,15 @@ def myTicket(request):
             except:
                 temp["userCount"] = 1
                 temp["total"] = 0
+            temp["isFoodCoupon"] = False
             dataTemp.append(temp)
-        data = []
-        data2 = []
-        for i in dataTemp:
-            if i["isPaid"]== False:
-                data.append(i)
-            else:
-                data2.append(i)
-        data = data[::-1]
-        data2 = data2[::-1]
-        data.extend(data2)
+
         context = {
-            "data" : data,
-            "isUser" : isUser,
-            "isVolunteer" : isVolunteer,
-            "userName" : userName,
-            "profilePic" : profilePic
+            "data" : dataTemp
         }
-        return render(request, "myTicket.html",context)
+        return HttpResponse(json.dumps(context), content_type="application/json")
     else:
-        return render(request, "404.html")
+        return HttpResponse(json.dumps({"error": "User Not Found"}), content_type="application/json")
 
 def eventConfirmation(request):
     if request.user != None:

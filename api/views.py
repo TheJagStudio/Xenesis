@@ -311,3 +311,200 @@ def event(request, event):
     context["isClosed"] = eventData.isClosed
     request.session['event'] = eventData.name
     return HttpResponse(json.dumps(context), content_type="application/json")
+
+@csrf_exempt
+def ticketVerifer(request, ticketQr):
+    if request.method == "POST":
+        try:
+            isOrganiser = Profile.objects.filter(user=request.user).first().isOrganiser
+        except:
+            isOrganiser = False
+        if request.user.is_authenticated and isOrganiser:
+            ticket = Ticket.objects.filter(qrCodeData=ticketQr).first()
+            if ticket != None:
+                if ticket.isScanned == False:
+                    if ticket.isPaid == False:
+                        context = {
+                            "msg" : "Ticket is not paid",
+                            "status" : "error"
+                        }
+                        return HttpResponse(json.dumps(context), content_type="application/json")
+                    else:
+                        ticket.isScanned = True
+                        ticket.save()
+                        context = {
+                            "msg" : "Ticket is scanned successfully",
+                            "status" : "success"
+                        }
+                        return HttpResponse(json.dumps(context), content_type="application/json")
+                else:
+                    context = {
+                        "msg" : "Ticket is already scanned",
+                        "status" : "error"
+                    }
+                    return HttpResponse(json.dumps(context), content_type="application/json")
+            else:
+                context = {
+                    "msg" : "Ticket is not valid",
+                    "status" : "error"
+                }
+                return HttpResponse(json.dumps(context), content_type="application/json")
+        else:
+            context = {
+                "msg" : "User is not authenticated or not verified",
+                "status" : "error"
+            }
+            return HttpResponse(json.dumps(context), content_type="application/json")
+    else:
+        context = {
+            "msg" : "Invalid request",
+            "status" : "error"
+        }
+        return HttpResponse(json.dumps(context), content_type="application/json")
+
+@csrf_exempt
+def ticketPaymentVerifer(request, ticketQr):
+    if request.method == "POST":
+        try:
+            isCampainVolunteer = Profile.objects.filter(user=request.user).first().isCampainVolunteer
+        except:
+            isCampainVolunteer = False
+        if request.user.is_authenticated and isCampainVolunteer:
+            ticket = Ticket.objects.filter(qrCodeData=ticketQr).first()
+            if ticket != None:
+                if ticket.isPaid == False:
+                    ticket.isPaid = True
+                    ticket.save()
+                    context = {
+                        "msg" : "Ticket is paid successfully",
+                        "status" : "success"
+                    }
+                    return HttpResponse(json.dumps(context), content_type="application/json")
+                else:
+                    context = {
+                        "msg" : "Ticket is already paid",
+                        "status" : "error"
+                    }
+                    return HttpResponse(json.dumps(context), content_type="application/json")
+            else:
+                context = {
+                    "msg" : "Ticket is not valid",
+                    "status" : "error"
+                }
+                return HttpResponse(json.dumps(context), content_type="application/json")
+        else:
+            context = {
+                "msg" : "User is not authenticated or not verified",
+                "status" : "error"
+            }
+            return HttpResponse(json.dumps(context), content_type="application/json")
+    else:
+        context = {
+            "msg" : "Invalid request",
+            "status" : "error"
+        }
+        return HttpResponse(json.dumps(context), content_type="application/json")
+
+@csrf_exempt
+def foodCouponVerifer(request, ticketQr):
+    if request.method == "POST":
+        try:
+            isVolunteer = Profile.objects.filter(user=request.user).first().isVolunteer
+        except:
+            isVolunteer = False
+        if request.user.is_authenticated and isVolunteer:
+            coupon = Profile.objects.filter(foodCoupon=ticketQr).first()
+            if coupon != None:
+                if coupon.isScannedCoupon == False:
+                    coupon.isScannedCoupon = True
+                    coupon.save()
+                    context = {
+                        "msg" : "Food coupon is given successfully",
+                        "status" : "success"
+                    }
+                    return HttpResponse(json.dumps(context), content_type="application/json")
+                else:
+                    context = {
+                        "msg" : "Food coupon is already used",
+                        "status" : "error"
+                    }
+                    return HttpResponse(json.dumps(context), content_type="application/json")
+            else:
+                context = {
+                    "msg" : "Food coupon is not valid",
+                    "status" : "error"
+                }
+                return HttpResponse(json.dumps(context), content_type="application/json")
+        else:
+            context = {
+                "msg" : "User is not authenticated or not verified",
+                "status" : "error"
+            }
+            return HttpResponse(json.dumps(context), content_type="application/json")
+    else:
+        context = {
+            "msg" : "Invalid request",
+            "status" : "error"
+        }
+        return HttpResponse(json.dumps(context), content_type="application/json")
+
+def ticketData(request,ticketQr):
+    ticket = Ticket.objects.filter(qrCodeData=ticketQr).first()
+    if ticket != None:
+        count = 1
+        if ticket.owner1 != None:
+            count=count+1
+        if ticket.owner2 != None:
+            count=count+1
+        if ticket.owner3 != None:
+            count=count+1
+        if ticket.owner4 != None:
+            count=count+1
+        context = {}
+        context["id"] = ticket.id
+        context["profilePic"] = ticket.owner.profilePic
+        context["username"] = ticket.owner.user.first_name
+        context["email"] = ticket.owner.user.email
+        if ticket.event.isTeamEvent != True:
+            context["price"] = int(ticket.event.price)
+        else: 
+            context["price"] = int(ticket.event.teamPrice)
+        context["eventName"] = ticket.event.name
+        context["isPaid"] = ticket.isPaid
+        context["qrCodeData"] = ticket.qrCodeData
+        context["isTeamEvent"] = ticket.event.isTeamPriceFull
+        context["isScanned"] = ticket.isScanned
+        try:
+            context["userCount"] = count
+            if count != 1:
+                context["total"] = count*int(ticket.event.price)
+        except:
+            context["userCount"] = 1
+            context["total"] = 0
+        return HttpResponse(json.dumps(context), content_type="application/json")
+    else:
+        context = {
+            "msg" : "Ticket is not valid",
+            "status" : "error"
+        }
+        return HttpResponse(json.dumps(context), content_type="application/json")
+
+def foodCouponData(request,ticketQr):
+    coupon = Profile.objects.filter(foodCoupon=ticketQr).first()
+    if coupon != None:
+        context ={}
+        context["id"] = coupon.id
+        context["isFoodCoupon"] = True
+        context["qrCodeData"] = coupon.foodCoupon
+        context["isScanned"] = coupon.isScannedCoupon
+        context["profilePic"] = coupon.profilePic
+        context["username"] = coupon.user.first_name
+        context["email"] = coupon.user.email
+        context["status"] = "success"
+        return HttpResponse(json.dumps(context), content_type="application/json")
+    else:
+        context = {
+            "msg" : "Food coupon is not valid",
+            "status" : "error"
+        }
+        return HttpResponse(json.dumps(context), content_type="application/json")
