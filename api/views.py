@@ -11,7 +11,7 @@ import pandas as pd
 
 def addData(request):
     if request.user.is_superuser:
-        data = pd.read_excel("Xenesis Event Registration 2024 (Responses).xlsx")
+        data = pd.read_excel("Xenesis Event Registration 2024 (Responses)2.xlsx")
         # covert to array of rows
         data = data.values.tolist()
         for row in data:
@@ -27,9 +27,8 @@ def addData(request):
             # create new event
             department = Department.objects.filter(name=row[2]).first()
             newEvent = Event()
-            if row[27] != None:
+            if row[27] != None and str(row[27]) != "nan":
                 try:
-                    print(row[27])
                     tm1 = User.objects.filter(username=row[27]).first()
                     if tm1 != None:
                         tm1Profile = Profile.objects.filter(user=tm1).first()
@@ -39,11 +38,12 @@ def addData(request):
                         tm1.save()
                         tm1Profile.save()
                     newEvent.organiser1 = tm1Profile
+                    print(row[27])
                 except:
                     pass
-            if row[29] != None:
+            if row[29] != None and str(row[29]) != "nan":
                 try:
-                    print(row[29])
+                    
                     tm2 = User.objects.filter(username=row[29]).first()
                     if tm2 != None:
                         tm2Profile = Profile.objects.filter(user=tm2).first()
@@ -53,11 +53,12 @@ def addData(request):
                         tm2.save()
                         tm2Profile.save()
                     newEvent.organiser2 = tm2Profile
+                    print(row[29])
                 except:
                     pass
-            if row[31] != None:
+            if row[31] != None and str(row[31]) != "nan":
                 try:
-                    print(row[31])
+                    
                     t3 = User.objects.filter(username=row[31]).first()
                     if t3 != None:
                         tm3Profile = Profile.objects.filter(user=t3).first()
@@ -67,11 +68,12 @@ def addData(request):
                         tm3.save()
                         tm3Profile.save()
                     newEvent.organiser3 = tm3Profile
+                    print(row[31])
                 except:
                     pass
-            if row[33] != None:
+            if row[33] != None and str(row[33]) != "nan":
                 try:
-                    print(row[33])
+                    
                     t4 = User.objects.filter(username=row[33]).first()
                     if t4 != None:
                         tm4Profile = Profile.objects.filter(user=t4).first()
@@ -81,11 +83,12 @@ def addData(request):
                         tm4.save()
                         tm4Profile.save()
                     newEvent.organiser4 = tm4Profile
+                    print(row[33])
                 except:
                     pass
-            if row[35] != None:
+            if row[35] != None and str(row[35]) != "nan":
                 try:
-                    print(row[35])
+                    
                     tm5 = User.objects.filter(username=row[35]).first()
                     if tm5 != None:
                         tm5Profile = Profile.objects.filter(user=tm5).first()
@@ -95,6 +98,7 @@ def addData(request):
                         tm5.save()
                         tm5Profile.save()
                     newEvent.organiser5 = tm5Profile
+                    print(row[35])
                 except:
                     pass
             try:
@@ -188,8 +192,10 @@ def events(request):
 
 def eventsHome(request):
     departments = Department.objects.all()
+    departmentList = []
     departmentArr = []
     for department in departments:
+        departmentList.append({"name":department.name,"image":department.posterImage})
         events = Event.objects.filter(department=department).order_by('-name').all()
         for event in events:
             tempEvent = {
@@ -209,8 +215,10 @@ def eventsHome(request):
             departmentArr.append(tempEvent)
     random.shuffle(departmentArr)
     departmentArr = departmentArr[:20]
+    
     context = {
         "data": departmentArr,
+        "departments": departmentList
     }
     return HttpResponse(json.dumps(context), content_type="application/json")
 
