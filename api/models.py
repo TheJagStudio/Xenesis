@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 class Profile(models.Model):
     def default_data():
         return {"data": []}
+    def location_data():
+        return {"lat": 0, "lng": 0,"ip":""}
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="User")
     profilePic = models.CharField(max_length=100, default="0001")
@@ -18,6 +20,7 @@ class Profile(models.Model):
     college = models.CharField(max_length=500, blank=True)
     foodCoupon = models.CharField(max_length=64, blank=True)
     isScannedCoupon = models.BooleanField(default=False)
+    location = models.JSONField(default=location_data)
 
     def __str__(self):
         return str(self.user.username)
@@ -26,10 +29,8 @@ class Profile(models.Model):
 class Department(models.Model):
     name = models.CharField(max_length=500, unique=True)
     abbriviation = models.CharField(max_length=10, default="")
-    coordinator1 = models.ForeignKey(
-        Profile, on_delete=models.CASCADE, related_name='department_coordinator1')
-    coordinator2 = models.ForeignKey(
-        Profile, on_delete=models.CASCADE, blank=True, related_name='department_coordinator2')
+    coordinator1 = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='department_coordinator1')
+    coordinator2 = models.ForeignKey(Profile, on_delete=models.CASCADE, blank=True, related_name='department_coordinator2')
     posterImage = models.CharField(max_length=1000)
 
     def __str__(self):

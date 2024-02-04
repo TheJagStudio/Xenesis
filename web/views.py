@@ -14,29 +14,29 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-# sender = "xenesis232K@ldrp.ac.in"
-# password = "Auabs@904"
-# server = smtplib.SMTP('smtp.gmail.com', 587)
-# server.starttls()
-# server.login(sender, password)
+
+
 # create a function
 def emailSender(reciver,template,otp):
-    # global server
+    global server
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as connection:  
+        sender = "xenesis@ldrp.ac.in"
+        password = "xenesismail@24"
+        connection.login(sender, password)
+        msg = MIMEMultipart('alternative')
+        msg['Subject'] = "Link"
+        msg['From'] = sender
+        msg['To'] = reciver
 
-    # msg = MIMEMultipart('alternative')
-    # msg['Subject'] = "Link"
-    # msg['From'] = sender
-    # msg['To'] = reciver
-
-    # f = open(template, "r", encoding="utf-8")
-    # html = f.read()
-    # html = html.replace("%%OTP1%%", otp[0])
-    # html = html.replace("%%OTP2%%", otp[1])
-    # html = html.replace("%%OTP3%%", otp[2])
-    # html = html.replace("%%OTP4%%", otp[3])
-    # part = MIMEText(html, 'html')
-    # msg.attach(part)
-    # server.sendmail(sender, reciver, msg.as_string())
+        f = open(template, "r", encoding="utf-8")
+        html = f.read()
+        html = html.replace("%%OTP1%%", otp[0])
+        html = html.replace("%%OTP2%%", otp[1])
+        html = html.replace("%%OTP3%%", otp[2])
+        html = html.replace("%%OTP4%%", otp[3])
+        part = MIMEText(html, 'html')
+        msg.attach(part)
+        connection.sendmail(sender, reciver, msg.as_string())
     pass
 
 def home(request):
@@ -90,6 +90,7 @@ def userDetail(request):
             isVolunteer = profile.isVolunteer
             isOrganiser = profile.isOrganiser
             profilePic = profile.profilePic
+            userId = profile.id
         except:
             userName = "Anonymous"
             isUser = False
@@ -97,20 +98,23 @@ def userDetail(request):
             isCampainVolunteer = False
             isOrganiser = False
             profilePic = "0001"
+            userId = None
     else:
         isUser = False
         isVolunteer = False
         isOrganiser = False
         isCampainVolunteer = False
-        userName = ""
+        userName = "Anonymous"
         profilePic = "0001"
+        userId = None
     context = {
         "isUser" : isUser,
         "isVolunteer" : isVolunteer,
         "isCampainVolunteer" : isCampainVolunteer,
         "isOrganiser" : isOrganiser,
         "userName" : userName,
-        "profilePic" : profilePic
+        "profilePic" : profilePic,
+        "userId" : userId
     }
     return HttpResponse(json.dumps(context), content_type="application/json")
 
@@ -217,16 +221,16 @@ def register(request):
 
         if not check(email):
             context = {
-                "error" : "Invalid Email."
+                "error" : "Invalid Email.",
+                "status":"error"
             }
-            return render(request, "register.html",context)
-            #return HttpResponse(json.dumps({"error": "Invalid Email."}), content_type="application/json")
+            return HttpResponse(json.dumps(context), content_type="application/json")
         elif pass1 != pass2:
             context = {
-                "error" : "Password Does Not Match."
+                "error" : "Password Does Not Match.",
+                "status":"error"
             }
-            return render(request, "register.html",context)
-            #return HttpResponse(json.dumps({"error": "Password Does Not Match."}), content_type="application/json")
+            return HttpResponse(json.dumps(context), content_type="application/json")
         else:
             users = User.objects.filter(email=email).all().count()
             if users == 0:
@@ -245,12 +249,19 @@ def register(request):
                 profileForNewUser.save()
                 emailSender(email,"./emailTemplates/welcomeEmail.html",str(otp))
                 request.session['emailVerification'] = email
-                return redirect("/accountSetUp/")
+                context = {
+                        'email' : email,
+                        'msg' : 'Please Complete Your Account Setup',
+                        'redirect' : 'accountsetup',
+                        'status': 'error'
+                    }
+                return HttpResponse(json.dumps(context), content_type="application/json")
             else:
                 context = {
-                    "error" : "User Already Exists."
+                    "error" : "User Already Exists.",
+                    "status":"error"
                 }
-                return render(request, "register.html",context)
+                return HttpResponse(json.dumps(context), content_type="application/json")
     
     return render(request, "register.html")
 
@@ -262,12 +273,20 @@ def otpvalidationWeb(request):
             profile = Profile.objects.filter(user=User.objects.filter(email=email).first()).first()
             profile.isVerified = True
             profile.save()
-            return redirect("/accountSetUp/")
+            context = {
+                        'email' : email,
+                        'msg' : 'Please Complete Your Account Setup',
+                        'redirect' : 'accountsetup',
+                        'status': 'error'
+                    }
+            return HttpResponse(json.dumps(context), content_type="application/json")
         else:
-            context = {'error' : "Invalid OTP"}
-            return render(request, "otp-page.html",context)
-    #404 page
-    return render(request, "404.html")
+            context = {
+                'error' : "Invalid OTP",
+                'status':'error'
+            }
+            return HttpResponse(json.dumps(context), content_type="application/json")
+    return HttpResponse(json.dumps({"msg": "Method Not Allowed",'status':'error'}), content_type="application/json",status=405)
 
 def pageNotFound(request):
     return render(request,"404.html")

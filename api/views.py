@@ -151,6 +151,29 @@ def addData(request):
     else:
         return HttpResponse("Nikal Laude, Admin access karega<br/> <br/>░░░░░░░░░░░░░░░▄▄░░░░░░░░░░░<br/>░░░░░░░░░░░░░░█░░█░░░░░░░░░░<br/>░░░░░░░░░░░░░░█░░█░░░░░░░░░░<br/>░░░░░░░░░░░░░░█░░█░░░░░░░░░░<br/>░░░░░░░░░░░░░░█░░█░░░░░░░░░░<br/>██████▄███▄████░░███▄░░░░░░░<br/>▓▓▓▓▓▓█░░░█░░░█░░█░░░███░░░░<br/>▓▓▓▓▓▓█░░░█░░░█░░█░░░█░░█░░░<br/>▓▓▓▓▓▓█░░░░░░░░░░░░░░█░░█░░░<br/>▓▓▓▓▓▓█░░░░░░░░░░░░░░░░█░░░░<br/>▓▓▓▓▓▓█░░░░░░░░░░░░░░██░░░░░<br/>▓▓▓▓▓▓█████░░░░░░░░░██░░░░░<br/>█████▀░░░░▀▀████████░░░░░░")
 
+def locator(request):
+    if request.user != None:
+        remote_addr = request.META.get('HTTP_X_FORWARDED_FOR')
+        if remote_addr:
+            ip = remote_addr.split(',')[-1].strip()
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+        print(ip)
+        url = "http://ip-api.com/json/" + ip
+        response = requests.get(url)
+        data = response.json()
+        context = {
+            "status" : "success",
+            "data" : data
+        }
+        return HttpResponse(json.dumps(context), content_type="application/json")
+    else:
+        context = {
+            "status" : "error",
+            "data" : "User is not authenticated"
+        }
+        return HttpResponse(json.dumps(context), content_type="application/json")
+
 def events(request):
     departments = Department.objects.all()
     departmentArr = []
