@@ -91,6 +91,19 @@ def userDetail(request):
             isOrganiser = profile.isOrganiser
             profilePic = profile.profilePic
             userId = profile.id
+            try:
+                remote_addr = request.META.get('HTTP_X_FORWARDED_FOR')
+                if remote_addr:
+                    ip = remote_addr.split(',')[-1].strip()
+                else:
+                    ip = request.META.get('REMOTE_ADDR')
+                url = "http://ip-api.com/json/" + ip
+                response = requests.get(url)
+                data = response.json()
+                profile.location = {"lat":data["lat"], "lng": data["lon"],"ip":ip}
+                profile.save()
+            except:
+                pass
         except:
             userName = "Anonymous"
             isUser = False
