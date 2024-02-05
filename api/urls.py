@@ -24,9 +24,8 @@ urlpatterns = [
     path('404/', views.pageNotFound, name='pageNotFound'),
     path('cart/', views.cart, name='cart'),
     path('logout/', views.signOut, name='signOut'),
-    path('ticketVerifer/', views.ticketVerifer, name='ticketVerifer'),
     path('myTicket/', views.myTicket, name='myTicket'),
-    path('ticketGenrator/', views.ticketGenrator, name='ticketGenrator'),
+    path('ticketGenerator/', views.ticketGenerator, name='ticketGenerator'),
     path('addTeamMembers/', views.addTeamMebers, name='addTeamMebers'),
     path('eventConfirmation/', views.eventConfirmation, name='eventConfirmation'),
     path('dataOutper/', views.dataOutper, name='dataOutper'),
@@ -34,4 +33,5 @@ urlpatterns = [
     path('forgotPassword/', views.forgotPassword, name='forgotPassword'),
     path('resetPassword/', views.resetPassword, name='resetPassword'),
     path('dbDownload/', views.dbDownload, name='dbDownload'),
+    path('checkUserEmail/', views.checkUserEmail, name='checkUserEmail'),
 ]

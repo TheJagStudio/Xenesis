@@ -265,7 +265,8 @@ def event(request, event):
     context["department"] = eventData.department.name
     context["teamName"] = eventData.teamName
     context["teamLeader"] = eventData.teamLeader.user.get_full_name() if eventData.teamLeader != None else ""
-    context["price"] = eventData.price
+    context["teamPhone"] = eventData.teamLeader.phone if eventData.teamLeader != None else ""
+    context["price"] = eventData.teamPrice if eventData.isTeamEvent else eventData.price
     context["winnerPrice1"] = eventData.winnerPrice1
     context["winnerPrice2"] = eventData.winnerPrice2
     context["location"] = eventData.location
@@ -281,31 +282,36 @@ def event(request, event):
     if round1Title != "":
         try:
             round1 = (eventData.round1).split("•")[1:] if "•" in eventData.round1 else [eventData.round1]  if eventData.round1 != None else []
-            context["rounds"].append({"title": round1Title,"description": round1})
+            if str(round1Title) != "nan" and str(round1) != "nan":
+                context["rounds"].append({"title": round1Title,"description": round1})
         except:
             pass
     if round2Title != "":
         try:
             round2 = (eventData.round2).split("•")[1:] if "•" in eventData.round2 else [eventData.round2]  if eventData.round2 != None else []
-            context["rounds"].append({"title": round2Title,"description": round2})
+            if str(round2Title) != "nan" and str(round2) != "nan":
+                context["rounds"].append({"title": round2Title,"description": round2})
         except:
             pass
     if round3Title != "":
         try:
             round3 = (eventData.round3).split("•")[1:] if "•" in eventData.round3 else [eventData.round3]  if eventData.round3 != None else []
-            context["rounds"].append({"title": round3Title,"description": round3})
+            if str(round3Title) != "nan" and str(round3) != "nan":
+                context["rounds"].append({"title": round3Title,"description": round3})
         except:
             pass
     if round4Title != "":
         try:
             round4 = (eventData.round4).split("•")[1:] if "•" in eventData.round4 else [eventData.round4]  if eventData.round4 != None else []
-            context["rounds"].append({"title": round4Title,"description": round4})
+            if str(round4Title) != "nan" and str(round4) != "nan":
+                context["rounds"].append({"title": round4Title,"description": round4})
         except:
             pass
     if round5Title != "":
         try:
             round5 = (eventData.round5).split("•")[1:] if "•" in eventData.round5 else [eventData.round5]  if eventData.round5 != None else []
-            context["rounds"].append({"title": round5Title,"description": round5})
+            if str(round5Title) != "nan" and str(round5) != "nan":
+                context["rounds"].append({"title": round5Title,"description": round5})
         except:
             pass
     context["tagline"] = eventData.tagline
@@ -321,11 +327,12 @@ def event(request, event):
     context["organiser5"] = eventData.organiser5.user.get_full_name() if eventData.organiser5 != None else ""
     context["organiser5Phone"] = Profile.objects.filter(user=eventData.organiser5.user).first().phone if eventData.organiser5 != None else ""
     context["isTeamEvent"] = eventData.isTeamEvent
-    context["teamParticapantCount"] = eventData.teamParticapantCount
     context["isClosed"] = eventData.isClosed
     context["status"] = eventData.status
     context["images"] = eventData.images["data"]
     context["isClosed"] = eventData.isClosed
+    context["teamParticapantCount"] = eventData.teamParticapantCount
+    context["teamParticapantCountMin"] = eventData.teamParticapantCountMin
     request.session['event'] = eventData.name
     return HttpResponse(json.dumps(context), content_type="application/json")
 
@@ -526,7 +533,6 @@ def foodCouponData(request,ticketQr):
         }
         return HttpResponse(json.dumps(context), content_type="application/json")
 
-# create a function
 def emailSender(subject,reciver,template,otp):
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL('smtp.gmail.com', 465,context=context) as connection:  
@@ -600,6 +606,7 @@ def userDetail(request):
             isVolunteer = profile.isVolunteer
             isOrganiser = profile.isOrganiser
             profilePic = profile.profilePic
+            email = profile.user.email
             userId = profile.id
             try:
                 remote_addr = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -621,6 +628,7 @@ def userDetail(request):
             isCampainVolunteer = False
             isOrganiser = False
             profilePic = "0001"
+            email = "anonymous@gmail.com"
             userId = None
     else:
         isUser = False
@@ -629,6 +637,7 @@ def userDetail(request):
         isCampainVolunteer = False
         userName = "Anonymous"
         profilePic = "0001"
+        email = "anonymous@gmail.com"
         userId = None
     context = {
         "isUser" : isUser,
@@ -637,10 +646,10 @@ def userDetail(request):
         "isOrganiser" : isOrganiser,
         "userName" : userName,
         "profilePic" : profilePic,
+        "email" : email,
         "userId" : userId
     }
     return HttpResponse(json.dumps(context), content_type="application/json")
-
 
 def aboutus(request):
     if request.user != None:
@@ -932,91 +941,6 @@ def forgotPassword(request):
     else:
         return HttpResponse(json.dumps({"msg": "Method Not Allowed",'status':'error'}), content_type="application/json",status=405)
 
-@csrf_exempt
-def ticketVerifer(request):
-    if request.user != None:
-        try:
-            profile = Profile.objects.filter(user=request.user).first()
-            userName = request.user.first_name
-            isUser = True
-            isVolunteer = profile.isCampainVolunteer
-            profilePic = profile.profilePic
-        except:
-            userName = "Anonymous"
-            isUser = False
-            isVolunteer = False
-            profilePic = "0001"
-    else:
-        isUser = False
-        isVolunteer = False
-        userName = ""
-        profilePic = "0001"
-    if isVolunteer == True:
-        if request.method == "POST":
-            body = json.loads(request.body)
-            id = body['id']
-            ticket = Ticket.objects.filter(id=id).first()
-            if ticket != None:
-                
-                ticket.acceptedBy = profile
-                ticket.isPaid = True
-                
-                ticket.save()
-                return  HttpResponse(json.dumps({"msg": "Ticket has been Paid."}), content_type="application/json")
-            else:
-                return HttpResponse(json.dumps({"error": "error"}), content_type="application/json")
-        tickets = Ticket.objects.all()
-        dataTemp = []
-        for ticket in tickets:
-            count = 1
-            if ticket.owner1 != None:
-                count=count+1
-            if ticket.owner2 != None:
-                count=count+1
-            if ticket.owner3 != None:
-                count=count+1
-            if ticket.owner4 != None:
-                count=count+1
-            temp = {}
-            temp["id"] = ticket.id
-            temp["profilePic"] = ticket.owner.profilePic
-            temp["username"] = ticket.owner.user.first_name
-            temp["email"] = ticket.owner.user.email
-            if ticket.event.isTeamEvent != True:
-                temp["price"] = ticket.event.price
-            else: 
-                temp["price"] = ticket.event.teamPrice
-            temp["eventName"] = ticket.event.name
-            temp["isPaid"] = ticket.isPaid
-            temp["isTeamPriceFull"] = ticket.event.isTeamPriceFull
-            try:
-                temp["userCount"] = count
-                if count != 1:
-                    temp["total"] = count*int(ticket.event.price)
-            except:
-                temp["userCount"] = count
-                temp["total"] = ticket.event.price
-            dataTemp.append(temp)
-        data = []
-        data2 = []
-        for i in dataTemp:
-            if i["isPaid"]== False:
-                data.append(i)
-            else:
-                data2.append(i)
-        data = data[::-1]
-        data.extend(data2)
-        context = {
-            "data" : data,
-            "isUser" : isUser,
-            "isVolunteer" : isVolunteer,
-            "userName" : userName,
-            "profilePic" : profilePic
-        }
-        return render(request, "ticket.html",context)
-    else:
-        return render(request, "404.html")
-
 def myTicket(request):
     if request.user != None:
         try:
@@ -1084,64 +1008,20 @@ def myTicket(request):
 
 def eventConfirmation(request):
     if request.user != None:
-        try:
-            profile = Profile.objects.filter(user=request.user).first()
-            userName = request.user.first_name
-            isUser = True
-            isVolunteer = profile.isCampainVolunteer
-            profilePic = profile.profilePic
-        except:
-            userName = "Anonymous"
-            isUser = False
-            isVolunteer = False
-            profilePic = "0001"
+        context = {
+            "team" : request.session['team'],
+            "event" : request.session['event'],
+            "status" : "success"
+        }
+        return HttpResponse(json.dumps(context), content_type="application/json")
     else:
-        isUser = False
-        isVolunteer = False
-        userName = ""
-        profilePic = "0001"
-    context = {
-        "isUser" : isUser,
-        "isVolunteer" : isVolunteer,
-        "userName" : userName,
-        "profilePic" : profilePic,
-        "team" : request.session['team'],
-        "event" : request.session['event']
-    }
-    return render(request, "event-confirmation.html",context)
+        return HttpResponse(json.dumps({"msg": "User Not Found","status":"error"}), content_type="application/json")
 
 @csrf_exempt
 def addTeamMebers(request):
-    if request.user != None:
-        try:
-            profile = Profile.objects.filter(user=request.user).first()
-            userName = request.user.first_name
-            isUser = True
-            isVolunteer = profile.isCampainVolunteer
-            profilePic = profile.profilePic
-        except:
-            userName = "Anonymous"
-            isUser = False
-            isVolunteer = False
-            profilePic = "0001"
-    else:
-        isUser = False
-        isVolunteer = False
-        userName = ""
-        profilePic = "0001"
-    
     if request.method == "POST":
-        isForm = request.POST.get('isForm',False)
-        if isForm == False:
-            body = json.loads(request.body)
-            email = body['email']
-            user = User.objects.filter(email=email).first()
-            if user is not None:
-                return HttpResponse(json.dumps({"msg": email + " does exist in our Database."}), content_type="application/json")
-            else:
-                return HttpResponse(json.dumps({"error": "Email does not exist in our Database"}), content_type="application/json")
-        else:
-            users = request.POST.get('user')
+        if request.user != None:
+            users = request.POST['users']
             emailArr = users.split(",")
             request.session['team'] = []
             try:
@@ -1150,102 +1030,94 @@ def addTeamMebers(request):
                     profile = Profile.objects.filter(user=user).first()
                     if user is not None:
                         request.session['team'].append({"name":user.first_name, "email":user.email,"phone":profile.phone})
-                return redirect("/eventConfirmation/")
+                context = {
+                    "msg" : "Team Members Added Successfully.",
+                    "status":"success",
+                    "redirect":"eventConfirmation"
+                }
+                return HttpResponse(json.dumps(context), content_type="application/json")
             except:
                 context = {
-                    'email':request.user,
-                    "isUser" : isUser,
-                    "isVolunteer" : isVolunteer,
-                    "userName" : userName,
-                    "profilePic" : profilePic,
-                    "event" : request.session['event'],
-                    "min":Event.objects.filter(name=request.session['event']).first().teamParticapantCountMin,
-                    "max":Event.objects.filter(name=request.session['event']).first().teamParticapantCount,
-                    "error" : "Please confirm emails of your team members.",
+                    "msg" : "Please confirm emails of your team members.",
+                    "status":"error"
                 }
-                return render(request, 'event-registration-form.html',context)
-    
-    context = {
-        'email':request.user,
-        "isUser" : isUser,
-        "isVolunteer" : isVolunteer,
-        "userName" : userName,
-        "profilePic" : profilePic,
-        "event" : request.session['event'],
-        "min":Event.objects.filter(name=request.session['event']).first().teamParticapantCountMin,
-        "max":Event.objects.filter(name=request.session['event']).first().teamParticapantCount,
-    }
-    return render(request, 'event-registration-form.html',context)
+                return HttpResponse(json.dumps(context), content_type="application/json")
+        else:
+            return HttpResponse(json.dumps({"msg": "User Not Found","status":"error"}), content_type="application/json")
+    else:
+        return HttpResponse(json.dumps({"msg": "Method Not Allowed","status":"error"}), content_type="application/json",status=405)
 
 @csrf_exempt
-def ticketGenrator(request):
+def ticketGenerator(request):
     if request.method == "POST":
-        try:
-            body = json.loads(request.body)
-            if 'isTeam' not in body.keys():
-                eventName = body['event']
-                event = Event.objects.filter(name=eventName).first()
-                if event.isClosed == True:
-                    return HttpResponse(json.dumps({"error": "Registration for this event is closed."}), content_type="application/json")
+        if request.user.is_authenticated:
+            try:
+                isTeam = request.POST.get("isTeam",False)
+                if not isTeam:
+                    eventName = request.POST['event']
+                    event = Event.objects.filter(name=eventName).first()
+                    if event.isClosed == True:
+                        return HttpResponse(json.dumps({"msg": "Registration for this event is closed.","status":"error"}), content_type="application/json")
+                    else:
+                        user = request.user
+                        owner = Profile.objects.filter(user=user).first()
+                        qrCodeData = uuid.uuid1()
+                        userCount = request.POST['userCount']
+                        newTicket = Ticket()
+                        newTicket.event = event
+                        newTicket.owner = owner
+                        newTicket.qrCodeData = qrCodeData
+                        newTicket.userCount = userCount
+                        newTicket.save()
+                        return HttpResponse(json.dumps({"msg": "You are successfully registered. Your registration will get confirmed and you will also see the ticket in your account once you make the payment."}), content_type="application/json")
                 else:
-                    email = body['email']
-                    user = User.objects.filter(email=email).first()
-                    owner = Profile.objects.filter(user=user).first()
-                    qrCodeData = uuid.uuid1()
-                    userCount = body['userCount']
-                    newTicket = Ticket()
-                    newTicket.event = event
-                    newTicket.owner = owner
-                    newTicket.qrCodeData = qrCodeData
-                    newTicket.userCount = userCount
-                    newTicket.save()
-                    return HttpResponse(json.dumps({"msg": "You are successfully registered. Your registration will get confirmed and you will also see the ticket in your account once you make the payment."}), content_type="application/json")
-            else:
-                eventName = body['event']
-                event = Event.objects.filter(name=eventName).first()
-                if event.isClosed == True:
-                    return HttpResponse(json.dumps({"error": "Registration for this event is closed."}), content_type="application/json")
-                else:
-                    email = request.session['team'][0]['email']
-                    user = User.objects.filter(email=email).first()
-                    owner = Profile.objects.filter(user=user).first()
-                    qrCodeData = uuid.uuid1()
-                    newTicket = Ticket()
-                    newTicket.event = event
-                    newTicket.owner = owner
-                    try:
-                        teamMember1= User.objects.filter(email=request.session['team'][1]["email"]).first()
-                        teamMember1Profile = Profile.objects.filter(user=teamMember1).first()
-                        newTicket.owner1 = teamMember1Profile 
-                    except:
-                        newTicket.owner1 = None
-                    try:
-                        teamMember2= User.objects.filter(email=request.session['team'][2]["email"]).first()
-                        teamMember2Profile = Profile.objects.filter(user=teamMember2).first()
-                        newTicket.owner2 = teamMember2Profile 
-                    except:
-                        newTicket.owner2 = None
-                    try:
-                        teamMember3= User.objects.filter(email=request.session['team'][3]["email"]).first()
-                        teamMember3Profile = Profile.objects.filter(user=teamMember3).first()
-                        newTicket.owner3 = teamMember3Profile 
-                    except:
-                        newTicket.owner3 = None
-                    try:
-                        teamMember4= User.objects.filter(email=request.session['team'][4]["email"]).first()
-                        teamMember4Profile = Profile.objects.filter(user=teamMember4).first()
-                        newTicket.owner4 = teamMember4Profile 
-                    except:
-                        newTicket.owner4 = None
-                    newTicket.qrCodeData = qrCodeData
-                    newTicket.userCount = len(request.session['team'])
-                    newTicket.save()
-                    request.session['team'] = []
-                    return HttpResponse(json.dumps({"msg": "You are successfully registered. Your registration will get confirmed and you will also see the ticket in your account once you make the payment."}), content_type="application/json")
-        except Exception as error:
-            return HttpResponse(json.dumps({"error": str(error)}), content_type="application/json")
+                    eventName = body['event']
+                    event = Event.objects.filter(name=eventName).first()
+                    if event.isClosed == True:
+                        return HttpResponse(json.dumps({"error": "Registration for this event is closed."}), content_type="application/json")
+                    else:
+                        email = request.session['team'][0]['email']
+                        user = User.objects.filter(email=email).first()
+                        owner = Profile.objects.filter(user=user).first()
+                        qrCodeData = uuid.uuid1()
+                        newTicket = Ticket()
+                        newTicket.event = event
+                        newTicket.owner = owner
+                        try:
+                            teamMember1= User.objects.filter(email=request.session['team'][1]["email"]).first()
+                            teamMember1Profile = Profile.objects.filter(user=teamMember1).first()
+                            newTicket.owner1 = teamMember1Profile 
+                        except:
+                            newTicket.owner1 = None
+                        try:
+                            teamMember2= User.objects.filter(email=request.session['team'][2]["email"]).first()
+                            teamMember2Profile = Profile.objects.filter(user=teamMember2).first()
+                            newTicket.owner2 = teamMember2Profile 
+                        except:
+                            newTicket.owner2 = None
+                        try:
+                            teamMember3= User.objects.filter(email=request.session['team'][3]["email"]).first()
+                            teamMember3Profile = Profile.objects.filter(user=teamMember3).first()
+                            newTicket.owner3 = teamMember3Profile 
+                        except:
+                            newTicket.owner3 = None
+                        try:
+                            teamMember4= User.objects.filter(email=request.session['team'][4]["email"]).first()
+                            teamMember4Profile = Profile.objects.filter(user=teamMember4).first()
+                            newTicket.owner4 = teamMember4Profile 
+                        except:
+                            newTicket.owner4 = None
+                        newTicket.qrCodeData = qrCodeData
+                        newTicket.userCount = len(request.session['team'])
+                        newTicket.save()
+                        request.session['team'] = []
+                        return HttpResponse(json.dumps({"msg": "You are successfully registered. Your registration will get confirmed and you will also see the ticket in your account once you make the payment.","status":"success"}), content_type="application/json")
+            except Exception as error:
+                return HttpResponse(json.dumps({"msg": str(error),"status":"error"}), content_type="application/json")
+        else:
+            return HttpResponse(json.dumps({"msg": "User Not Found","status":"error"}), content_type="application/json")
     else:
-        return render(request, "404.html")
+        return HttpResponse(json.dumps({"msg": "Method Not Allowed","status":"error"}), content_type="application/json",status=405)
 
 @csrf_exempt
 def dataOutper(request):
@@ -1285,3 +1157,14 @@ def dbDownload(request):
         # copy the database file to the static folder
         os.system("cp db.sqlite3 static/")
         return HttpResponse("<a href='/static/db.sqlite3' download>Download</a>")
+    
+@csrf_exempt
+def checkUserEmail(request):
+    if request.method == "POST":
+        email = request.POST['email']
+        email = email.lower().strip()
+        user = User.objects.filter(email=email).first()
+        if user is not None:
+            return HttpResponse(json.dumps({"msg": email + " does exist in our Database.","status":"success"}), content_type="application/json")
+        else:
+            return HttpResponse(json.dumps({"msg": "Email does not exist in our Database","status":"error"}), content_type="application/json")
