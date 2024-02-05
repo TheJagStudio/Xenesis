@@ -20,6 +20,8 @@ urlpatterns = [
     path('EventTicketVerifer/', views.EventTicketVerifer, name='EventTicketVerifer'),
     path('TicketPaymentVerifer/', views.TicketPaymentVerifer, name='TicketPaymentVerifer'),
     path('FoodCouponVerifer/', views.FoodCouponVerifer, name='FoodCouponVerifer'),
+    path('eventConfirmation/', views.eventConfirmation, name='eventConfirmation'),
+    path('eventRegistration/', views.eventRegistration, name='eventRegistration'),
     path('myticket/', views.myticket, name='myticket'),
     path('faqs/', views.faqs, name='faqs'),
 ]

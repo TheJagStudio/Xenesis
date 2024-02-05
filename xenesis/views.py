@@ -32,3 +32,7 @@ def forgotpassword(request):
     return render(request, "index.html")
 def resetpassword(request):
     return render(request, "index.html")
+def eventConfirmation(request):
+    return render(request, "index.html")
+def eventRegistration(request):
+    return render(request, "index.html")

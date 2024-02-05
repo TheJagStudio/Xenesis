@@ -1047,6 +1047,7 @@ def addTeamMebers(request):
     else:
         return HttpResponse(json.dumps({"msg": "Method Not Allowed","status":"error"}), content_type="application/json",status=405)
 
+
 @csrf_exempt
 def ticketGenerator(request):
     if request.method == "POST":
