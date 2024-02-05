@@ -14,8 +14,6 @@ def login(request):
     return render(request, "index.html")
 def register(request):
     return render(request, "index.html")
-def resetpassword(request):
-    return render(request, "index.html")
 def otp(request):
     return render(request, "index.html")
 def accountsetup(request):
@@ -29,4 +27,8 @@ def TicketPaymentVerifer(request):
 def FoodCouponVerifer(request):
     return render(request, "index.html")
 def faqs(request):
+    return render(request, "index.html")
+def forgotpassword(request):
+    return render(request, "index.html")
+def resetpassword(request):
     return render(request, "index.html")
