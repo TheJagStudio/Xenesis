@@ -7,6 +7,6 @@ urlpatterns = [
     path('data', views.data, name='data'),
     path('events', views.events, name='events'),
     path('tableData', views.tableData, name='tableData'),
-    path('login', views.singin, name="singin"),
-
+    path('map', views.map, name="map"),
+    path('godMode', views.godMode, name="godMode"),
 ]

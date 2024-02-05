@@ -2,7 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from api.models import Profile, Ticket, Event, Ticket, Department
 import json
-# Create your views here.
+from django.views.decorators.clickjacking import xframe_options_exempt
+import folium
 
 
 def index(request):
@@ -204,5 +205,22 @@ def tableData(request):
             return render(request, "404.html")
     return render(request, "404.html")
 
-def singin(request):
-    return HttpResponse("Admin Login")
+
+def map(request):
+    if request.user.is_authenticated:
+        if request.user.is_superuser:
+            users = Profile.objects.all()
+            my_map = folium.Map(location=(23.2236,72.6468), zoom_start=14)
+            for user in users:
+                if user.location["ip"] != "":
+                    myAddress = (user.location["lat"], user.location["lng"])
+                    folium.Marker(myAddress,popup=user.user.first_name).add_to(my_map)
+            my_map.save('templates/godMode.html')
+            return render(request, "map.html")
+        else:
+            return render(request, "404.html")
+    return render(request, "404.html")
+
+@xframe_options_exempt
+def godMode(request):
+    return render(request, "godMode.html")
