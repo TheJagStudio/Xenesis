@@ -1066,29 +1066,27 @@ def ticketGenerator(request):
     if request.method == "POST":
         if request.user.is_authenticated:
             try:
-                isTeam = request.POST.get("isTeam",False)
+                eventName = request.session['event']
+                event = Event.objects.filter(name=eventName).first()
+                isTeam = event.isTeamEvent
                 if not isTeam:
-                    eventName = request.POST['event']
-                    event = Event.objects.filter(name=eventName).first()
                     if event.isClosed == True:
                         return HttpResponse(json.dumps({"msg": "Registration for this event is closed.","status":"error"}), content_type="application/json")
                     else:
                         user = request.user
                         owner = Profile.objects.filter(user=user).first()
                         qrCodeData = uuid.uuid1()
-                        userCount = request.POST['userCount']
+                        userCount = 1
                         newTicket = Ticket()
                         newTicket.event = event
                         newTicket.owner = owner
                         newTicket.qrCodeData = qrCodeData
                         newTicket.userCount = userCount
                         newTicket.save()
-                        return HttpResponse(json.dumps({"msg": "You are successfully registered. Your registration will get confirmed and you will also see the ticket in your account once you make the payment."}), content_type="application/json")
+                        return HttpResponse(json.dumps({"msg": "You are successfully registered. Your registration will get confirmed and you will also see the ticket in your account once you make the payment.","status":"success"}), content_type="application/json")
                 else:
-                    eventName = body['event']
-                    event = Event.objects.filter(name=eventName).first()
                     if event.isClosed == True:
-                        return HttpResponse(json.dumps({"error": "Registration for this event is closed."}), content_type="application/json")
+                        return HttpResponse(json.dumps({"msg": "Registration for this event is closed.","status":"error"}), content_type="application/json")
                     else:
                         email = request.session['team'][0]['email']
                         user = User.objects.filter(email=email).first()
