@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from api.models import Profile, Ticket, Event, Ticket, Department
 import json
 from django.views.decorators.clickjacking import xframe_options_exempt
+import random
 import folium
 
 
@@ -211,9 +212,17 @@ def map(request):
         if request.user.is_superuser:
             users = Profile.objects.all()
             my_map = folium.Map(location=(23.2236,72.6468), zoom_start=14)
+            ips = []
             for user in users:
                 if user.location["ip"] != "":
                     myAddress = (user.location["lat"], user.location["lng"])
+                    if myAddress not in ips:
+                        ips.append(myAddress)
+                    else:
+                        randomAdd =  random.uniform(0.0005, 0.005)
+                        randomAdd2 =  random.uniform(0.0005, 0.005)
+                        myAddress = (user.location["lat"]+randomAdd, user.location["lng"]+randomAdd2)
+                    
                     folium.Marker(myAddress,popup=user.user.first_name).add_to(my_map)
             my_map.save('templates/godMode.html')
             return render(request, "map.html")
