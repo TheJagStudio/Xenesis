@@ -1075,6 +1075,9 @@ def ticketGenerator(request):
                     else:
                         user = request.user
                         owner = Profile.objects.filter(user=user).first()
+                        owner.foodCoupon = uuid.uuid1()
+                        owner.isScannedCoupon = False
+                        owner.save()
                         qrCodeData = uuid.uuid1()
                         userCount = 1
                         newTicket = Ticket()
@@ -1091,6 +1094,9 @@ def ticketGenerator(request):
                         email = request.session['team'][0]['email']
                         user = User.objects.filter(email=email).first()
                         owner = Profile.objects.filter(user=user).first()
+                        owner.foodCoupon = uuid.uuid1()
+                        owner.isScannedCoupon = False
+                        owner.save()
                         qrCodeData = uuid.uuid1()
                         newTicket = Ticket()
                         newTicket.event = event
@@ -1098,24 +1104,36 @@ def ticketGenerator(request):
                         try:
                             teamMember1= User.objects.filter(email=request.session['team'][1]["email"]).first()
                             teamMember1Profile = Profile.objects.filter(user=teamMember1).first()
+                            teamMember1Profile.foodCoupon = uuid.uuid1()
+                            teamMember1Profile.isScannedCoupon = False
+                            teamMember1Profile.save()
                             newTicket.owner1 = teamMember1Profile 
                         except:
                             newTicket.owner1 = None
                         try:
                             teamMember2= User.objects.filter(email=request.session['team'][2]["email"]).first()
                             teamMember2Profile = Profile.objects.filter(user=teamMember2).first()
+                            teamMember2Profile.foodCoupon = uuid.uuid1()
+                            teamMember2Profile.isScannedCoupon = False
+                            teamMember2Profile.save()
                             newTicket.owner2 = teamMember2Profile 
                         except:
                             newTicket.owner2 = None
                         try:
                             teamMember3= User.objects.filter(email=request.session['team'][3]["email"]).first()
                             teamMember3Profile = Profile.objects.filter(user=teamMember3).first()
+                            teamMember3Profile.foodCoupon = uuid.uuid1()
+                            teamMember3Profile.isScannedCoupon = False
+                            teamMember3Profile.save()
                             newTicket.owner3 = teamMember3Profile 
                         except:
                             newTicket.owner3 = None
                         try:
                             teamMember4= User.objects.filter(email=request.session['team'][4]["email"]).first()
                             teamMember4Profile = Profile.objects.filter(user=teamMember4).first()
+                            teamMember4Profile.foodCoupon = uuid.uuid1()
+                            teamMember4Profile.isScannedCoupon = False
+                            teamMember4Profile.save()
                             newTicket.owner4 = teamMember4Profile 
                         except:
                             newTicket.owner4 = None
