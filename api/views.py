@@ -20,7 +20,7 @@ import os
 
 def addData(request):
     if request.user.is_superuser:
-        data = pd.read_excel("Xenesis Event Registration 2024 (Responses)2.xlsx")
+        data = pd.read_excel("Xenesis Event Registration 2024 (Responses)3.xlsx")
         # covert to array of rows
         data = data.values.tolist()
         for row in data:
@@ -688,35 +688,48 @@ def signin(request):
             user = authenticate(username=email, password=password)
             if user is not None:
                 profile = Profile.objects.filter(user=user).first()
-                isVerified = True
+                isVerified = profile.isVerified
                 isAccountSetup = profile.isAccountSetup
                 profile.save()
-                if isAccountSetup == True:
-                    login(request, user)
-                    try:
-                        userName = request.user.first_name
-                        isUser = True
-                        isVolunteer = profile.isCampainVolunteer
-                        profilePic = profile.profilePic
-                    except:
-                        userName = "Anonymous"
-                        isUser = False
-                        isVolunteer = False
-                        profilePic = "0001"
-                    context ={
-                        "isUser" : isUser,
-                        "isVolunteer" : isVolunteer,
-                        "userName" : userName,
-                        "profilePic" : profilePic,
-                        "msg": "Login Successfull.",
-                        "status":"success"
-                    }
-                    return HttpResponse(json.dumps(context), content_type="application/json")
+                if isVerified == True:
+                    if isAccountSetup == True:
+                        login(request, user)
+                        try:
+                            userName = request.user.first_name
+                            isUser = True
+                            isVolunteer = profile.isCampainVolunteer
+                            profilePic = profile.profilePic
+                        except:
+                            userName = "Anonymous"
+                            isUser = False
+                            isVolunteer = False
+                            profilePic = "0001"
+                        context ={
+                            "isUser" : isUser,
+                            "isVolunteer" : isVolunteer,
+                            "userName" : userName,
+                            "profilePic" : profilePic,
+                            "msg": "Login Successfull.",
+                            "status":"success"
+                        }
+                        return HttpResponse(json.dumps(context), content_type="application/json")
+                    else:
+                        context = {
+                            'email' : email,
+                            'msg' : 'Please Complete Your Account Setup',
+                            'redirect' : 'accountsetup',
+                            'status': 'error'
+                        }
+                        return HttpResponse(json.dumps(context), content_type="application/json")
                 else:
+                    otp = str(random.randint(1000, 9999))
+                    profile.otp = otp
+                    profile.save()
+                    emailSender("OTP validation for Xenesis 2024",email,"./emailTemplates/resendOTPEmail.html",str(otp))
                     context = {
                         'email' : email,
-                        'msg' : 'Please Complete Your Account Setup',
-                        'redirect' : 'accountsetup',
+                        'msg' : 'Please Verify Your Email',
+                        'redirect' : 'otp',
                         'status': 'error'
                     }
                     return HttpResponse(json.dumps(context), content_type="application/json")
