@@ -1192,7 +1192,6 @@ def dbDownload(request):
 def checkUserEmail(request):
     if request.method == "POST":
         email = request.POST['email']
-        email = email.lower().strip()
         user = User.objects.filter(email=email).first()
         if user is not None:
             return HttpResponse(json.dumps({"msg": email + " does exist in our Database.","status":"success"}), content_type="application/json")
