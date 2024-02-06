@@ -129,6 +129,8 @@ def events(request):
             ticketCount = tickets.count()
             for ticket in tickets:
                 event = ticket.event
+                if event.posterImage == "-":
+                    event.posterImage = ""
                 if event.name not in eventArr:
                     if ticket.isPaid == True:
                         try:
