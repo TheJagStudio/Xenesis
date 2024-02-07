@@ -178,6 +178,18 @@ def tableData(request):
                         paid = "Yes"
                     userArr.append(["T"+str(i.id),i.owner.user.first_name,i.owner.user.username,i.owner.phone,i.event.department.name,i.event.name,paid,i.owner.college])
                 return HttpResponse(json.dumps({"users":userArr}),content_type="application/json")
+            if dataType == "allfinal":
+                users = Profile.objects.all()
+                userArr = []
+                count = 0
+                for i in users:
+                    count = count + 1
+                    try:
+                        phone = str(int(i.phone))
+                    except:
+                        phone = ''
+                    userArr.append([str(count),i.user.first_name,i.user.username,phone,str(i.isOrganiser),str(i.isVolunteer),str(i.isCampainVolunteer),i.college])
+                return HttpResponse(json.dumps({"users":userArr}),content_type="application/json")
             if dataType == "event": 
                 departmentName = request.GET.get("department")
                 events = Event.objects.filter(department=Department.objects.filter(name=departmentName).first()).all()

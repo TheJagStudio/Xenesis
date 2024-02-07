@@ -18,6 +18,7 @@ from email.mime.text import MIMEText
 import os
 
 
+
 def addData(request):
     if request.user.is_superuser:
         data = pd.read_excel("Xenesis Event Registration 2024 (Responses)3.xlsx")
