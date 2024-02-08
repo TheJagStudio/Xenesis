@@ -23,5 +23,6 @@ urlpatterns = [
     path('eventConfirmation/', views.eventConfirmation, name='eventConfirmation'),
     path('eventRegistration/', views.eventRegistration, name='eventRegistration'),
     path('myticket/', views.myticket, name='myticket'),
+    path('myTicket/', views.myticket, name='myticket'),
     path('faqs/', views.faqs, name='faqs'),
 ]
