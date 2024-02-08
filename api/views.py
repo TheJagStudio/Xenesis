@@ -399,6 +399,7 @@ def ticketPaymentVerifer(request, ticketQr):
             if ticket != None:
                 if ticket.isPaid == False:
                     ticket.isPaid = True
+                    ticket.acceptedBy = Profile.objects.filter(user=request.user).first()
                     ticket.save()
                     context = {
                         "msg" : "Ticket is paid successfully",
@@ -493,11 +494,14 @@ def ticketData(request,ticketQr):
         if ticket.event.isTeamEvent != True:
             context["price"] = int(ticket.event.price)
         else: 
-            context["price"] = int(ticket.event.teamPrice)
+            if ticket.event.isTeamPriceFull:
+                    context["price"] = int(ticket.event.teamPrice)
+            else:
+                context["price"] = int(ticket.event.teamPrice) * count
         context["eventName"] = ticket.event.name
         context["isPaid"] = ticket.isPaid
         context["qrCodeData"] = ticket.qrCodeData
-        context["isTeamEvent"] = ticket.event.isTeamPriceFull
+        context["isTeamEvent"] = ticket.event.isTeamEvent
         context["isScanned"] = ticket.isScanned
         try:
             context["userCount"] = count
@@ -996,12 +1000,15 @@ def myTicket(request):
             temp["email"] = ticket.owner.user.email
             if ticket.event.isTeamEvent != True:
                 temp["price"] = int(ticket.event.price)
-            else: 
-                temp["price"] = int(ticket.event.teamPrice)
+            else:
+                if ticket.event.isTeamPriceFull:
+                    temp["price"] = int(ticket.event.teamPrice)
+                else:
+                    temp["price"] = int(ticket.event.teamPrice) * count
             temp["eventName"] = ticket.event.name
             temp["isPaid"] = ticket.isPaid
             temp["qrCodeData"] = ticket.qrCodeData
-            temp["isTeamEvent"] = ticket.event.isTeamPriceFull
+            temp["isTeamEvent"] = ticket.event.isTeamEvent
             temp["isScanned"] = ticket.isScanned
             try:
                 temp["userCount"] = count
