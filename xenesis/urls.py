@@ -1,8 +1,11 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.views.static import serve
 from . import views
+from django.urls import re_path
 
 urlpatterns = [
+    re_path(r'^sitemap\.xml$', serve, {'document_root': 'static/', 'path': 'sitemap.xml'}),
     path('api/', include('api.urls')),
     path('dashboard/', include('admindashboard.urls')),
     path('admin/', admin.site.urls),
