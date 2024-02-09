@@ -233,8 +233,8 @@ def map(request):
                     if myAddress not in ips:
                         ips.append(myAddress)
                     else:
-                        randomAdd =  random.uniform(0.0005, 0.005)
-                        randomAdd2 =  random.uniform(0.0005, 0.005)
+                        randomAdd =  random.uniform(0.005, 0.01)
+                        randomAdd2 =  random.uniform(0.005, 0.01)
                         myAddress = (user.location["lat"]+randomAdd, user.location["lng"]+randomAdd2)
                     
                     folium.Marker(myAddress,popup=user.user.first_name).add_to(my_map)
