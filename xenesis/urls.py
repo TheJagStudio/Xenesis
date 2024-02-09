@@ -6,7 +6,7 @@ from django.urls import re_path
 
 urlpatterns = [
     re_path(r'^sitemap\.xml$', serve, {'document_root': 'static/', 'path': 'sitemap.xml'}),
-    re_path(r'^robot\.txt$', serve, {'document_root': 'static/', 'path': 'robot.txt'}),
+    re_path(r'^robots\.txt$', serve, {'document_root': 'static/', 'path': 'robots.txt'}),
     path('api/', include('api.urls')),
     path('dashboard/', include('admindashboard.urls')),
     path('admin/', admin.site.urls),
