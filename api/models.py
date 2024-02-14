@@ -39,7 +39,7 @@ class Department(models.Model):
 
 class Event(models.Model):
     def default_images():
-        return {"data": ["/static/event-images/1.jpg","/static/event-images/2.jpg","/static/event-images/3.jpg","/static/event-images/4.jpg"]}
+        return {"data": [""]}
     name = models.CharField(max_length=500, unique=True)
     link = models.CharField(max_length=500, unique=True)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
@@ -76,6 +76,7 @@ class Event(models.Model):
     isTeamEvent = models.BooleanField()
     isTeamPriceFull  = models.BooleanField(default=False)
     isClosed = models.BooleanField()
+    maxTicket = models.PositiveIntegerField(default=100)
     status = models.CharField(max_length=100)
     images = models.JSONField(default=default_images)
 

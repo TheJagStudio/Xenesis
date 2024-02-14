@@ -189,7 +189,6 @@ def events(request):
                 "winnerPrice1" : event.winnerPrice1 if event.winnerPrice1 != None else 0 ,
                 "winnerPrice2" : event.winnerPrice2 if event.winnerPrice2 != None else 0 ,
                 "isClosed" : event.isClosed
-                
             }
             eventArr.append(tempEvent)
         tempDepartment["events"] = eventArr
@@ -397,21 +396,24 @@ def ticketPaymentVerifer(request, ticketQr):
         if request.user.is_authenticated and isCampainVolunteer:
             ticket = Ticket.objects.filter(qrCodeData=ticketQr).first()
             if ticket != None:
-                if ticket.isPaid == False:
-                    ticket.isPaid = True
-                    ticket.acceptedBy = Profile.objects.filter(user=request.user).first()
-                    ticket.save()
-                    context = {
-                        "msg" : "Ticket is paid successfully",
-                        "status" : "success"
-                    }
-                    return HttpResponse(json.dumps(context), content_type="application/json")
+                if ticket.event.isClosed:
+                    return HttpResponse(json.dumps({"msg":"Event is closed","status":"error"}), content_type="application/json")
                 else:
-                    context = {
-                        "msg" : "Ticket is already paid",
-                        "status" : "error"
-                    }
-                    return HttpResponse(json.dumps(context), content_type="application/json")
+                    if ticket.isPaid == False:
+                        ticket.isPaid = True
+                        ticket.acceptedBy = Profile.objects.filter(user=request.user).first()
+                        ticket.save()
+                        context = {
+                            "msg" : "Ticket is paid successfully",
+                            "status" : "success"
+                        }
+                        return HttpResponse(json.dumps(context), content_type="application/json")
+                    else:
+                        context = {
+                            "msg" : "Ticket is already paid",
+                            "status" : "error"
+                        }
+                        return HttpResponse(json.dumps(context), content_type="application/json")
             else:
                 context = {
                     "msg" : "Ticket is not valid",
@@ -1094,6 +1096,10 @@ def ticketGenerator(request):
                         newTicket.qrCodeData = qrCodeData
                         newTicket.userCount = userCount
                         newTicket.save()
+                        numEventTickets = Ticket.objects.filter(event=event).all().count()
+                        if numEventTickets >= event.ticketCount:
+                            event.isClosed = True
+                            event.save()
                         return HttpResponse(json.dumps({"msg": "You are successfully registered. Your registration will get confirmed and you will also see the ticket in your account once you make the payment.","status":"success"}), content_type="application/json")
                 else:
                     if event.isClosed == True:

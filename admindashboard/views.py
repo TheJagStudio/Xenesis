@@ -227,9 +227,24 @@ def map(request):
             users = Profile.objects.all()
             my_map = folium.Map(location=(23.2236,72.6468), zoom_start=14)
             ips = []
+            count = {}
             for user in users:
-                if user.location["ip"] != "":
+                isTicketOwner = Ticket.objects.filter(owner=user).first()
+                if not isTicketOwner:
+                    isTicketOwner = Ticket.objects.filter(owner1=user).first()
+                if not isTicketOwner:
+                    isTicketOwner = Ticket.objects.filter(owner2=user).first()
+                if not isTicketOwner:
+                    isTicketOwner = Ticket.objects.filter(owner3=user).first()
+                if not isTicketOwner:
+                    isTicketOwner = Ticket.objects.filter(owner4=user).first()
+                
+                if user.location["ip"] != "" and isTicketOwner:
                     myAddress = (user.location["lat"], user.location["lng"])
+                    try:
+                        count[str(user.location["lat"])+","+ str(user.location["lng"])] = count[str(user.location["lat"])+","+ str(user.location["lng"])] +1
+                    except:
+                        count[str(user.location["lat"])+","+ str(user.location["lng"])] = 1
                     if myAddress not in ips:
                         ips.append(myAddress)
                     else:
@@ -239,7 +254,7 @@ def map(request):
                     
                     folium.Marker(myAddress,popup=user.user.first_name).add_to(my_map)
             my_map.save('templates/godMode.html')
-            return render(request, "map.html")
+            return render(request, "map.html",{"count":json.dumps(count,indent=4)})
         else:
             return render(request, "404.html")
     return render(request, "404.html")
