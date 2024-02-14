@@ -913,7 +913,7 @@ def accountSetUp(request):
             user.first_name = name
             user.save()
             profile = Profile.objects.filter(user=user).first()
-            profile.college = "LDRP-ITR"
+            profile.college = college
             profile.phone = phone
             profile.profilePic = profilePic
             profile.isAccountSetup = True

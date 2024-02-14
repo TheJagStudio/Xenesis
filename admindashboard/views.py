@@ -129,34 +129,36 @@ def events(request):
             ticketCount = tickets.count()
             for ticket in tickets:
                 event = ticket.event
+                userCount = ticket.userCount
                 if event.posterImage == "-":
                     event.posterImage = ""
                 if event.name not in eventArr:
                     if ticket.isPaid == True:
                         try:
                             if event.isTeamEvent == True:
-                                eventArr[event.name] = [1, int((event.teamPrice).split("-")[0]),event.name, event.posterImage,0]
+                                eventArr[event.name] = [1, int((event.teamPrice).split("-")[0]),event.name, event.posterImage,0,userCount]
                             else:
-                                eventArr[event.name] = [1, int((event.price).split("-")[0]),event.name, event.posterImage,0]
+                                eventArr[event.name] = [1, int((event.price).split("-")[0]),event.name, event.posterImage,0,userCount]
                         except:
-                            eventArr[event.name] = [1, int(event.price),event.name, event.posterImage,0]
+                            eventArr[event.name] = [1, int(event.price),event.name, event.posterImage,0,userCount]
                     else:
                         try:
                             if event.isTeamEvent == True:
-                                eventArr[event.name] = [0, int((event.teamPrice).split("-")[0]),event.name, event.posterImage,1]
+                                eventArr[event.name] = [0, int((event.teamPrice).split("-")[0]),event.name, event.posterImage,1,userCount]
                             else:
-                                eventArr[event.name] = [0, int((event.price).split("-")[0]),event.name, event.posterImage,1]
+                                eventArr[event.name] = [0, int((event.price).split("-")[0]),event.name, event.posterImage,1,userCount]
                         except:
-                            eventArr[event.name] = [0, int(event.price),event.name, event.posterImage,1]
+                            eventArr[event.name] = [0, int(event.price)*userCount,event.name, event.posterImage,1,userCount]
                 else:
                     if ticket.isPaid == True:
-                        eventArr[event.name] = [eventArr[event.name][0] + 1,eventArr[event.name][1],event.name, event.posterImage,eventArr[event.name][4]]
+                        eventArr[event.name] = [eventArr[event.name][0] + 1,eventArr[event.name][1],event.name, event.posterImage,eventArr[event.name][4],eventArr[event.name][5]]
                     else:
-                        eventArr[event.name] = [eventArr[event.name][0],eventArr[event.name][1],event.name, event.posterImage,eventArr[event.name][4]+1]
+                        eventArr[event.name] = [eventArr[event.name][0],eventArr[event.name][1],event.name, event.posterImage,eventArr[event.name][4]+1,eventArr[event.name][5]]
 
             for event in eventArr.keys():
                 eventpercentage = (eventArr[event][0]/ticketCount)*100
-                eventArr[event] = [eventArr[event][0], eventArr[event][1]*eventArr[event][0], eventArr[event][2], eventArr[event][3],eventpercentage,eventArr[event][4]]
+                totalUser = eventArr[event][0]*eventArr[event][5]
+                eventArr[event] = [eventArr[event][0], eventArr[event][1]*eventArr[event][0], eventArr[event][2], eventArr[event][3],eventpercentage,eventArr[event][4],eventArr[event][5],totalUser]
             eventArrValue = eventArr.values()
             eventArrValue = sorted(eventArrValue,key=lambda x:x[1])[::-1]
             context = {"eventArr":  eventArrValue}
