@@ -402,26 +402,41 @@ def ticketPaymentVerifer(request, ticketQr):
                     if ticket.isPaid == False:
                         ticket.isPaid = True
                         ticket.acceptedBy = Profile.objects.filter(user=request.user).first()
-                        owner = ticket.owner
-                        teamMember1Profile = ticket.owner1
-                        teamMember2Profile = ticket.owner2
-                        teamMember3Profile = ticket.owner3
-                        teamMember4Profile = ticket.owner4
-                        owner.foodCoupon = uuid.uuid1()
-                        teamMember1Profile.foodCoupon = uuid.uuid1()
-                        teamMember2Profile.foodCoupon = uuid.uuid1()
-                        teamMember3Profile.foodCoupon = uuid.uuid1()
-                        teamMember4Profile.foodCoupon = uuid.uuid1()
-                        owner.isScannedCoupon = False
-                        teamMember1Profile.isScannedCoupon = False
-                        teamMember2Profile.isScannedCoupon = False
-                        teamMember3Profile.isScannedCoupon = False
-                        teamMember4Profile.isScannedCoupon = False
-                        owner.save()
-                        teamMember1Profile.save()
-                        teamMember2Profile.save()
-                        teamMember3Profile.save()
-                        teamMember4Profile.save()
+                        try:
+                            owner = ticket.owner
+                            owner.foodCoupon = uuid.uuid1()
+                            owner.isScannedCoupon = False
+                            owner.save()
+                        except:
+                            pass
+                        try:
+                            teamMember1Profile = ticket.owner1
+                            teamMember1Profile.foodCoupon = uuid.uuid1()
+                            teamMember1Profile.isScannedCoupon = False
+                            teamMember1Profile.save()
+                        except:
+                            pass
+                        try:
+                            teamMember2Profile = ticket.owner2
+                            teamMember2Profile.foodCoupon = uuid.uuid1()
+                            teamMember2Profile.save()
+                            teamMember2Profile.isScannedCoupon = False
+                        except:
+                            pass
+                        try:
+                            teamMember3Profile = ticket.owner3
+                            teamMember3Profile.foodCoupon = uuid.uuid1()
+                            teamMember3Profile.isScannedCoupon = False
+                            teamMember3Profile.save()
+                        except:
+                            pass
+                        try:
+                            teamMember4Profile = ticket.owner4
+                            teamMember4Profile.foodCoupon = uuid.uuid1()
+                            teamMember4Profile.isScannedCoupon = False
+                            teamMember4Profile.save()
+                        except:
+                            pass
                         
                         ticket.save()
                         context = {
