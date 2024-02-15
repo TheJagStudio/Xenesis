@@ -5,6 +5,5 @@ db.sqlite3
 *.sqlite3
 db.sqlite3
 templates/godMode.html
-static/eventVenue.png
 db.sqlite3
 *.sqlite3
