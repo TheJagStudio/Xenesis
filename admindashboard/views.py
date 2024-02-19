@@ -9,7 +9,7 @@ import folium
 
 def index(request):
     if request.user.is_authenticated:
-        if request.user.is_superuser:
+        if request.user.is_staff:
             totalAmount = 0
             totalevent = []
             departmentArr = {}
@@ -113,7 +113,7 @@ def index(request):
 
 def data(request):
     if request.user.is_authenticated:
-        if request.user.is_superuser:
+        if request.user.is_staff:
             departments = Department.objects.all()
             context ={"departmentArr":departments}
             return render(request, "admintable.html", context)
@@ -123,7 +123,7 @@ def data(request):
 
 def events(request):
     if request.user.is_authenticated:
-        if request.user.is_superuser:
+        if request.user.is_staff:
             eventArr = {}
             tickets = Ticket.objects.all()
             ticketCount = tickets.count()
@@ -169,7 +169,7 @@ def events(request):
 
 def tableData(request):
     if request.user.is_authenticated:
-        if request.user.is_superuser:
+        if request.user.is_staff:
             dataType = request.GET.get("type")
             if dataType == "all": 
                 users = Ticket.objects.all()
@@ -225,7 +225,7 @@ def tableData(request):
 
 def map(request):
     if request.user.is_authenticated:
-        if request.user.is_superuser:
+        if request.user.is_staff:
             users = Profile.objects.all()
             my_map = folium.Map(location=(23.2236,72.6468), zoom_start=14)
             ips = []
