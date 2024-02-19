@@ -34,4 +34,5 @@ urlpatterns = [
     path('resetPassword/', views.resetPassword, name='resetPassword'),
     path('dbDownload/', views.dbDownload, name='dbDownload'),
     path('checkUserEmail/', views.checkUserEmail, name='checkUserEmail'),
+    path('foodGiver/', views.foodGiver, name='foodGiver'),
 ]

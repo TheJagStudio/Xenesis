@@ -24,6 +24,8 @@ class Profile(models.Model):
 
     def __str__(self):
         return str(self.user.username)
+    def __unicode__(self):
+        return str(self.user.username)
 
 
 class Department(models.Model):
@@ -34,6 +36,8 @@ class Department(models.Model):
     posterImage = models.CharField(max_length=1000)
 
     def __str__(self):
+        return str(self.name)
+    def __unicode__(self):
         return str(self.name)
 
 
@@ -82,6 +86,8 @@ class Event(models.Model):
 
     def __str__(self):
         return str(self.name)
+    def __unicode__(self):
+        return str(self.name)
 
 
 class Ticket(models.Model):
@@ -101,3 +107,8 @@ class Ticket(models.Model):
     acceptedBy = models.ForeignKey(Profile, on_delete=models.CASCADE,null=True,blank=True,related_name="name_acceptedBy") 
     def __str__(self):
         return str(self.owner) and str(self.event)
+    def __unicode__(self):
+        return str(self.owner) and str(self.event)
+
+    
+            
