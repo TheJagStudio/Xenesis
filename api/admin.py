@@ -16,10 +16,10 @@ class DepartmentAdmin(ExportActionMixin, admin.ModelAdmin):
 
 
 class EventAdmin(ExportActionMixin, admin.ModelAdmin):
-    list_display = ('name','department', 'isClosed',"isTeamEvent")
-    search_fields = ['name', 'department__name', 'isClosed',"isTeamEvent"]
+    list_display = ('name','department','date', 'isClosed',"isTeamEvent")
+    search_fields = ['name', 'department__name','date', 'isClosed',"isTeamEvent"]
     list_editable = ( 'isClosed',)
-    list_filter = ('isClosed',"isTeamEvent")
+    list_filter = ('isClosed',"isTeamEvent","date")
     # list_display_links = ('price',)
     
 

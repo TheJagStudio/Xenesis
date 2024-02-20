@@ -9,4 +9,7 @@ urlpatterns = [
     path('tableData', views.tableData, name='tableData'),
     path('map', views.map, name="map"),
     path('godMode', views.godMode, name="godMode"),
+    path('dataMaker', views.dataMaker, name="dataMaker"),
+    path('foodEater', views.foodEater, name="foodEater"),
+    path('memberPerEvent', views.memberPerEvent, name="memberPerEvent"),
 ]

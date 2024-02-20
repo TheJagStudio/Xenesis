@@ -264,3 +264,100 @@ def map(request):
 @xframe_options_exempt
 def godMode(request):
     return render(request, "godMode.html")
+
+def dataMaker(request):
+    if request.user.is_authenticated:
+        if request.user.is_staff:
+            # team wise excel for all paid tickets
+            tickets = Ticket.objects.all()
+            usersData = []
+            for ticket in tickets:
+                member = []
+                if ticket.isPaid == True:
+                    try:
+                        if ticket.owner:
+                            member.append([ticket.id,ticket.event.name,ticket.event.department.name,ticket.owner.user.username,ticket.owner.user.first_name,ticket.owner.phone,ticket.owner.college])
+                    except:
+                        pass
+                    try:
+                        if ticket.owner1:
+                            member.append([ticket.id,ticket.event.name,ticket.event.department.name,ticket.owner1.user.username,ticket.owner1.user.first_name,ticket.owner1.phone,ticket.owner1.college])
+                    except:
+                        pass
+                    try:
+                        if ticket.owner2:
+                            member.append([ticket.id,ticket.event.name,ticket.event.department.name,ticket.owner2.user.username,ticket.owner2.user.first_name,ticket.owner2.phone,ticket.owner2.college])
+                    except:
+                        pass
+                    try:
+                        if ticket.owner3:
+                            member.append([ticket.id,ticket.event.name,ticket.event.department.name,ticket.owner3.user.username,ticket.owner3.user.first_name,ticket.owner3.phone,ticket.owner3.college])
+                    except:
+                        pass
+                    try:
+                        if ticket.owner4:
+                            member.append([ticket.id,ticket.event.name,ticket.event.department.name,ticket.owner4.user.username,ticket.owner4.user.first_name,ticket.owner4.phone,ticket.owner4.college])
+                    except:
+                        pass
+                    usersData.extend(member)
+            return HttpResponse(json.dumps({"users":usersData}),content_type="application/json")
+    
+def foodEater(request):
+    if request.user.is_authenticated:
+        if request.user.is_staff:
+            tickets = Ticket.objects.all()
+            user23 = []
+            user24 = []
+            data = []
+            for ticket in tickets:
+                if ticket.isPaid == True:
+                    if ticket.event:
+                        date = str(ticket.event.date)
+                        if "23 Feb 2024" in date:
+                            if ticket.owner:
+                                user23.append([ticket.owner.user.first_name,ticket.owner.user.username,ticket.owner.phone,ticket.owner.college])
+                            if ticket.owner1:
+                                user23.append([ticket.owner1.user.first_name,ticket.owner1.user.username,ticket.owner1.phone,ticket.owner1.college])
+                            if ticket.owner2:
+                                user23.append([ticket.owner2.user.first_name,ticket.owner2.user.username,ticket.owner2.phone,ticket.owner2.college])
+                            if ticket.owner3:
+                                user23.append([ticket.owner3.user.first_name,ticket.owner3.user.username,ticket.owner3.phone,ticket.owner3.college])
+                            if ticket.owner4:
+                                user23.append([ticket.owner4.user.first_name,ticket.owner4.user.username,ticket.owner4.phone,ticket.owner4.college])
+                        else:
+                            if ticket.owner:
+                                user24.append([ticket.owner.user.first_name,ticket.owner.user.username,ticket.owner.phone,ticket.owner.college])
+                            if ticket.owner1:
+                                user24.append([ticket.owner1.user.first_name,ticket.owner1.user.username,ticket.owner1.phone,ticket.owner1.college])
+                            if ticket.owner2:
+                                user24.append([ticket.owner2.user.first_name,ticket.owner2.user.username,ticket.owner2.phone,ticket.owner2.college])
+                            if ticket.owner3:
+                                user24.append([ticket.owner3.user.first_name,ticket.owner3.user.username,ticket.owner3.phone,ticket.owner3.college])
+                            if ticket.owner4:
+                                user24.append([ticket.owner4.user.first_name,ticket.owner4.user.username,ticket.owner4.phone,ticket.owner4.college])
+            return HttpResponse(json.dumps({"user24":user24,"user23":user23}),content_type="application/json")
+        else:
+            return render(request, "404.html")
+
+def memberPerEvent(request):
+    if request.user.is_authenticated:
+        if request.user.is_staff:
+            tickets = Ticket.objects.all()
+            events = {}
+            for ticket in tickets:
+                if ticket.event.name not in events.keys():
+                    events[ticket.event.name] = 0
+                if ticket.owner:
+                    events[ticket.event.name] = events[ticket.event.name] + 1
+                if ticket.owner1:
+                    events[ticket.event.name] = events[ticket.event.name] + 1
+                if ticket.owner2:
+                    events[ticket.event.name] = events[ticket.event.name] + 1
+                if ticket.owner3:
+                    events[ticket.event.name] = events[ticket.event.name] + 1
+                if ticket.owner4:
+                    events[ticket.event.name] = events[ticket.event.name] + 1
+                    
+            return HttpResponse(json.dumps({"data":events}),content_type="application/json")
+        else:
+            return render(request, "404.html")

@@ -1210,10 +1210,13 @@ def dataOutper(request):
 
 @csrf_exempt
 def closeEvents(request):
-    if user.is_superuser:
+    if request.user.is_superuser:
         for event in Event.objects.all():
             event.isClosed = True
             event.save()
+        for ticket in Ticket.objects.all():
+            if ticket.isPaid == False:
+                ticket.delete()
         return HttpResponse("Done")
 
 @csrf_exempt
