@@ -494,7 +494,7 @@ def foodCouponVerifer(request, ticketQr):
             coupon2 = Profile.objects.filter(foodCoupon2=ticketQr).first()
             if coupon != None:
                 # check if date is 23rd feb 2024
-                if datetime.datetime.now().date() == datetime.date(2024, 2, 22):
+                if datetime.datetime.now().date() == datetime.date(2024, 2, 23):
                     if coupon.isScannedCoupon == False:
                         coupon.isScannedCoupon = True
                         coupon.save()
