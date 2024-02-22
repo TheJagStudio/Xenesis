@@ -16,6 +16,7 @@ import ssl
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import os
+import datetime
 
 
 
@@ -490,21 +491,46 @@ def foodCouponVerifer(request, ticketQr):
             isVolunteer = False
         if request.user.is_authenticated and isVolunteer:
             coupon = Profile.objects.filter(foodCoupon=ticketQr).first()
+            coupon2 = Profile.objects.filter(foodCoupon2=ticketQr).first()
             if coupon != None:
-                if coupon.isScannedCoupon == False:
-                    coupon.isScannedCoupon = True
-                    coupon.save()
-                    context = {
-                        "msg" : "Food coupon is given successfully",
-                        "status" : "success"
-                    }
-                    return HttpResponse(json.dumps(context), content_type="application/json")
+                # check if date is 23rd feb 2024
+                if datetime.datetime.now().date() == datetime.date(2024, 2, 23):
+                    if coupon.isScannedCoupon == False:
+                        coupon.isScannedCoupon = True
+                        coupon.save()
+                        context = {
+                            "msg" : "Food coupon is given successfully",
+                            "status" : "success"
+                        }
+                        return HttpResponse(json.dumps(context), content_type="application/json")
+                    else:
+                        context = {
+                            "msg" : "Food coupon can be only used on 23rd feb 2024",
+                            "status" : "error"
+                        }
+                        return HttpResponse(json.dumps(context), content_type="application/json")
                 else:
                     context = {
-                        "msg" : "Food coupon is already used",
+                        "msg" : "Food coupon is not valid",
                         "status" : "error"
                     }
                     return HttpResponse(json.dumps(context), content_type="application/json")
+            elif coupon2 != None:
+                if datetime.datetime.now().date() == datetime.date(2024, 2, 24):
+                    if coupon2.isScannedCoupon2 == False:
+                        coupon2.isScannedCoupon2 = True
+                        coupon2.save()
+                        context = {
+                            "msg" : "Food coupon is given successfully",
+                            "status" : "success"
+                        }
+                        return HttpResponse(json.dumps(context), content_type="application/json")
+                    else:
+                        context = {
+                            "msg" : "Food coupon can be only used on 24rd feb 2024",
+                            "status" : "error"
+                        }
+                        return HttpResponse(json.dumps(context), content_type="application/json")
             else:
                 context = {
                     "msg" : "Food coupon is not valid",
