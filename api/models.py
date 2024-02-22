@@ -19,7 +19,9 @@ class Profile(models.Model):
     isVerified = models.BooleanField(default=False)    
     college = models.CharField(max_length=500, blank=True)
     foodCoupon = models.CharField(max_length=64, blank=True)
+    foodCoupon2 = models.CharField(max_length=64, blank=True)
     isScannedCoupon = models.BooleanField(default=False)
+    isScannedCoupon2 = models.BooleanField(default=False)
     location = models.JSONField(default=location_data)
 
     def __str__(self):

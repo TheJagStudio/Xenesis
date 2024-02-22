@@ -345,20 +345,32 @@ def ticketVerifer(request, ticketQr):
             isOrganiser = False
         if request.user.is_authenticated and isOrganiser:
             ticket = Ticket.objects.filter(qrCodeData=ticketQr).first()
-            if ticket != None:
-                if ticket.isScanned == False:
-                    if ticket.isPaid == False:
-                        context = {
-                            "msg" : "Ticket is not paid",
-                            "status" : "error"
-                        }
-                        return HttpResponse(json.dumps(context), content_type="application/json")
+            event = ticket.event
+            isOrganiser = False
+            user = Profile.objects.filter(user=request.user).first()
+            if user == event.organiser1 or user == event.organiser2 or user == event.organiser3 or user == event.organiser4 or user == event.organiser5:
+                isOrganiser = True
+            if ticket != None :
+                if isOrganiser:
+                    if ticket.isScanned == False:
+                        if ticket.isPaid == False:
+                            context = {
+                                "msg" : "Ticket is not paid",
+                                "status" : "error"
+                            }
+                            return HttpResponse(json.dumps(context), content_type="application/json")
+                        else:
+                            ticket.isScanned = True
+                            ticket.save()
+                            context = {
+                                "msg" : "Ticket is scanned successfully",
+                                "status" : "success"
+                            }
+                            return HttpResponse(json.dumps(context), content_type="application/json")
                     else:
-                        ticket.isScanned = True
-                        ticket.save()
                         context = {
-                            "msg" : "Ticket is scanned successfully",
-                            "status" : "success"
+                            "msg" : "You can't scan ticket of other event",
+                            "status" : "error"
                         }
                         return HttpResponse(json.dumps(context), content_type="application/json")
                 else:
@@ -1002,7 +1014,9 @@ def myTicket(request):
         try:
             profile = Profile.objects.filter(user=request.user).first()
             foodCoupon = profile.foodCoupon
+            foodCoupon2 = profile.foodCoupon2
             isScannedCoupon = profile.isScannedCoupon
+            isScannedCoupon2 = profile.isScannedCoupon2
             userName = request.user.first_name
             isUser = True
         except:
@@ -1014,9 +1028,21 @@ def myTicket(request):
         if foodCoupon != "":
             temp ={}
             temp["id"] = profile.id
+            temp["eventName"] = "Food Coupon (23 Feb 2023)"
             temp["isFoodCoupon"] = True
             temp["qrCodeData"] = foodCoupon
             temp["isScanned"] = isScannedCoupon
+            temp["profilePic"] = profile.profilePic
+            temp["username"] = profile.user.first_name
+            temp["email"] = profile.user.email
+            dataTemp.append(temp)
+        if foodCoupon2 != "":
+            temp ={}
+            temp["id"] = profile.id
+            temp["eventName"] = "Food Coupon (24 Feb 2023)"
+            temp["isFoodCoupon"] = True
+            temp["qrCodeData"] = foodCoupon2
+            temp["isScanned"] = isScannedCoupon2
             temp["profilePic"] = profile.profilePic
             temp["username"] = profile.user.first_name
             temp["email"] = profile.user.email
