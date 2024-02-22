@@ -505,13 +505,13 @@ def foodCouponVerifer(request, ticketQr):
                         return HttpResponse(json.dumps(context), content_type="application/json")
                     else:
                         context = {
-                            "msg" : "Food coupon can be only used on 23rd feb 2024",
+                            "msg" : "Food coupon is not valid",
                             "status" : "error"
                         }
                         return HttpResponse(json.dumps(context), content_type="application/json")
                 else:
                     context = {
-                        "msg" : "Food coupon is not valid",
+                        "msg" : "Food coupon can be only used on 23rd feb 2024",
                         "status" : "error"
                     }
                     return HttpResponse(json.dumps(context), content_type="application/json")
@@ -527,16 +527,16 @@ def foodCouponVerifer(request, ticketQr):
                         return HttpResponse(json.dumps(context), content_type="application/json")
                     else:
                         context = {
-                            "msg" : "Food coupon can be only used on 24rd feb 2024",
+                            "msg" : "Food coupon is not valid",
                             "status" : "error"
                         }
                         return HttpResponse(json.dumps(context), content_type="application/json")
-            else:
-                context = {
-                    "msg" : "Food coupon is not valid",
-                    "status" : "error"
-                }
-                return HttpResponse(json.dumps(context), content_type="application/json")
+                else:
+                    context = {
+                        "msg" : "Food coupon can be only used on 24rd feb 2024",
+                        "status" : "error"
+                    }
+                    return HttpResponse(json.dumps(context), content_type="application/json")
         else:
             context = {
                 "msg" : "User is not authenticated or not verified",
