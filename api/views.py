@@ -370,13 +370,13 @@ def ticketVerifer(request, ticketQr):
                             return HttpResponse(json.dumps(context), content_type="application/json")
                     else:
                         context = {
-                            "msg" : "You can't scan ticket of other event",
+                            "msg" : "Ticket is already scanned",
                             "status" : "error"
                         }
                         return HttpResponse(json.dumps(context), content_type="application/json")
                 else:
                     context = {
-                        "msg" : "Ticket is already scanned",
+                        "msg" : "You can't scan ticket of other event",
                         "status" : "error"
                     }
                     return HttpResponse(json.dumps(context), content_type="application/json")
