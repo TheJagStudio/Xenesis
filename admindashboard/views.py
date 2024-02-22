@@ -403,3 +403,16 @@ def memberPerEvent(request):
             return HttpResponse(json.dumps({"data":events}),content_type="application/json")
         else:
             return render(request, "404.html")
+    
+def isOrganiserEater(request):
+    if request.user.is_authenticated:
+        if request.user.is_staff:
+            profiles = Profile.objects.all()
+            for profile in profiles:
+                if profile.isOrganiser == True:
+                    tempUUID = uuid.uuid4()
+                    tempUUID2 = uuid.uuid4()
+                    profile.foodCoupon = tempUUID
+                    profile.foodCoupon2 = tempUUID2
+                    profile.save()
+            return HttpResponse(json.dumps({"data":"done"}),content_type="application/json")

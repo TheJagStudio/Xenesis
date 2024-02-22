@@ -35,4 +35,5 @@ urlpatterns = [
     path('dbDownload/', views.dbDownload, name='dbDownload'),
     path('checkUserEmail/', views.checkUserEmail, name='checkUserEmail'),
     path('foodGiver/', views.foodGiver, name='foodGiver'),
+    path('allEventTickets/', views.allEventTickets, name='allEventTickets'),
 ]

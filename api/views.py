@@ -1060,7 +1060,7 @@ def myTicket(request):
         if foodCoupon != "":
             temp ={}
             temp["id"] = profile.id
-            temp["eventName"] = "Food Coupon (23 Feb 2023)"
+            temp["eventName"] = "Food Coupon (23 Feb 2024)"
             temp["isFoodCoupon"] = True
             temp["qrCodeData"] = foodCoupon
             temp["isScanned"] = isScannedCoupon
@@ -1071,7 +1071,7 @@ def myTicket(request):
         if foodCoupon2 != "":
             temp ={}
             temp["id"] = profile.id
-            temp["eventName"] = "Food Coupon (24 Feb 2023)"
+            temp["eventName"] = "Food Coupon (24 Feb 2024)"
             temp["isFoodCoupon"] = True
             temp["qrCodeData"] = foodCoupon2
             temp["isScanned"] = isScannedCoupon2
@@ -1309,3 +1309,26 @@ def foodGiver(request):
         except:
             pass
     return HttpResponse(json.dumps({"data": data,"status":"success"}), content_type="application/json",status=200)
+
+
+def allEventTickets(request):
+    if request.method == "GET":
+        if request.user.is_authenticated:
+            user = Profile.objects.filter(user=request.user).first()
+            if user.isOrganiser:
+                event = Event.objects.filter(Q(teamLeader=user) |Q(organiser1=user) |Q(organiser2=user) |Q(organiser3=user) |Q(organiser4=user) |Q(organiser5=user)).first()
+                data = []
+                tickets = Ticket.objects.filter(event=event).all()
+                for ticket in tickets:
+                    temp = []
+                    temp.append(ticket.id)
+                    temp.append(ticket.owner.user.first_name)
+                    temp.append(ticket.owner.user.email)
+                    temp.append(ticket.owner.phone)
+                    temp.append(ticket.userCount)
+                    temp.append(str(ticket.isPaid) )
+                    temp.append(str(ticket.isScanned))
+                    data.append(temp)
+                return HttpResponse(json.dumps({"data": data,"status":"success"}), content_type="application/json",status=200)
+        else:
+            return HttpResponse(json.dumps({"msg": "User Not Found","status":"error"}), content_type="application/json",status=404)

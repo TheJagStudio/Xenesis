@@ -5,9 +5,9 @@ from import_export import resources
 
 
 class ProfileAdmin(ExportActionMixin, admin.ModelAdmin):
-    list_display = ('user', 'phone', 'college','isVolunteer','foodCoupon','foodCoupon2')
-    search_fields = ['user__email', 'phone', 'college','isVolunteer','foodCoupon','foodCoupon2']
-    list_filter = ('isVolunteer',)
+    list_display = ('user', 'phone', 'college','isOrganiser','foodCoupon','foodCoupon2')
+    search_fields = ['user__email', 'phone', 'college','isOrganiser','foodCoupon','foodCoupon2']
+    list_filter = ('isOrganiser',)
 
 
 class DepartmentAdmin(ExportActionMixin, admin.ModelAdmin):
