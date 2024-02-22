@@ -349,7 +349,7 @@ def ticketVerifer(request, ticketQr):
             event = ticket.event
             isOrganiser = False
             user = Profile.objects.filter(user=request.user).first()
-            if user == event.organiser1 or user == event.organiser2 or user == event.organiser3 or user == event.organiser4 or user == event.organiser5:
+            if user==event.teamLeader or user == event.organiser1 or user == event.organiser2 or user == event.organiser3 or user == event.organiser4 or user == event.organiser5:
                 isOrganiser = True
             if ticket != None :
                 if isOrganiser:
