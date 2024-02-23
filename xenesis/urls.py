@@ -29,4 +29,5 @@ urlpatterns = [
     path('myticket/', views.myticket, name='myticket'),
     path('myTicket/', views.myticket, name='myticket'),
     path('faqs/', views.faqs, name='faqs'),
+    path('verifiedTickets/', views.verifiedTickets, name='verifiedTickets'),
 ]

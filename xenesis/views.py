@@ -36,3 +36,5 @@ def eventConfirmation(request):
     return render(request, "index.html")
 def eventRegistration(request):
     return render(request, "index.html")
+def verifiedTickets(request):
+    return render(request, "index.html")

@@ -306,81 +306,82 @@ def dataMaker(request):
 def foodEater(request):
     if request.user.is_authenticated:
         if request.user.is_staff:
-            tickets = Ticket.objects.all()
-            user23 = []
-            user24 = []
-            data = []
-            for ticket in tickets:
-                if ticket.isPaid == True:
-                    if ticket.event:
-                        date = str(ticket.event.date)
-                        if "23 Feb 2024" in date:
-                            if ticket.owner:
-                                tempUUID = uuid.uuid4()
-                                ticket.owner.foodCoupon = tempUUID
-                                ticket.owner.save()
-                                user23.append([ticket.owner.user.first_name,ticket.owner.user.username,ticket.owner.phone,ticket.owner.college])
-                            if ticket.owner1:
-                                tempUUID = uuid.uuid4()
-                                ticket.owner1.foodCoupon = tempUUID
-                                ticket.owner1.save()
-                                user23.append([ticket.owner1.user.first_name,ticket.owner1.user.username,ticket.owner1.phone,ticket.owner1.college])
-                            if ticket.owner2:
-                                tempUUID = uuid.uuid4()
-                                ticket.owner2.foodCoupon = tempUUID
-                                ticket.owner2.save()
-                                user23.append([ticket.owner2.user.first_name,ticket.owner2.user.username,ticket.owner2.phone,ticket.owner2.college])
-                            if ticket.owner3:
-                                tempUUID = uuid.uuid4()
-                                ticket.owner3.foodCoupon = tempUUID
-                                ticket.owner3.save()
-                                user23.append([ticket.owner3.user.first_name,ticket.owner3.user.username,ticket.owner3.phone,ticket.owner3.college])
-                            if ticket.owner4:
-                                tempUUID = uuid.uuid4()
-                                ticket.owner4.foodCoupon = tempUUID
-                                ticket.owner4.save()
-                                user23.append([ticket.owner4.user.first_name,ticket.owner4.user.username,ticket.owner4.phone,ticket.owner4.college])
-                        else:
-                            if ticket.owner:
-                                tempUUID = uuid.uuid4()
-                                ticket.owner.foodCoupon2 = tempUUID
-                                ticket.owner.save()
-                                user24.append([ticket.owner.user.first_name,ticket.owner.user.username,ticket.owner.phone,ticket.owner.college])
-                            if ticket.owner1:
-                                tempUUID = uuid.uuid4()
-                                ticket.owner1.foodCoupon2 = tempUUID
-                                ticket.owner1.save()
-                                user24.append([ticket.owner1.user.first_name,ticket.owner1.user.username,ticket.owner1.phone,ticket.owner1.college])
-                            if ticket.owner2:
-                                tempUUID = uuid.uuid4()
-                                ticket.owner2.foodCoupon2 = tempUUID
-                                ticket.owner2.save()
-                                user24.append([ticket.owner2.user.first_name,ticket.owner2.user.username,ticket.owner2.phone,ticket.owner2.college])
-                            if ticket.owner3:
-                                tempUUID = uuid.uuid4()
-                                ticket.owner3.foodCoupon2 = tempUUID
-                                ticket.owner3.save()
-                                user24.append([ticket.owner3.user.first_name,ticket.owner3.user.username,ticket.owner3.phone,ticket.owner3.college])
-                            if ticket.owner4:
-                                tempUUID = uuid.uuid4()
-                                ticket.owner4.foodCoupon2 = tempUUID
-                                ticket.owner4.save()
-                                user24.append([ticket.owner4.user.first_name,ticket.owner4.user.username,ticket.owner4.phone,ticket.owner4.college])
+            # tickets = Ticket.objects.all()
+            # user23 = []
+            # user24 = []
+            # data = []
+            # for ticket in tickets:
+            #     if ticket.isPaid == True:
+            #         if ticket.event:
+            #             date = str(ticket.event.date)
+            #             if "23 Feb 2024" in date:
+            #                 if ticket.owner:
+            #                     tempUUID = uuid.uuid4()
+            #                     ticket.owner.foodCoupon = tempUUID
+            #                     ticket.owner.save()
+            #                     user23.append([ticket.owner.user.first_name,ticket.owner.user.username,ticket.owner.phone,ticket.owner.college])
+            #                 if ticket.owner1:
+            #                     tempUUID = uuid.uuid4()
+            #                     ticket.owner1.foodCoupon = tempUUID
+            #                     ticket.owner1.save()
+            #                     user23.append([ticket.owner1.user.first_name,ticket.owner1.user.username,ticket.owner1.phone,ticket.owner1.college])
+            #                 if ticket.owner2:
+            #                     tempUUID = uuid.uuid4()
+            #                     ticket.owner2.foodCoupon = tempUUID
+            #                     ticket.owner2.save()
+            #                     user23.append([ticket.owner2.user.first_name,ticket.owner2.user.username,ticket.owner2.phone,ticket.owner2.college])
+            #                 if ticket.owner3:
+            #                     tempUUID = uuid.uuid4()
+            #                     ticket.owner3.foodCoupon = tempUUID
+            #                     ticket.owner3.save()
+            #                     user23.append([ticket.owner3.user.first_name,ticket.owner3.user.username,ticket.owner3.phone,ticket.owner3.college])
+            #                 if ticket.owner4:
+            #                     tempUUID = uuid.uuid4()
+            #                     ticket.owner4.foodCoupon = tempUUID
+            #                     ticket.owner4.save()
+            #                     user23.append([ticket.owner4.user.first_name,ticket.owner4.user.username,ticket.owner4.phone,ticket.owner4.college])
+            #             else:
+            #                 if ticket.owner:
+            #                     tempUUID = uuid.uuid4()
+            #                     ticket.owner.foodCoupon2 = tempUUID
+            #                     ticket.owner.save()
+            #                     user24.append([ticket.owner.user.first_name,ticket.owner.user.username,ticket.owner.phone,ticket.owner.college])
+            #                 if ticket.owner1:
+            #                     tempUUID = uuid.uuid4()
+            #                     ticket.owner1.foodCoupon2 = tempUUID
+            #                     ticket.owner1.save()
+            #                     user24.append([ticket.owner1.user.first_name,ticket.owner1.user.username,ticket.owner1.phone,ticket.owner1.college])
+            #                 if ticket.owner2:
+            #                     tempUUID = uuid.uuid4()
+            #                     ticket.owner2.foodCoupon2 = tempUUID
+            #                     ticket.owner2.save()
+            #                     user24.append([ticket.owner2.user.first_name,ticket.owner2.user.username,ticket.owner2.phone,ticket.owner2.college])
+            #                 if ticket.owner3:
+            #                     tempUUID = uuid.uuid4()
+            #                     ticket.owner3.foodCoupon2 = tempUUID
+            #                     ticket.owner3.save()
+            #                     user24.append([ticket.owner3.user.first_name,ticket.owner3.user.username,ticket.owner3.phone,ticket.owner3.college])
+            #                 if ticket.owner4:
+            #                     tempUUID = uuid.uuid4()
+            #                     ticket.owner4.foodCoupon2 = tempUUID
+            #                     ticket.owner4.save()
+            #                     user24.append([ticket.owner4.user.first_name,ticket.owner4.user.username,ticket.owner4.phone,ticket.owner4.college])
             
             # volunteers
-            # volunteers =["mishwajani88@gmail.com","tangaur2507@gmail.com","arshi4299@gmail.com","parvashukla26@gmail.com","gajjarjuhi66@gmail.com","parmarjuhi279@gmail.com","devarshisoni28@gmail.com","ruchitpitaliya2003@gmail.com","harshpatel080503@gmail.com","vishvam028@gmail.com","vaishnavisoni0307@gmail.com","ypatel6353@gmail.com","kirthikasundari4@gmail.com","datardimohsinali@gmail.com","adit28012004@gmail.com","parva_22153@ldrp.ac.in","krutikgami354@gmail.com","aasthapatel6244@gmail.com","abhi_22016@ldrp.ac.in","aditi_22014@ldrp.ac.in","krutika8114@gmail.com","vrushtip19@gmail.com","devinpatel0910@gmail.com","bhattkush2170@gmail.com","hetbhat10@gmail.com","parshavshah0504@gmail.com","shivansh_22043@ldrp.ac.in","krima_22113@ldrp.ac.in","pranjalpatel420@gmail.com","sutharsamarth16@gmail.com","rojivadiyamayank@gmail.com","rudram.jhaveri@gmail.com","harshdhameliya3132004@gmail.com","agaraparam@gmail.com","arthdarji12@gmail.com","vinitsuva97@gmail.com","shreyvyas2210@gmail.com","chandancp8904@gmail.com","khushi0630shah@gmail.com","chiragvadhel29@gmail.com","pandyadivya2103@gmail.com","apurv352000@gmail.com","dhruvprajapati0037@gmail.com","vedanshldrp3005@gmail.com","patelkrish8605@gmail.com","vishalprajapati2870@gmail.com","prajapatikushalmukeshkumar@gmail.com","yakshrawal@gmail.com "]
-            # count = 0
-            # for volunteer in volunteers:
-            #     user = Profile.objects.filter(user__email=volunteer).first()
-            #     if user:
-            #         if user.foodCoupon == "" or user.foodCoupon2 == "":
-            #             count = count + 1
-            #         tempUUID = uuid.uuid4()
-            #         tempUUID2 = uuid.uuid4()
-            #         user.foodCoupon = tempUUID2
-            #         user.foodCoupon2 = tempUUID
-            #         user.save()
-            # print(count)
+            volunteers =["mishwajani88@gmail.com","tangaur2507@gmail.com","arshi4299@gmail.com","parvashukla26@gmail.com","gajjarjuhi66@gmail.com","parmarjuhi279@gmail.com","devarshisoni28@gmail.com","ruchitpitaliya2003@gmail.com","harshpatel080503@gmail.com","vishvam028@gmail.com","vaishnavisoni0307@gmail.com","ypatel6353@gmail.com","kirthikasundari4@gmail.com","datardimohsinali@gmail.com","adit28012004@gmail.com","parva_22153@ldrp.ac.in","krutikgami354@gmail.com","aasthapatel6244@gmail.com","abhi_22016@ldrp.ac.in","aditi_22014@ldrp.ac.in","krutika8114@gmail.com","vrushtip19@gmail.com","devinpatel0910@gmail.com","bhattkush2170@gmail.com","hetbhat10@gmail.com","parshavshah0504@gmail.com","shivansh_22043@ldrp.ac.in","krima_22113@ldrp.ac.in","pranjalpatel420@gmail.com","sutharsamarth16@gmail.com","rojivadiyamayank@gmail.com","rudram.jhaveri@gmail.com","harshdhameliya3132004@gmail.com","agaraparam@gmail.com","arthdarji12@gmail.com","vinitsuva97@gmail.com","shreyvyas2210@gmail.com","chandancp8904@gmail.com","khushi0630shah@gmail.com","chiragvadhel29@gmail.com","pandyadivya2103@gmail.com","apurv352000@gmail.com","dhruvprajapati0037@gmail.com","vedanshldrp3005@gmail.com","patelkrish8605@gmail.com","vishalprajapati2870@gmail.com","prajapatikushalmukeshkumar@gmail.com","yakshrawal@gmail.com "]
+            count = 0
+            for volunteer in volunteers:
+                user = Profile.objects.filter(user__email=volunteer).first()
+                if user:
+                    if user.foodCoupon == "" or user.foodCoupon2 == "":
+                        count = count + 1
+                    # tempUUID = uuid.uuid4()
+                    # tempUUID2 = uuid.uuid4()
+                    # user.foodCoupon = tempUUID2
+                    # user.foodCoupon2 = tempUUID
+                    user.isVolunteer = True
+                    user.save()
+            print(count)
             return HttpResponse(json.dumps({"user24":user24,"user23":user23}),content_type="application/json")
         else:
             return render(request, "404.html")
