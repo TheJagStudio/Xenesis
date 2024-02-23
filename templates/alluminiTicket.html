@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Alumini Food Coupon</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="bg-[#010A27]">
+        <div class="flex relative justify-between items-center bg-gradient-to-tr from-yellow-300 to-yellow-500 bg-opacity-75 rounded-md z-10">
+            <div class="bg-gradient-to-tr from-yellow-400 to-yellow-600 rounded-tl-md flex items-center rounded-bl-md h-full absolute w-[40px]">
+                <p class="-translate-x-[30%] -rotate-90 text-center font-semibold">XENESIS'24</p>
+            </div>
+            <div class="border-2 w-full rounded-tl-none border-l-0 m-4 ml-[40px] overflow-hidden border-black rounded-bl-none grid grid-cols-[30%_1fr] items-center rounded-lg">
+                <div class="p-2 border-white">
+                    <img class="w-full h-full bg-blend-screen" src="https://chart.googleapis.com/chart?chs=256&cht=qr&chl={{data.qrCodeData}}&chld=L|0"></img>
+                </div>
+                <div class="flex border-l-8 border-dotted border-[#010A27] flex-col px-2">
+                    <div class="grid py-4 lg:grid-cols-[25%_1fr] gap-4 items-center">
+                        <div class="hidden lg:block lg:max-w-[80px] aspect-square">
+                            <img src="https://storage.fleek.zone/4fd5a424-208b-4a62-a92c-49af4b184f6a-bucket/Avatars/{{data.profilePic}}.png" class="w-full h-full bg-white/50 rounded-lg" alt="Avatar">
+                        </div>
+                        <div class="h-fit gap-0 text-caption1 font-semibold flex-col line-clamp-3 w-full text-black ">
+                            <p class="font-extrabold text-caption2  text-xl">Food Coupon (24 Feb 2024)</p>
+                            <p class="truncate">{{data.username}}</p>
+                            <p class="truncate">{{data.email}}</p>
+                        </div>
+                    </div>
+                    <div class="border-black border-t-2">
+                        <div class="grid text-center gap-x-1 px-1 font-bold items-center grid-cols-2 lg:grid-cols-3">
+                            <div class=" flex-col text-caption2 hidden lg:flex">
+                                <p class="py-0.5 p-2">XENESIS</p>
+                                <p class="py-0.5 p-2 border-t-[1px] line-clamp-1 border-black">2024</p>
+                            </div>
+                            <p class="date py-3 p-2 lg:border-l-2 text-subtitle1 border-r-2 border-black">1 Person</p>
+                            <div class="flex flex-col text-caption2">
+                                <p class="p-1">ID: 1</p>
+                                <p class="p-1 border-t-[1px] border-black">Suplementry</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class=" absolute top-0   left-0">
+                <div class="flex flex-col">
+                    <div class="h-[20px] bg-[#010A27] rounded-br-full z-10  rounded-none aspect-square"></div>
+                </div>
+            </div>
+            <div class=" absolute bottom-0 -rotate-90  left-0">
+                <div class="flex flex-col">
+                    <div class="h-[20px] bg-[#010A27] rounded-br-full z-10  rounded-none aspect-square"></div>
+                </div>
+            </div>
+            <div class=" absolute top-0 rotate-90  right-0">
+                <div class="flex flex-col">
+                    <div class="h-[20px] bg-[#010A27] rounded-br-full z-10  rounded-none aspect-square"></div>
+                </div>
+            </div>
+            <div class=" absolute rotate-180 bottom-0  right-0">
+                <div class="flex flex-col">
+                    <div class="h-[20px] bg-[#010A27] rounded-br-full z-10  rounded-none aspect-square"></div>
+                </div>
+            </div>
+            <div>
+                <div class=" absolute bottom-0 translate-x-1/2   left-[29%]">
+                    <div class="h-[15px] w-[30px] bg-[#010A27]  z-10  rounded-tl-full rounded-tr-full "></div>
+                </div>
+                <div class=" absolute top-0 translate-x-1/2  left-[29%]">
+                    <div class="h-[15px] w-[30px] bg-[#010A27]  z-10  rounded-bl-full rounded-br-full "></div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
