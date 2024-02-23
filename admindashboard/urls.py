@@ -13,4 +13,5 @@ urlpatterns = [
     path('foodEater', views.foodEater, name="foodEater"),
     path('memberPerEvent', views.memberPerEvent, name="memberPerEvent"),
     path('isOrganiserEater', views.isOrganiserEater, name="isOrganiserEater"),
+    path('aluminiMaker', views.aluminiMaker, name="aluminiMaker"),
 ]

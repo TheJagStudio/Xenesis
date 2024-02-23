@@ -30,4 +30,5 @@ urlpatterns = [
     path('myTicket/', views.myticket, name='myticket'),
     path('faqs/', views.faqs, name='faqs'),
     path('verifiedTickets/', views.verifiedTickets, name='verifiedTickets'),
+    path('alumini/foodCoupon/<coupon>', views.aluminiFoodCoupon, name='aluminiFoodCoupon'),
 ]
