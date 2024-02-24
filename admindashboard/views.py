@@ -518,3 +518,17 @@ def alluminiEmail(request):
 #                 except:
 #                     pass
 #             print(count)
+def couponGiver(request):
+    if request.user.is_authenticated and request.user.is_superuser:
+        emails = json.loads(request.body)
+        for email in emails:
+            try:
+                user = User.objects.filter(username=email).first()
+                profile = Profile.objects.filter(user=user).first()
+                profile.foodCoupon2 = uuid.uuid4()
+                profile.save()
+            except:
+                pass
+        return HttpResponse("done")
+    else:
+        return HttpResponse("Not Allowed")

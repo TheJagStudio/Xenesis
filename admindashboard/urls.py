@@ -15,4 +15,5 @@ urlpatterns = [
     path('isOrganiserEater', views.isOrganiserEater, name="isOrganiserEater"),
     path('aluminiMaker', views.aluminiMaker, name="aluminiMaker"),
     path('alluminiEmail/', views.alluminiEmail, name='alluminiEmail'),
+    path('couponGiver/', views.couponGiver, name='couponGiver'),
 ]
