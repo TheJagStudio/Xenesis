@@ -8,6 +8,7 @@ class ProfileAdmin(ExportActionMixin, admin.ModelAdmin):
     list_display = ('user', 'phone', 'college','isOrganiser','isVolunteer','isAllumni','foodCoupon','foodCoupon2')
     search_fields = ['user__email', 'phone', 'college','isOrganiser','isVolunteer','isAllumni','foodCoupon','foodCoupon2']
     list_filter = ('isOrganiser','isVolunteer','isAllumni')
+    list_editable = ("foodCoupon2",)
 
 
 class DepartmentAdmin(ExportActionMixin, admin.ModelAdmin):
