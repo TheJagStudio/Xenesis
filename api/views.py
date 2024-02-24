@@ -490,31 +490,7 @@ def foodCouponVerifer(request, ticketQr):
         except:
             isVolunteer = False
         if request.user.is_authenticated and isVolunteer:
-            # coupon = Profile.objects.filter(foodCoupon=ticketQr).first()
             coupon2 = Profile.objects.filter(foodCoupon2=ticketQr).first()
-            # if coupon != None:
-            #     # check if date is 23rd feb 2024
-            #     if datetime.datetime.now().date() == datetime.date(2024, 2, 23):
-            #         if coupon.isScannedCoupon == False:
-            #             coupon.isScannedCoupon = True
-            #             coupon.save()
-            #             context = {
-            #                 "msg" : "Food coupon is given successfully",
-            #                 "status" : "success"
-            #             }
-            #             return HttpResponse(json.dumps(context), content_type="application/json")
-            #         else:
-            #             context = {
-            #                 "msg" : "Food coupon is already scanned",
-            #                 "status" : "error"
-            #             }
-            #             return HttpResponse(json.dumps(context), content_type="application/json")
-            #     else:
-            #         context = {
-            #             "msg" : "Food coupon can be only used on 23rd feb 2024",
-            #             "status" : "error"
-            #         }
-            #         return HttpResponse(json.dumps(context), content_type="application/json")
             if coupon2 != None:
                 if coupon2.isScannedCoupon2 == False:
                     coupon2.isScannedCoupon2 = True
@@ -594,7 +570,7 @@ def ticketData(request,ticketQr):
         return HttpResponse(json.dumps(context), content_type="application/json")
 
 def foodCouponData(request,ticketQr):
-    coupon = Profile.objects.filter(foodCoupon=ticketQr).first()
+    coupon = Profile.objects.filter(foodCoupon2=ticketQr).first()
     if coupon != None:
         context ={}
         context["id"] = coupon.id
