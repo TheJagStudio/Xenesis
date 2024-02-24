@@ -575,8 +575,8 @@ def foodCouponData(request,ticketQr):
         context ={}
         context["id"] = coupon.id
         context["isFoodCoupon"] = True
-        context["qrCodeData"] = coupon.foodCoupon
-        context["isScanned"] = coupon.isScannedCoupon
+        context["qrCodeData"] = coupon.foodCoupon2
+        context["isScanned"] = coupon.isScannedCoupon2
         context["profilePic"] = coupon.profilePic
         context["username"] = coupon.user.first_name
         context["email"] = coupon.user.email
